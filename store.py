@@ -23,19 +23,11 @@ def _hash(
     actor_id: str,
     typ: str,
     payload: dict,
-    ts: datetime,
-    mission_id: str | None,
-    parent_event_id: str | None,
+    mission_id: str | None = None,
+    parent_event_id: str | None = None,
 ) -> str:
-    raw = "|".join([
-        prev,
-        actor_id,
-        typ,
-        _dumps(payload),
-        ts.isoformat(),
-        mission_id or "",
-        parent_event_id or "",
-    ])
+    # Content hash. Clock time is excluded on purpose. Mission linkage is not.
+    raw = f"{prev}|{actor_id}|{typ}|{mission_id}|{parent_event_id}|{_dumps(payload)}"
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
@@ -85,6 +77,7 @@ class Claim:
     status: str = "quarantined"
     tokens: int = 100
     contradicts: str | None = None
+    source: str | None = None
     updated_from_event: str = ""
 
 
@@ -112,20 +105,19 @@ class Store:
         mission_id: str | None = None,
         parent_event_id: str | None = None,
     ) -> Event:
-        if typ == "claim.upsert" and payload.get("status") == "verified":
-            producer = payload.get("producer_model")
-            critic = payload.get("critic_model")
-            if (
-                not payload.get("source")
-                or not producer
-                or not critic
-                or not self.can_write_verified(producer, critic)
-            ):
-                raise PermissionError("verified requires source and two verified, different families")
+        if typ == "claim.upsert" and payload.get("status") in ("verified", "verified-weak"):
+            # Requested status is not trusted. Outcome is recomputed.
+            # A payload flag such as _attested is ignored.
+            payload = dict(payload)
+            outcome = self.evaluate_verification(
+                str(payload.get("producer_model") or ""),
+                str(payload.get("critic_model") or ""),
+            )
+            payload["status"] = outcome if payload.get("source") else "unverified"
         prev = self.events[-1].hash if self.events else GENESIS
         eid = str(uuid.uuid4())
         ts = _now()
-        h = _hash(prev, actor_id, typ, payload, ts, mission_id, parent_event_id)
+        h = _hash(prev, actor_id, typ, payload, mission_id, parent_event_id)
         ev = Event(
             id=eid,
             ts=ts,
@@ -161,7 +153,7 @@ class Store:
             c = self.claims.get(p["id"]) or Claim(
                 id=p["id"], mission_id=p["mission_id"], statement=p.get("statement", "")
             )
-            for k in ("statement", "status", "tokens", "contradicts", "mission_id"):
+            for k in ("statement", "status", "tokens", "contradicts", "mission_id", "source"):
                 if k in p:
                     setattr(c, k, p[k])
             c.updated_from_event = ev.id
@@ -227,7 +219,7 @@ class Store:
                 return False
             expect = _hash(
                 ev.prev_hash, ev.actor_id, ev.type, ev.payload,
-                ev.ts, ev.mission_id, ev.parent_event_id,
+                ev.mission_id, ev.parent_event_id,
             )
             if ev.hash != expect:
                 return False
@@ -235,4 +227,41 @@ class Store:
         return True
 
     def can_write_verified(self, producer_model: str, critic_model: str) -> bool:
-        return not self.families_conflict(producer_model, critic_model)
+        return self.evaluate_verification(producer_model, critic_model) == "verified"
+
+    def evaluate_verification(self, producer_model: str, critic_model: str) -> str:
+        """verified | verified-weak | unverified. Unknown family stays unverified."""
+        if not producer_model or not critic_model or producer_model == critic_model:
+            return "unverified"
+        a = self.models.get(producer_model)
+        b = self.models.get(critic_model)
+        if a is None or b is None or not a.family_verified or not b.family_verified:
+            return "unverified"
+        if a.family != b.family:
+            return "verified"
+        return "verified-weak"
+
+    def verify_claim(
+        self,
+        claim_id: str,
+        producer_model: str,
+        critic_model: str,
+        source: str,
+        actor_id: str = "world",
+    ) -> Event:
+        if not source:
+            raise ValueError("verify_claim requires a source")
+        claim = self.claims[claim_id]
+        return self.append_event(
+            actor_id=actor_id,
+            typ="claim.upsert",
+            payload={
+                "id": claim_id,
+                "mission_id": claim.mission_id,
+                "status": "verified",
+                "source": source,
+                "producer_model": producer_model,
+                "critic_model": critic_model,
+            },
+            mission_id=claim.mission_id,
+        )
