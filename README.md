@@ -6,12 +6,14 @@
 python3 test_faz0.py
 ```
 
-Python 3.10+. PostgreSQL yok. LLM API yok. Beklenen: `12/12 geçti`.
+Python 3.10+. PostgreSQL yok. LLM API yok. Beklenen: `15/15 geçti`.
 
 Dosyalar: `schema.sql`, `store.py`, `context_builder.py`, `test_faz0.py`.
 
-`verified` yazmak için kaynak (`source`) ve iki doğrulanmış, farklı aile gerekir. Zincir `verify_chain()` ile kontrol edilir. Süre dolunca doğrulanmış görev yeniden açılmaz.
+`verified` isteği yeniden hesaplanır. Kaynak yoksa veya aile doğrulanmamışsa sonuç `unverified` olur. Aynı aile, farklı model: `verified-weak`. Farklı aile: `verified`. `_attested` bayrağı yok sayılır.
 
-`architecture/`, `decisions/`, `docs/`, `experiments/`, `model-analysis/`, `provenance/`, `research/`, `src/`, `tests/` ve `COLLABORATION.md` boş iskelettir. Kod orada değil. Rol listesi kilit değildir.
+Zincir `verify_chain()` ile kontrol edilir. Saat hash'e girmez. Süre dolunca yalnız `claimed` / `active` görev açılır.
 
-Yok: LLM çağrısı, 6 isimli ajan, itibar, domain, API anahtarı, model_registry seed, üç kademeli verified-weak.
+`architecture/`, `decisions/`, `docs/`, `experiments/`, `model-analysis/`, `provenance/`, `research/`, `src/`, `tests/` ve `COLLABORATION.md` boş iskelettir. Rol listesi kilit değildir.
+
+Yok: LLM çağrısı, 6 isimli ajan, itibar, domain, API anahtarı, model_registry seed.
