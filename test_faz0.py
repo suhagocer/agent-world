@@ -112,18 +112,55 @@ def test_verified_write_is_gated() -> None:
     s.append_event("world", "model.upsert", {
         "model_id": "claude-x", "provider": "anthropic", "family": "claude-family", "family_verified": True,
     })
-    try:
-        s.append_event("p1", "claim.upsert", {
-            "id": "c1", "mission_id": "m1", "statement": "x", "status": "verified",
-        })
-        raise AssertionError("ungated verified must fail")
-    except PermissionError:
-        pass
-    s.append_event("critic", "claim.upsert", {
+    s.append_event("p1", "claim.upsert", {
         "id": "c1", "mission_id": "m1", "statement": "x", "status": "verified",
+        "_attested": True,
+    })
+    assert s.claims["c1"].status == "unverified"
+    s.append_event("critic", "claim.upsert", {
+        "id": "c2", "mission_id": "m1", "statement": "x", "status": "verified",
         "producer_model": "gpt-x", "critic_model": "claude-x", "source": "obs-1",
     })
-    assert s.claims["c1"].status == "verified"
+    assert s.claims["c2"].status == "verified"
+
+
+def test_verify_claim_requires_source() -> None:
+    s = Store()
+    s.append_event("world", "mission.upsert", {"id": "m1", "objective": "x"})
+    s.append_event("p1", "claim.upsert", {"id": "c1", "mission_id": "m1", "statement": "X"})
+    try:
+        s.verify_claim("c1", "gpt-x", "claude-x", source="")
+        raise AssertionError("must require source")
+    except ValueError:
+        pass
+
+
+def test_evaluate_verification_three_tier() -> None:
+    s = Store()
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-4o", "provider": "openai", "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-4o-mini", "provider": "openai", "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "claude-x", "provider": "anthropic", "family": "claude-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-unv", "provider": "openai", "family": "gpt-family", "family_verified": False,
+    })
+    assert s.evaluate_verification("gpt-4o", "gpt-4o") == "unverified"
+    assert s.evaluate_verification("gpt-4o", "gpt-4o-mini") == "verified-weak"
+    assert s.evaluate_verification("gpt-4o", "claude-x") == "verified"
+    assert s.evaluate_verification("gpt-unv", "claude-x") == "unverified"
+
+
+def test_hash_covers_mission_id() -> None:
+    s = Store()
+    e1 = s.append_event("world", "agent.upsert", {"agent_id": "p1"}, mission_id="m1")
+    s2 = Store()
+    e2 = s2.append_event("world", "agent.upsert", {"agent_id": "p1"}, mission_id="m2")
+    assert e1.hash != e2.hash
 
 
 def test_chain_detects_tamper() -> None:
@@ -174,6 +211,9 @@ def main() -> None:
         test_append_only_hash_chain,
         test_lease_exclusive_and_timeout,
         test_verified_write_is_gated,
+        test_verify_claim_requires_source,
+        test_evaluate_verification_three_tier,
+        test_hash_covers_mission_id,
         test_chain_detects_tamper,
         test_release_does_not_reopen_verified,
         test_verified_fail_closed,
