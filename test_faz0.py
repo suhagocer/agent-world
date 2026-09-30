@@ -14,6 +14,7 @@ def test_budget_overflow() -> None:
     ctx = build_context({"agent_id": "producer-1"}, {"id": "m1"}, claims)
     assert ctx["tokens_used"] <= TOKEN_BUDGET_DEFAULT
     assert ctx["budget_truncated"] is True
+    # Frozen order: higher recency first among equals.
     assert ctx["order"] == ["c5", "c4", "c3", "c2", "c1", "c0"]
 
 
@@ -103,6 +104,48 @@ def test_lease_exclusive_and_timeout() -> None:
     assert s.missions["m1"].lease_holder == "p2"
 
 
+def test_verified_write_is_gated() -> None:
+    s = Store()
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-x", "provider": "openai", "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "claude-x", "provider": "anthropic", "family": "claude-family", "family_verified": True,
+    })
+    try:
+        s.append_event("p1", "claim.upsert", {
+            "id": "c1", "mission_id": "m1", "statement": "x", "status": "verified",
+        })
+        raise AssertionError("ungated verified must fail")
+    except PermissionError:
+        pass
+    s.append_event("critic", "claim.upsert", {
+        "id": "c1", "mission_id": "m1", "statement": "x", "status": "verified",
+        "producer_model": "gpt-x", "critic_model": "claude-x", "source": "obs-1",
+    })
+    assert s.claims["c1"].status == "verified"
+
+
+def test_chain_detects_tamper() -> None:
+    s = Store()
+    s.append_event("world", "agent.upsert", {"agent_id": "p1"})
+    assert s.verify_chain() is True
+    s.events[0].payload["agent_id"] = "tampered"
+    assert s.verify_chain() is False
+
+
+def test_release_does_not_reopen_verified() -> None:
+    s = Store()
+    s.append_event("world", "mission.upsert", {
+        "id": "m1", "objective": "x", "status": "verified",
+    })
+    s.missions["m1"].lease_holder = "p1"
+    s.missions["m1"].lease_until = _now() - timedelta(seconds=5)
+    s.expire_leases()
+    assert s.missions["m1"].lease_holder is None
+    assert s.missions["m1"].status == "verified"
+
+
 def test_verified_fail_closed() -> None:
     s = Store()
     s.append_event("world", "model.upsert", {
@@ -111,6 +154,7 @@ def test_verified_fail_closed() -> None:
     s.append_event("world", "model.upsert", {
         "model_id": "claude-x", "provider": "anthropic", "family": "claude-family", "family_verified": True,
     })
+    # unverified family → same-family → cannot write verified
     assert s.can_write_verified("gpt-x", "claude-x") is False
     s.append_event("world", "model.upsert", {
         "model_id": "gpt-x", "provider": "openai", "family": "gpt-family", "family_verified": True,
@@ -129,6 +173,9 @@ def main() -> None:
         test_skip_over_drops_oversized,
         test_append_only_hash_chain,
         test_lease_exclusive_and_timeout,
+        test_verified_write_is_gated,
+        test_chain_detects_tamper,
+        test_release_does_not_reopen_verified,
         test_verified_fail_closed,
     ]
     for t in tests:
