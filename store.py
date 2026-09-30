@@ -18,8 +18,24 @@ def _dumps(obj: Any) -> str:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
 
 
-def _hash(prev: str, actor_id: str, typ: str, payload: dict) -> str:
-    raw = f"{prev}|{actor_id}|{typ}|{_dumps(payload)}"
+def _hash(
+    prev: str,
+    actor_id: str,
+    typ: str,
+    payload: dict,
+    ts: datetime,
+    mission_id: str | None,
+    parent_event_id: str | None,
+) -> str:
+    raw = "|".join([
+        prev,
+        actor_id,
+        typ,
+        _dumps(payload),
+        ts.isoformat(),
+        mission_id or "",
+        parent_event_id or "",
+    ])
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
@@ -96,12 +112,23 @@ class Store:
         mission_id: str | None = None,
         parent_event_id: str | None = None,
     ) -> Event:
+        if typ == "claim.upsert" and payload.get("status") == "verified":
+            producer = payload.get("producer_model")
+            critic = payload.get("critic_model")
+            if (
+                not payload.get("source")
+                or not producer
+                or not critic
+                or not self.can_write_verified(producer, critic)
+            ):
+                raise PermissionError("verified requires source and two verified, different families")
         prev = self.events[-1].hash if self.events else GENESIS
         eid = str(uuid.uuid4())
-        h = _hash(prev, actor_id, typ, payload)
+        ts = _now()
+        h = _hash(prev, actor_id, typ, payload, ts, mission_id, parent_event_id)
         ev = Event(
             id=eid,
-            ts=_now(),
+            ts=ts,
             actor_id=actor_id,
             type=typ,
             payload=payload,
@@ -156,7 +183,8 @@ class Store:
             m = self.missions[p["mission_id"]]
             m.lease_holder = None
             m.lease_until = None
-            m.status = "open"
+            if m.status in ("claimed", "active"):
+                m.status = "open"
             m.updated_from_event = ev.id
 
     def acquire_lease(self, mission_id: str, agent_id: str, ttl: int = 3600) -> Event:
@@ -191,6 +219,20 @@ class Store:
         if a is None or b is None or not a.family_verified or not b.family_verified:
             return True
         return a.family == b.family
+
+    def verify_chain(self) -> bool:
+        prev = GENESIS
+        for ev in self.events:
+            if ev.prev_hash != prev:
+                return False
+            expect = _hash(
+                ev.prev_hash, ev.actor_id, ev.type, ev.payload,
+                ev.ts, ev.mission_id, ev.parent_event_id,
+            )
+            if ev.hash != expect:
+                return False
+            prev = ev.hash
+        return True
 
     def can_write_verified(self, producer_model: str, critic_model: str) -> bool:
         return not self.families_conflict(producer_model, critic_model)
