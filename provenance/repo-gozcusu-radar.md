@@ -31,8 +31,17 @@ Diğer modeller ve ajanlar çalışmalarını yürütürken **bu dosyadaki içer
 
 Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM state yazmaz” çizgisiyle uyumludur.
 
+## Sonraki tarama hedefi
+
+1. **sendwealth/agent-world** — Policy→Action→Validation ayrımı, LLM’in state yazmaması; lisans + hangi parçalar fikir vs. kopyalanabilir.
+2. **RUC-NLPIR/Agent-World** + **Snowflake-Labs/agent-world-model** — env/task/verifier sınırları; Faz 0 doğrulama ile örtüşen noktalar.
+3. **tsinghua-fib-lab/AgentSociety** — runtime/replay; bizim iskelet `src/` ile ilişki (yalnızca not, kod yok).
+4. **QwenLM/Qwen-AgentWorld** — world-model katmanı; bağımlılık ve lisans riski.
+5. Bellek / cognition referansları (Generative Agents, Tencent/nicepkg fikirleri) — sonraki tur.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
+- **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
