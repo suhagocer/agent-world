@@ -47,7 +47,7 @@ Kaynaklar (tam paylaşım URL’leri). Diğer ajanlar buradan yararlanabilir; ya
 |---|--------|--------|
 | 1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
 | 2 | ChatGPT (GitHub tarama) | https://chatgpt.com/share/6abed9e1-42b4-83eb-916f-91866fbd5de2 |
-| 3 | Gemini | https://share.gemini.google/9dPrAQyfprLI (redirect ≈ `gemini.google.com/share/956fff2b…`) |
+| 3 | Gemini | https://share.gemini.google/9dPrAQyfprLI → https://gemini.google.com/share/956fff2b4291 |
 | 4 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
 | 5 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
 | 6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
@@ -62,13 +62,13 @@ Kaynaklar (tam paylaşım URL’leri). Diğer ajanlar buradan yararlanabilir; ya
 
 Tek fork değil **parçalı mimari**. Referans: sendwealth/agent-world, AgentSociety (tsinghua), RUC-NLPIR/Agent-World, AgentArena, meleantonio/AgentSociety, Snowflake-Labs/agent-world-model, Qwen-AgentWorld, vb. (üstteki referans haritası).
 
-### 3) Gemini
+### 3) Gemini (browser doğrulandı)
 
-Event-sourced OS düşüncesi. Ünvanlı sohbet riski uyarısı. v3 omurga. Ollama/API tartışması. `family_verified` fail-closed.
+Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine (hedef/bellek/araç) vs World Engine (mission/world state). Append-only events → projeksiyonlar; mission’da lease + heartbeat + timeout. Kanıt sözleşmesi + model-çeşitli Critic/Verifier; karantina retrieval’a girmez. World Memory ≠ private agent memory; doğrulanmış akış → Skill. Maliyet merdiveni: kural/cache → skill → ucuz model → güçlü model; Ollama/yerel tartışması. Dış ajan: agent-card / A2A / MCP, zero-trust. Mission DNA / rol evrimi erken MVP için eleştirilir. Ana tehlike: ünvanlı sohbet odası (artifact/evidence/reuse yok).
 
-### 4) DeepSeek
+### 4) DeepSeek (browser doğrulandı)
 
-World loop; Chaos / zero-trust. Mission DNA (Grok reddetti). Faz 0 Researcher–Critic–Verifier. `verified-weak` kademesi.
+World-centered: World ≠ Environment ≠ Agent ≠ Model; yeni LLM eğitimi MVP değil. State federasyonu fikri (fiziksel/bilişsel/sosyal/evrimsel) — pratikte tek event log + projeksiyon tercihi öne çıkıyor. Provenance, Failure Memory, çelişki grafı, TTL, World Health. Doğrulama: farklı aile → `verified`; aynı sağlayıcı farklı model → `verified-weak`; aynı model → `unverified`. Faz 0 hedefi: mission → Researcher → Critic → Verifier → persist → ikinci mission’da reuse. Context Builder: token tavanı / TTL / izin / karantina dışı (ör. 8K önerisi). Mission DNA sonra veya `parent`/`retry`/`derived_from` sadeleştirmesi. Need/bidding/evolution ertelenir. Tartışma: minimal event log vs CRUD+audit — eğilim minimal log.
 
 ### 5) Grok
 
@@ -94,18 +94,20 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 - Event log + hash zinciri + fail-closed doğrulama
 - Üç kademeli doğrulama (`unverified` / `verified-weak` / `verified`); `_attested` yok sayılır
 - Lease; verified görevleri rastgele yeniden açmama
+- Karantina (doğrulanmamış retrieval’a girmez)
 - Parçalı açık kaynak referans (tek monorepo fork değil)
 - Kanıt + reuse; erken DNA/token/Need/3D yok
 - Beş-model hakemlik; kanon damgası tanı testinden gelir
 
 **Reddedilen / ertelenen**
 
-- Mission DNA (erken)
-- Token ekonomisi / Need Engine (erken)
+- Mission DNA (erken; gerekirse parent/retry alanları)
+- Token ekonomisi / Need Engine / bidding (erken)
 - 3D / Godot NPC runtime (şimdi değil)
 - LLM’i ürün sanmak (Ollama = router katmanı)
 - Tek modelin “kanon” sayılması; ünvanlı sohbet riski
 - Antigravity/Jules’a mimari bağımlılık (geliştirme aracı, dünya runtime’ı değil)
+- Dört bağımsız mikroservis federasyonu (MVP’de tek log + projeksiyon)
 
 ### Faz 0 eşlemesi
 
@@ -123,15 +125,15 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 
 | # | URL | Fetch sonucu | Özet farkı |
 |---|-----|--------------|------------|
-| 1 | ChatGPT kök | WebFetch: kabuk (içerik boş/minimal) | Önceki kök özet korunuyor; sayfa snapshot zayıf |
+| 1 | ChatGPT kök | WebFetch: kabuk | Önceki kök özet korunuyor |
 | 2 | ChatGPT GitHub | WebFetch 500 | Önceki özet + referans haritası duruyor |
-| 3 | Gemini | Browser turunda | Bekleniyor / 403 riski |
-| 4 | DeepSeek | Browser turunda | Bekleniyor / 403 riski |
-| 5 | Grok | WebFetch: uzun sohbet yüklendi | Önceki özet **doğrulandı**; flame-sage tur 9–12 + “Repo Gözcüsü izler, kod yazmaz” notu eklendi |
-| 6–7 | Claude ×2 | WebFetch: yalnızca “Claude” kabuğu | Browser ile yeniden denenecek |
-| 8 | ChatGPT araçlar | WebFetch: tam | Stitch→Antigravity→Jules + Ollama=router **doğrulandı**; Mixboard/Pomelli ikincil |
+| 3 | Gemini | Browser OK (`956fff2b4291`) | Event-sourced OS, lease, karantina, ünvanlı sohbet riski **doğrulandı**; DNA erken eleştirisi netleşti |
+| 4 | DeepSeek | Browser OK | Üç kademe verify + Faz 0 döngü + Context Builder tavanı **doğrulandı**; DNA sadeleştirme uyarısı |
+| 5 | Grok | WebFetch: uzun sohbet | Önceki özet doğrulandı; flame-sage tur 9–12 |
+| 6–7 | Claude ×2 | WebFetch: kabuk | Hâlâ browser ile yeniden denenecek |
+| 8 | ChatGPT araçlar | WebFetch: tam | Stitch→Antigravity→Jules + Ollama=router doğrulandı |
 
-Yeni mimari karar yok (Grok/araçlar sayfaları mevcut digesti güçlendirdi). Claude/Gemini/DeepSeek browser sonuçları gelince bu bölüme eklenecek; değişiklik yoksa ekstra commit yok.
+Yeni çelişen mimari karar yok; Gemini/DeepSeek mevcut digesti güçlendirdi ve detaylandırdı. Claude kabuk kaldı.
 
 ## Günlük / dönemsel notlar
 
@@ -140,4 +142,5 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
 - **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
-- **2026-10-02 (gece):** Tam paylaşım URL’leri dolduruldu; yeniden fetch turu başladı (Grok + ChatGPT araçlar doğrulandı).
+- **2026-10-02 (gece):** Tam paylaşım URL’leri dolduruldu; Grok + ChatGPT araçlar WebFetch ile doğrulandı.
+- **2026-10-02 (gece+):** Gemini + DeepSeek browser ile yeniden çekildi; §3–§4 ve ortak kararlar zenginleştirildi.
