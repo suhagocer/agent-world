@@ -52,7 +52,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 | # | Model | Kaynak |
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
-| A2 | Gemini | https://share.gemini.google/1tuZ3H4PH5af → https://gemini.google.com/share/d272dd7f8df1 (önceki `rbdXhpeLoM5J`/`04b37ad93246` ve `9dPrAQyfprLI`/`956fff2b4291` **aynı sohbet**, yeniden yayın) |
+| A2 | Gemini | https://share.gemini.google/1tuZ3H4PH5af → https://gemini.google.com/share/d272dd7f8df1 (önceki `rbdXh…`/`9dPr…`; UI kısa link `TXv3jkvZV7w3` de aynı `d272dd…`; **aynı sohbet**) |
 | A3 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
@@ -72,7 +72,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 ### A2) Gemini (browser; kanonik kısa link `1tuZ3H4PH5af`, aynı sohbet)
 
-Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** (aynı içerik, son yayın ~05:13).
+Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** / `TXv3…` (aynı içerik, son yayın ~05:13).
 
 ### A3) DeepSeek (browser doğrulandı)
 
@@ -80,7 +80,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage tur 9–12 ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: Tur 8’e kadar ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)); **tur 9–12 rotaları 404** (içerik Grok paylaşımında).
 
 ### A6) Claude (browser doğrulandı)
 
@@ -144,6 +144,23 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 | E2 Claude v3 | Browser OK | Kanon özeti |
 | E3 Araçlar | WebFetch OK | Doğrulandı |
 
+## Paylaşım güncellemesi — 2026-10-02 (öğle takip)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT kök | WebFetch OK | Önceki turda kabuk/zayıf; bu turda **tam metin doğrulandı**. Özet değişmedi (İnsan→ajan→dünya, yetki, web MVP, keşif, Need Engine, çoklu model). |
+| A2 Gemini `1tuZ3…` / `d272dd…` | Chrome DOM OK | Aynı sohbet; yayın ~05:13. Ek kısa link: `TXv3jkvZV7w3` → yine `d272dd…`. Karar özeti değişmedi. |
+| A2 eski `rbdXh…` / `9dPr…` | WebFetch 403 | Kabuk; kanonik zincir aynı. |
+| A3 DeepSeek | Chrome DOM OK | Doğrulandı; digest ile uyumlu. |
+| A4 Grok | WebFetch OK | Doğrulandı; 15/15 / `_attested` ret ile uyumlu. |
+| A5 flame-sage | curl/WebFetch OK | **Değişiklik:** `/tur-9`…`/tur-12` **404**. Canlı: v1.0–Tur 8 + `/surec` `/v3-denetim` `/ara` `/rapor.pdf`. |
+| A6 Claude | Chrome DOM OK | Digest ile uyumlu; ek dosyalar hâlâ gizli. |
+| E1 GitHub tarama | WebFetch OK | Referans haritası ile uyumlu; yeni aday yok. |
+| E2 Claude v3 | WebFetch/Chrome boş | İçerik yüklenmedi (paylaşım kabuğu). |
+| E3 Araçlar | WebFetch OK | Stitch→Antigravity→Jules; Ollama=Model Router — değişmedi. |
+
+**Bu turda radar notu:** Mimari kararlar sabit; izleme farkı flame-sage tur 9–12’nin kamuya kapanması, A1’in tam fetch’e kavuşması ve Gemini `TXv3…` kısa linkinin aynı sohbete işaret etmesi. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -154,3 +171,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek/Claude browser doğrulandı; lisans tablosu.
 - **2026-10-02 (gece++++):** Ana panel vs ekstra; Gemini `rbdXhpeLoM5J` (eskiyle aynı sohbet).
 - **2026-10-02 (gece+++++):** Gemini kanonik kısa URL → `1tuZ3H4PH5af` / `d272dd7f8df1` (yine aynı sohbet).
+- **2026-10-02 (öğle):** Paylaşım yeniden fetch. A1 tam metin OK; flame-sage tur 9–12 404; Gemini `TXv3…` aynı `d272dd…`. Mimari digest değişmedi.
