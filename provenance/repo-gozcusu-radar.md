@@ -41,18 +41,18 @@ Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM 
 
 ## AI sohbet özetleri — 2026-10-02
 
-Kaynaklar (paylaşım kimlikleri / URL’ler). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
+Kaynaklar (tam paylaşım URL’leri). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
 
 | # | Model | Kaynak |
 |---|--------|--------|
-| 1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b… |
+| 1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
 | 2 | ChatGPT (GitHub tarama) | https://chatgpt.com/share/6abed9e1-42b4-83eb-916f-91866fbd5de2 |
-| 3 | Gemini | share.gemini… / `956fff2b…` |
-| 4 | DeepSeek | `wcnvcw1…` |
-| 5 | Grok | `c2hhcmQtMg_120d0cd7…` |
-| 6 | Claude | `1c1203ca…` |
-| 7 | Claude (v3 kanon) | `1d8f6dac…` |
-| 8 | ChatGPT (araçlar) | https://chatgpt.com/share/6abf0d6a… |
+| 3 | Gemini | https://share.gemini.google/9dPrAQyfprLI (redirect ≈ `gemini.google.com/share/956fff2b…`) |
+| 4 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
+| 5 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
+| 6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
+| 7 | Claude (v3 kanon) | https://claude.ai/share/1d8f6dac-fcff-4605-9d36-52ab61fceea1 |
+| 8 | ChatGPT (araçlar) | https://chatgpt.com/share/6abf0d6a-6ed4-83eb-80ee-5fd27fecec24 |
 
 ### 1) ChatGPT — kök fikir
 
@@ -72,7 +72,7 @@ World loop; Chaos / zero-trust. Mission DNA (Grok reddetti). Faz 0 Researcher–
 
 ### 5) Grok
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15) agent-world’te. DNA / token / Need erken reddedildi. flame-sage tur 9–12 notları.
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15) agent-world’te. DNA / token / Need erken reddedildi. flame-sage tur 9–12 notları ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
 
 ### 6) Claude
 
@@ -84,7 +84,7 @@ Kalıcı çok-ajan OS; faz 0–5 yol haritası. Ertelenenler: DNA, token, 3D. İ
 
 ### 8) ChatGPT — araçlar
 
-Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün değil).
+Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün değil). Mixboard/Pomelli ikincil (world-first, graphics later).
 
 ### Ortak kararlar
 
@@ -96,6 +96,7 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 - Lease; verified görevleri rastgele yeniden açmama
 - Parçalı açık kaynak referans (tek monorepo fork değil)
 - Kanıt + reuse; erken DNA/token/Need/3D yok
+- Beş-model hakemlik; kanon damgası tanı testinden gelir
 
 **Reddedilen / ertelenen**
 
@@ -104,6 +105,7 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 - 3D / Godot NPC runtime (şimdi değil)
 - LLM’i ürün sanmak (Ollama = router katmanı)
 - Tek modelin “kanon” sayılması; ünvanlı sohbet riski
+- Antigravity/Jules’a mimari bağımlılık (geliştirme aracı, dünya runtime’ı değil)
 
 ### Faz 0 eşlemesi
 
@@ -117,10 +119,25 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 | Postgres / LLM API | Yok (bilinçli) |
 | Runtime / env / world-model / NPC / economy | İskelet veya yok |
 
+## Paylaşım güncellemesi — 2026-10-02 (yeniden fetch)
+
+| # | URL | Fetch sonucu | Özet farkı |
+|---|-----|--------------|------------|
+| 1 | ChatGPT kök | WebFetch: kabuk (içerik boş/minimal) | Önceki kök özet korunuyor; sayfa snapshot zayıf |
+| 2 | ChatGPT GitHub | WebFetch 500 | Önceki özet + referans haritası duruyor |
+| 3 | Gemini | Browser turunda | Bekleniyor / 403 riski |
+| 4 | DeepSeek | Browser turunda | Bekleniyor / 403 riski |
+| 5 | Grok | WebFetch: uzun sohbet yüklendi | Önceki özet **doğrulandı**; flame-sage tur 9–12 + “Repo Gözcüsü izler, kod yazmaz” notu eklendi |
+| 6–7 | Claude ×2 | WebFetch: yalnızca “Claude” kabuğu | Browser ile yeniden denenecek |
+| 8 | ChatGPT araçlar | WebFetch: tam | Stitch→Antigravity→Jules + Ollama=router **doğrulandı**; Mixboard/Pomelli ikincil |
+
+Yeni mimari karar yok (Grok/araçlar sayfaları mevcut digesti güçlendirdi). Claude/Gemini/DeepSeek browser sonuçları gelince bu bölüme eklenecek; değişiklik yoksa ekstra commit yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
-- **2026-10-02:** Sekiz AI sohbet özeti (ChatGPT×3, Gemini, DeepSeek, Grok, Claude×2), ortak kararlar ve Faz 0 eşlemesi eklendi.
+- **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
+- **2026-10-02 (gece):** Tam paylaşım URL’leri dolduruldu; yeniden fetch turu başladı (Grok + ChatGPT araçlar doğrulandı).
