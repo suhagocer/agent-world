@@ -78,13 +78,13 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon tercihi. 
 
 Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage tur 9–12 ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
 
-### 6) Claude
+### 6) Claude (browser doğrulandı)
 
-Context builder golden-file kritik risk. Şema/test. `verify_chain` sonrası geldi.
+Tek event log + read-side projeksiyon (`agent_projection`, `model_registry`). En büyük mimari risk: **context-builder testleri** (sessiz kalite düşüşü) — golden senaryolar gerçekten dışlama/çelişki üretmeli (`test_skip_over` bütçeyi aşmayan öğe yüzünden zayıf kaldı). Provenance dogfood: “DeepSeek” etiketli dosyanın Claude olduğunu söylemesi → ilk gerçek çelişki veri seti. Referans artefaktlar (şema, golden testler) davranış sözleşmesi; prod değil. Verify politikası: aynı model → `unverified`; aynı aile farklı model → `verified-weak`; farklı aile → `verified`; aile metadata yoksa fail-closed. DeepSeek’in tersine çevrilmiş politikası reddedildi; Grok’un her yazmada yeniden hesap + `_attested` kaldırma yaklaşımı kabul. Lease: aynı ajanın yeniden alması yenileme gibi ama audit ayırt edemez; terminal mission (`verified`/`rejected`/`failed`/`archived`) lease release ile `open` olmamalı. Operasyon: bir model yazar, diğerleri review; Critic/Verifier farklı aile. Core LLM: davranış Faz 0, sistem 3–4, fine-tune 5+. Paylaşımda ekler “Files hidden when shared.”
 
-### 7) Claude — v3 kanon
+### 7) Claude — v3 kanon (browser doğrulandı)
 
-Kalıcı çok-ajan OS; faz 0–5. Ertelenenler: DNA, token, 3D. İlke: kanıt + reuse.
+Kalıcı dünya: state + mission + memory + skills + evolution (tek dev LLM değil). Resident ajanlar (Researcher/Engineer/Critic/Tester/Verifier); dış A2A/MCP. Grok sadeleştirmesi kabul: tek log + projeksiyon; lease/heartbeat; claim-tipi kanıt sözleşmesi; model-çeşitli critic; “ünvanlı sohbet odası” 8 soruluk tanı. DNA / rol evrimi / token ekonomi / dört mikroservis state reddedildi. Önce tek domain: document–claim–evidence; Faz 0 bitmeden 3D/multi-world/Need yok. Kanon özeti: 15 maddelik anayasa, tanı testi, event-sourced şema, evidence contracts, lease runtime, sıkıştırılmış Faz 0–5 + Faz 1.5 evidence eşiği. Ek dosya `Agent world v3 kanonik` paylaşılda listelenmiş ama içerik gösterilmemiş.
 
 ### 8) ChatGPT — araçlar
 
@@ -95,12 +95,13 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboar
 **Korunan**
 
 - Kernel önce; LLM doğrudan state yazmaz
-- Event log + hash zinciri + fail-closed doğrulama
-- Üç kademeli doğrulama; `_attested` yok sayılır
-- Lease; karantina
-- Parçalı OSS referans + lisans filtresi (Snowflake kod kopyalama yok; AgentSociety commercial hariç)
+- Event log + hash zinciri + fail-closed doğrulama (hash: `mission_id`/`parent_event_id` dahil; timestamp hariç — Claude notu)
+- Üç kademeli doğrulama; `_attested` yok sayılır; her seferinde yeniden hesap
+- Lease; terminal mission yeniden `open` olmaz; karantina
+- Parçalı OSS + lisans filtresi (Snowflake kod kopyalama yok; AgentSociety commercial hariç)
 - Kanıt + reuse; erken DNA/token/Need/3D yok
-- Beş-model hakemlik
+- Beş-model hakemlik; bir yazar / farklı aile critic-verifier
+- Context-builder golden testleri gerçek dışlama senaryosu içermeli
 
 **Reddedilen / ertelenen**
 
@@ -109,6 +110,8 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboar
 - 3D / Godot NPC (şimdi değil)
 - LLM = ürün; Antigravity/Jules mimari bağımlılık
 - Ünvanlı sohbet; dört mikroservis federasyonu
+- Aynı-aile verify’yi `unverified` yapan DeepSeek ters politikası
+- Her modele ayrı GitHub yazma (tek commit kanalı yeterli)
 
 ### Faz 0 eşlemesi
 
@@ -117,8 +120,8 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboar
 | In-memory event log | `store.py` |
 | Hash zinciri + `verify_chain()` | Var; yeniden yazılmayacak |
 | Fail-closed / üç kademe verify | Var; 15/15 test |
-| Lease | Var |
-| Context builder | Var; golden-file riski not edildi |
+| Lease (terminal reopen fix) | Var |
+| Context builder + golden risk | Var; golden-file riski not edildi |
 | Postgres / LLM API | Yok (bilinçli) |
 | Runtime / env / world-model / NPC / economy | İskelet veya yok |
 
@@ -127,12 +130,15 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboar
 | # | URL | Fetch sonucu | Özet farkı |
 |---|-----|--------------|------------|
 | 1 | ChatGPT kök | Kabuk / kısa ID başarısız | Tam UUID ile yeniden denenmeli |
-| 2 | ChatGPT GitHub | WebFetch OK (ikinci deneme) | **Lisans tablosu + katman bileşimi eklendi** |
+| 2 | ChatGPT GitHub | WebFetch OK | Lisans tablosu + katman bileşimi |
 | 3 | Gemini | Browser OK | Doğrulandı |
 | 4 | DeepSeek | Browser OK | Doğrulandı |
 | 5 | Grok | WebFetch OK | Doğrulandı |
-| 6–7 | Claude ×2 | WebFetch kabuk | Browser bekliyor |
+| 6 | Claude | Browser OK | **Context-builder risk, verify politikası, lease terminal fix, provenance dogfood** |
+| 7 | Claude v3 | Browser OK | **15 anayasa, tanı testi, Faz 1.5, document–claim–evidence önce** |
 | 8 | ChatGPT araçlar | WebFetch OK | Doğrulandı |
+
+Sekiz paylaşımın yedisi içerik olarak doğrulandı; ChatGPT kök hâlâ zayıf kabuk.
 
 ## Günlük / dönemsel notlar
 
@@ -143,3 +149,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
 - **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek browser doğrulandı.
 - **2026-10-02 (gece++):** ChatGPT GitHub tarama yeniden yüklendi; referans haritasına lisans/risk sütunu ve katman bileşimi eklendi.
+- **2026-10-02 (gece+++):** Claude ×2 browser ile çekildi; §6–§7 ve ortak kararlar zenginleştirildi.
