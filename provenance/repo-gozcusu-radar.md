@@ -52,7 +52,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 | # | Model | Kaynak |
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
-| A2 | Gemini | https://share.gemini.google/rbdXhpeLoM5J → https://gemini.google.com/share/04b37ad93246 (eski kısa link `9dPrAQyfprLI` → `956fff2b4291` **aynı sohbet**) |
+| A2 | Gemini | https://share.gemini.google/1tuZ3H4PH5af → https://gemini.google.com/share/d272dd7f8df1 (önceki `rbdXhpeLoM5J`/`04b37ad93246` ve `9dPrAQyfprLI`/`956fff2b4291` **aynı sohbet**, yeniden yayın) |
 | A3 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
@@ -70,9 +70,9 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
 
-### A2) Gemini (browser; yeni + eski link aynı sohbet)
+### A2) Gemini (browser; kanonik kısa link `1tuZ3H4PH5af`, aynı sohbet)
 
-Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı. Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli (patlama riski). Chaos Agent → Critic hedefi (kusur bulmaya ödül). Dış: World Card / A2A / MCP, zero-trust. Ana tehlike: ünvanlı sohbet odası. **Operasyonel ek (yeniden yayın 05:03 UTC):** Faz 0 = kendi belgelerini dogfood; golden Context Builder; `agent_projection` + `model_registry`; context-package hash audit; bilinmeyen model ailesi → `unverified` (fail-closed; Claude yorumu çelişen uygulamayı değiştirsin); altıncı model yok; code-first panel.
+Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** (aynı içerik, son yayın ~05:13).
 
 ### A3) DeepSeek (browser doğrulandı)
 
@@ -136,7 +136,7 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 | Kaynak | Fetch | Özet farkı |
 |--------|-------|------------|
 | A1 ChatGPT kök | Kabuk | Zayıf; yeniden denenecek |
-| A2 Gemini `rbdXhpeLoM5J` | Browser OK → `04b37ad93246` | Eski `9dPrAQyfprLI` ile **aynı sohbet**; operasyonel detay + fail-closed aile notu |
+| A2 Gemini `1tuZ3H4PH5af` | Browser OK → `d272dd7f8df1` | Önceki Gemini linkleriyle **aynı sohbet** (yeniden yayın 05:13); kanonik kısa URL güncellendi |
 | A3 DeepSeek | Browser OK | Doğrulandı |
 | A4–A5 Grok / flame-sage | WebFetch OK | Doğrulandı |
 | A6 Claude | Browser OK | Doğrulandı |
@@ -152,4 +152,5 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
 - **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
 - **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek/Claude browser doğrulandı; lisans tablosu.
-- **2026-10-02 (gece++++):** Ana panel vs ekstra ayrımı; yeni Gemini `rbdXhpeLoM5J` (eskiyle aynı sohbet) + operasyonel notlar.
+- **2026-10-02 (gece++++):** Ana panel vs ekstra; Gemini `rbdXhpeLoM5J` (eskiyle aynı sohbet).
+- **2026-10-02 (gece+++++):** Gemini kanonik kısa URL → `1tuZ3H4PH5af` / `d272dd7f8df1` (yine aynı sohbet).
