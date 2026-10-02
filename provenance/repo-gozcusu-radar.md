@@ -45,73 +45,79 @@ Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM 
 
 ## AI sohbet özetleri — 2026-10-02
 
-Kaynaklar (tam paylaşım URL’leri). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
+### Ana toplantı / karar paneli
+
+Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
 
 | # | Model | Kaynak |
 |---|--------|--------|
-| 1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
-| 2 | ChatGPT (GitHub tarama) | https://chatgpt.com/share/6abed9e1-42b4-83eb-916f-91866fbd5de2 |
-| 3 | Gemini | https://share.gemini.google/9dPrAQyfprLI → https://gemini.google.com/share/956fff2b4291 |
-| 4 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
-| 5 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
-| 6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
-| 7 | Claude (v3 kanon) | https://claude.ai/share/1d8f6dac-fcff-4605-9d36-52ab61fceea1 |
-| 8 | ChatGPT (araçlar) | https://chatgpt.com/share/6abf0d6a-6ed4-83eb-80ee-5fd27fecec24 |
+| A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
+| A2 | Gemini | https://share.gemini.google/rbdXhpeLoM5J → https://gemini.google.com/share/04b37ad93246 (eski kısa link `9dPrAQyfprLI` → `956fff2b4291` **aynı sohbet**) |
+| A3 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
+| A4 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
+| A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
+| A6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
 
-### 1) ChatGPT — kök fikir
+### Ekstra katkılar (panel dışı)
+
+| # | Model | Kaynak |
+|---|--------|--------|
+| E1 | ChatGPT (GitHub tarama) | https://chatgpt.com/share/6abed9e1-42b4-83eb-916f-91866fbd5de2 |
+| E2 | Claude (v3 kanon) | https://claude.ai/share/1d8f6dac-fcff-4605-9d36-52ab61fceea1 |
+| E3 | ChatGPT (araçlar) | https://chatgpt.com/share/6abf0d6a-6ed4-83eb-80ee-5fd27fecec24 |
+
+### A1) ChatGPT — kök fikir
 
 İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
 
-### 2) ChatGPT — GitHub tarama (yeniden fetch OK)
+### A2) Gemini (browser; yeni + eski link aynı sohbet)
 
-Tek fork değil **parçalı mimari** (World Engine + Cognition + Memory + Realtime). Deterministic kernel: LLM Policy→Action; dünya validate/apply (sendwealth #1). Cognition: perceive→retrieve→plan→execute→reflect. Bellek katmanlı + sosyal ilişki. Env/verifier: RUC + Snowflake AWM. Runtime: AgentSociety 2 (Ray, reasoning router, replay). Realtime: Colyseus/Nakama; AgentArena. Lisans satırları üstteki tabloda.
+Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı. Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli (patlama riski). Chaos Agent → Critic hedefi (kusur bulmaya ödül). Dış: World Card / A2A / MCP, zero-trust. Ana tehlike: ünvanlı sohbet odası. **Operasyonel ek (yeniden yayın 05:03 UTC):** Faz 0 = kendi belgelerini dogfood; golden Context Builder; `agent_projection` + `model_registry`; context-package hash audit; bilinmeyen model ailesi → `unverified` (fail-closed; Claude yorumu çelişen uygulamayı değiştirsin); altıncı model yok; code-first panel.
 
-### 3) Gemini (browser doğrulandı)
+### A3) DeepSeek (browser doğrulandı)
 
-Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine. Append-only events → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi + model-çeşitli Critic/Verifier; karantina retrieval’a girmez. World Memory ≠ private agent memory. Maliyet merdiveni; Ollama tartışması. Dış ajan: agent-card / A2A / MCP. Mission DNA erken eleştirilir. Ana tehlike: ünvanlı sohbet odası.
+World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenance, Failure Memory, çelişki grafı, TTL. Üç kademe verify. Faz 0 döngü + Context Builder tavanı. Mission DNA sonra veya parent/retry. Minimal event log eğilimi.
 
-### 4) DeepSeek (browser doğrulandı)
-
-World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon tercihi. Provenance, Failure Memory, çelişki grafı, TTL. Üç kademe verify. Faz 0: mission → Researcher → Critic → Verifier → reuse. Context Builder tavanı. Mission DNA sonra veya parent/retry. Minimal event log eğilimi.
-
-### 5) Grok
+### A4–A5) Grok + flame-sage
 
 Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage tur 9–12 ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
 
-### 6) Claude (browser doğrulandı)
+### A6) Claude (browser doğrulandı)
 
-Tek event log + read-side projeksiyon (`agent_projection`, `model_registry`). En büyük mimari risk: **context-builder testleri** (sessiz kalite düşüşü) — golden senaryolar gerçekten dışlama/çelişki üretmeli (`test_skip_over` bütçeyi aşmayan öğe yüzünden zayıf kaldı). Provenance dogfood: “DeepSeek” etiketli dosyanın Claude olduğunu söylemesi → ilk gerçek çelişki veri seti. Referans artefaktlar (şema, golden testler) davranış sözleşmesi; prod değil. Verify politikası: aynı model → `unverified`; aynı aile farklı model → `verified-weak`; farklı aile → `verified`; aile metadata yoksa fail-closed. DeepSeek’in tersine çevrilmiş politikası reddedildi; Grok’un her yazmada yeniden hesap + `_attested` kaldırma yaklaşımı kabul. Lease: aynı ajanın yeniden alması yenileme gibi ama audit ayırt edemez; terminal mission (`verified`/`rejected`/`failed`/`archived`) lease release ile `open` olmamalı. Operasyon: bir model yazar, diğerleri review; Critic/Verifier farklı aile. Core LLM: davranış Faz 0, sistem 3–4, fine-tune 5+. Paylaşımda ekler “Files hidden when shared.”
+Tek event log + `agent_projection` / `model_registry`. En büyük risk: **context-builder testleri**. Provenance dogfood (yanlış etiketli dosya). Verify: aynı model `unverified`; aynı aile farklı model `verified-weak`; farklı aile `verified`; aile yoksa fail-closed. DeepSeek ters politikası reddedildi; `_attested` yok; yeniden hesap. Lease: terminal mission `open` olmamalı. Bir yazar / farklı aile critic. Core LLM: davranış 0, sistem 3–4, fine-tune 5+.
 
-### 7) Claude — v3 kanon (browser doğrulandı)
+### E1) ChatGPT — GitHub tarama
 
-Kalıcı dünya: state + mission + memory + skills + evolution (tek dev LLM değil). Resident ajanlar (Researcher/Engineer/Critic/Tester/Verifier); dış A2A/MCP. Grok sadeleştirmesi kabul: tek log + projeksiyon; lease/heartbeat; claim-tipi kanıt sözleşmesi; model-çeşitli critic; “ünvanlı sohbet odası” 8 soruluk tanı. DNA / rol evrimi / token ekonomi / dört mikroservis state reddedildi. Önce tek domain: document–claim–evidence; Faz 0 bitmeden 3D/multi-world/Need yok. Kanon özeti: 15 maddelik anayasa, tanı testi, event-sourced şema, evidence contracts, lease runtime, sıkıştırılmış Faz 0–5 + Faz 1.5 evidence eşiği. Ek dosya `Agent world v3 kanonik` paylaşılda listelenmiş ama içerik gösterilmemiş.
+Parçalı mimari + lisans tablosu (üstte referans haritası). Deterministic kernel; AgentSociety 2; RUC + Snowflake AWM; AgentArena.
 
-### 8) ChatGPT — araçlar
+### E2) Claude — v3 kanon
 
-Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboard/Pomelli ikincil.
+15 maddelik anayasa; ünvanlı sohbet tanı testi; evidence contracts; Faz 0–5 + Faz 1.5 evidence eşiği; önce document–claim–evidence. DNA/token/3D ertelendi. Ek dosya paylaşılda listelenmiş, içerik gizli.
+
+### E3) ChatGPT — araçlar
+
+Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 
 ### Ortak kararlar
 
 **Korunan**
 
 - Kernel önce; LLM doğrudan state yazmaz
-- Event log + hash zinciri + fail-closed doğrulama (hash: `mission_id`/`parent_event_id` dahil; timestamp hariç — Claude notu)
-- Üç kademeli doğrulama; `_attested` yok sayılır; her seferinde yeniden hesap
-- Lease; terminal mission yeniden `open` olmaz; karantina
-- Parçalı OSS + lisans filtresi (Snowflake kod kopyalama yok; AgentSociety commercial hariç)
-- Kanıt + reuse; erken DNA/token/Need/3D yok
-- Beş-model hakemlik; bir yazar / farklı aile critic-verifier
-- Context-builder golden testleri gerçek dışlama senaryosu içermeli
+- Event log + hash zinciri + fail-closed (`mission_id`/`parent_event_id` hash’te; timestamp hariç)
+- Üç kademe verify; `_attested` yok; bilinmeyen aile → `unverified`
+- Lease; terminal reopen yok; karantina
+- Parçalı OSS + lisans filtresi
+- Kanıt + reuse; erken DNA/token/Need/3D yok (Need varsa eşikli)
+- Beş model; altıncı yok; bir yazar / farklı aile critic-verifier
+- Context-builder golden testleri gerçek dışlama içermeli; Faz 0 dogfood
 
 **Reddedilen / ertelenen**
 
-- Mission DNA (erken)
-- Token / Need / bidding (erken)
-- 3D / Godot NPC (şimdi değil)
+- Mission DNA (erken); token / Need patlaması; 3D NPC
 - LLM = ürün; Antigravity/Jules mimari bağımlılık
 - Ünvanlı sohbet; dört mikroservis federasyonu
-- Aynı-aile verify’yi `unverified` yapan DeepSeek ters politikası
-- Her modele ayrı GitHub yazma (tek commit kanalı yeterli)
+- DeepSeek ters verify politikası; her modele ayrı GitHub yazma
+- Ayrı Chaos Agent (Critic’e katlandı)
 
 ### Faz 0 eşlemesi
 
@@ -127,18 +133,16 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboar
 
 ## Paylaşım güncellemesi — 2026-10-02 (yeniden fetch)
 
-| # | URL | Fetch sonucu | Özet farkı |
-|---|-----|--------------|------------|
-| 1 | ChatGPT kök | Kabuk / kısa ID başarısız | Tam UUID ile yeniden denenmeli |
-| 2 | ChatGPT GitHub | WebFetch OK | Lisans tablosu + katman bileşimi |
-| 3 | Gemini | Browser OK | Doğrulandı |
-| 4 | DeepSeek | Browser OK | Doğrulandı |
-| 5 | Grok | WebFetch OK | Doğrulandı |
-| 6 | Claude | Browser OK | **Context-builder risk, verify politikası, lease terminal fix, provenance dogfood** |
-| 7 | Claude v3 | Browser OK | **15 anayasa, tanı testi, Faz 1.5, document–claim–evidence önce** |
-| 8 | ChatGPT araçlar | WebFetch OK | Doğrulandı |
-
-Sekiz paylaşımın yedisi içerik olarak doğrulandı; ChatGPT kök hâlâ zayıf kabuk.
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT kök | Kabuk | Zayıf; yeniden denenecek |
+| A2 Gemini `rbdXhpeLoM5J` | Browser OK → `04b37ad93246` | Eski `9dPrAQyfprLI` ile **aynı sohbet**; operasyonel detay + fail-closed aile notu |
+| A3 DeepSeek | Browser OK | Doğrulandı |
+| A4–A5 Grok / flame-sage | WebFetch OK | Doğrulandı |
+| A6 Claude | Browser OK | Doğrulandı |
+| E1 GitHub tarama | WebFetch OK | Lisans tablosu |
+| E2 Claude v3 | Browser OK | Kanon özeti |
+| E3 Araçlar | WebFetch OK | Doğrulandı |
 
 ## Günlük / dönemsel notlar
 
@@ -147,6 +151,5 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
 - **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
-- **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek browser doğrulandı.
-- **2026-10-02 (gece++):** ChatGPT GitHub tarama yeniden yüklendi; referans haritasına lisans/risk sütunu ve katman bileşimi eklendi.
-- **2026-10-02 (gece+++):** Claude ×2 browser ile çekildi; §6–§7 ve ortak kararlar zenginleştirildi.
+- **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek/Claude browser doğrulandı; lisans tablosu.
+- **2026-10-02 (gece++++):** Ana panel vs ekstra ayrımı; yeni Gemini `rbdXhpeLoM5J` (eskiyle aynı sohbet) + operasyonel notlar.
