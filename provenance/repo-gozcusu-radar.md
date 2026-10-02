@@ -39,9 +39,88 @@ Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM 
 4. **QwenLM/Qwen-AgentWorld** — world-model katmanı; bağımlılık ve lisans riski.
 5. Bellek / cognition referansları (Generative Agents, Tencent/nicepkg fikirleri) — sonraki tur.
 
+## AI sohbet özetleri — 2026-10-02
+
+Kaynaklar (paylaşım kimlikleri / URL’ler). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
+
+| # | Model | Kaynak |
+|---|--------|--------|
+| 1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b… |
+| 2 | ChatGPT (GitHub tarama) | https://chatgpt.com/share/6abed9e1-42b4-83eb-916f-91866fbd5de2 |
+| 3 | Gemini | share.gemini… / `956fff2b…` |
+| 4 | DeepSeek | `wcnvcw1…` |
+| 5 | Grok | `c2hhcmQtMg_120d0cd7…` |
+| 6 | Claude | `1c1203ca…` |
+| 7 | Claude (v3 kanon) | `1d8f6dac…` |
+| 8 | ChatGPT (araçlar) | https://chatgpt.com/share/6abf0d6a… |
+
+### 1) ChatGPT — kök fikir
+
+İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
+
+### 2) ChatGPT — GitHub tarama
+
+Tek fork değil **parçalı mimari**. Referans: sendwealth/agent-world, AgentSociety (tsinghua), RUC-NLPIR/Agent-World, AgentArena, meleantonio/AgentSociety, Snowflake-Labs/agent-world-model, Qwen-AgentWorld, vb. (üstteki referans haritası).
+
+### 3) Gemini
+
+Event-sourced OS düşüncesi. Ünvanlı sohbet riski uyarısı. v3 omurga. Ollama/API tartışması. `family_verified` fail-closed.
+
+### 4) DeepSeek
+
+World loop; Chaos / zero-trust. Mission DNA (Grok reddetti). Faz 0 Researcher–Critic–Verifier. `verified-weak` kademesi.
+
+### 5) Grok
+
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15) agent-world’te. DNA / token / Need erken reddedildi. flame-sage tur 9–12 notları.
+
+### 6) Claude
+
+Context builder golden-file kritik risk. Şema/test vurgusu. DeepSeek mühendis; Claude+Grok review. `verify_chain` sonrası geldi.
+
+### 7) Claude — v3 kanon
+
+Kalıcı çok-ajan OS; faz 0–5 yol haritası. Ertelenenler: DNA, token, 3D. İlke: kanıt + reuse.
+
+### 8) ChatGPT — araçlar
+
+Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün değil).
+
+### Ortak kararlar
+
+**Korunan**
+
+- Kernel önce; LLM doğrudan state yazmaz
+- Event log + hash zinciri + fail-closed doğrulama
+- Üç kademeli doğrulama (`unverified` / `verified-weak` / `verified`); `_attested` yok sayılır
+- Lease; verified görevleri rastgele yeniden açmama
+- Parçalı açık kaynak referans (tek monorepo fork değil)
+- Kanıt + reuse; erken DNA/token/Need/3D yok
+
+**Reddedilen / ertelenen**
+
+- Mission DNA (erken)
+- Token ekonomisi / Need Engine (erken)
+- 3D / Godot NPC runtime (şimdi değil)
+- LLM’i ürün sanmak (Ollama = router katmanı)
+- Tek modelin “kanon” sayılması; ünvanlı sohbet riski
+
+### Faz 0 eşlemesi
+
+| Karar / fikir | Repo durumu |
+|---------------|-------------|
+| In-memory event log | `store.py` |
+| Hash zinciri + `verify_chain()` | Var; yeniden yazılmayacak |
+| Fail-closed / üç kademe verify | Var; 15/15 test |
+| Lease | Var |
+| Context builder | Var; golden-file riski not edildi |
+| Postgres / LLM API | Yok (bilinçli) |
+| Runtime / env / world-model / NPC / economy | İskelet veya yok |
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
+- **2026-10-02:** Sekiz AI sohbet özeti (ChatGPT×3, Gemini, DeepSeek, Grok, Claude×2), ortak kararlar ve Faz 0 eşlemesi eklendi.
