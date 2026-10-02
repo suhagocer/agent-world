@@ -18,26 +18,30 @@ Diğer modeller ve ajanlar çalışmalarını yürütürken **bu dosyadaki içer
 
 ## Referans haritası (ChatGPT tarama özeti, Eyl 2026)
 
-| Öncelik | Repo | Rol |
-|--------|------|-----|
-| 1 | sendwealth/agent-world | Deterministic world kernel (Policy→Action→Validation) |
-| 2 | tsinghua-fib-lab/AgentSociety | Agent runtime / reasoning / replay |
-| 3 | RUC-NLPIR/Agent-World | Environment + task + verification factory |
-| 4 | JustInternetAI/AgentArena | Realtime NPC / Godot runtime |
-| 5 | meleantonio/AgentSociety | Economy + governance |
-| 6 | Snowflake-Labs/agent-world-model | Synthetic environments / RL |
-| 7 | QwenLM/Qwen-AgentWorld | World-model prediction |
-| 8 | francemazzi/worldsim | Modular simulation architecture |
+| Öncelik | Repo | Rol | Lisans / risk (tarama notu) |
+|--------|------|-----|-----------------------------|
+| 1 | sendwealth/agent-world | Deterministic world kernel (Policy→Action→Validation) | MIT — fikir+kod adayı; kopya öncesi dosya lisansı doğrula |
+| 2 | tsinghua-fib-lab/AgentSociety | Agent runtime / reasoning / replay | Apache 2.0 (çekirdek); `packages/agentsociety/commercial` hariç |
+| 3 | RUC-NLPIR/Agent-World | Environment + task + verification factory | THIRD_PARTY_NOTICES / veri / executable-tool provenance kontrolü |
+| 4 | JustInternetAI/AgentArena | Realtime NPC / Godot runtime | Apache 2.0 (tarama notu) |
+| 5 | meleantonio/AgentSociety | Economy + governance | Tarama: MIT sınıfı; doğrula |
+| 6 | Snowflake-Labs/agent-world-model | Synthetic environments / RL | GitHub lisans alanı boş → **kod kopyalama**; yalnızca fikir |
+| 7 | QwenLM/Qwen-AgentWorld | World-model prediction | Apache 2.0 (tarama notu) |
+| 8 | francemazzi/worldsim | Modular simulation architecture | MIT (tarama notu) |
+
+Ek referanslar (tarama): Generative Agents (Apache 2.0); mem0 (Apache 2.0); LangGraph / Colyseus / ai-town (MIT); Tencent/nicepkg bellek fikirleri (MIT sınıfı — doğrula).
+
+**Katman bileşimi (tek fork değil):** World Engine + Agent Cognition + Memory + Realtime. LLM yalnızca Policy→Action üretir; dünya doğrular/uygular. Compute kıtlık ekonomisi. World-model (Qwen) ana motor değil, counterfactual. MCP dünya arayüzü adayı.
 
 Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM state yazmaz” çizgisiyle uyumludur.
 
 ## Sonraki tarama hedefi
 
 1. **sendwealth/agent-world** — Policy→Action→Validation ayrımı, LLM’in state yazmaması; lisans + hangi parçalar fikir vs. kopyalanabilir.
-2. **RUC-NLPIR/Agent-World** + **Snowflake-Labs/agent-world-model** — env/task/verifier sınırları; Faz 0 doğrulama ile örtüşen noktalar.
-3. **tsinghua-fib-lab/AgentSociety** — runtime/replay; bizim iskelet `src/` ile ilişki (yalnızca not, kod yok).
+2. **RUC-NLPIR/Agent-World** + **Snowflake-Labs/agent-world-model** — env/task/verifier sınırları; Faz 0 doğrulama ile örtüşen noktalar. Snowflake: kod kopyalama yok.
+3. **tsinghua-fib-lab/AgentSociety** — runtime/replay; commercial paket hariç; bizim iskelet `src/` ile ilişki (yalnızca not).
 4. **QwenLM/Qwen-AgentWorld** — world-model katmanı; bağımlılık ve lisans riski.
-5. Bellek / cognition referansları (Generative Agents, Tencent/nicepkg fikirleri) — sonraki tur.
+5. Bellek / cognition (Generative Agents, Tencent/nicepkg) — sonraki tur.
 
 ## AI sohbet özetleri — 2026-10-02
 
@@ -58,33 +62,33 @@ Kaynaklar (tam paylaşım URL’leri). Diğer ajanlar buradan yararlanabilir; ya
 
 İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
 
-### 2) ChatGPT — GitHub tarama
+### 2) ChatGPT — GitHub tarama (yeniden fetch OK)
 
-Tek fork değil **parçalı mimari**. Referans: sendwealth/agent-world, AgentSociety (tsinghua), RUC-NLPIR/Agent-World, AgentArena, meleantonio/AgentSociety, Snowflake-Labs/agent-world-model, Qwen-AgentWorld, vb. (üstteki referans haritası).
+Tek fork değil **parçalı mimari** (World Engine + Cognition + Memory + Realtime). Deterministic kernel: LLM Policy→Action; dünya validate/apply (sendwealth #1). Cognition: perceive→retrieve→plan→execute→reflect. Bellek katmanlı + sosyal ilişki. Env/verifier: RUC + Snowflake AWM. Runtime: AgentSociety 2 (Ray, reasoning router, replay). Realtime: Colyseus/Nakama; AgentArena. Lisans satırları üstteki tabloda.
 
 ### 3) Gemini (browser doğrulandı)
 
-Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine (hedef/bellek/araç) vs World Engine (mission/world state). Append-only events → projeksiyonlar; mission’da lease + heartbeat + timeout. Kanıt sözleşmesi + model-çeşitli Critic/Verifier; karantina retrieval’a girmez. World Memory ≠ private agent memory; doğrulanmış akış → Skill. Maliyet merdiveni: kural/cache → skill → ucuz model → güçlü model; Ollama/yerel tartışması. Dış ajan: agent-card / A2A / MCP, zero-trust. Mission DNA / rol evrimi erken MVP için eleştirilir. Ana tehlike: ünvanlı sohbet odası (artifact/evidence/reuse yok).
+Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine. Append-only events → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi + model-çeşitli Critic/Verifier; karantina retrieval’a girmez. World Memory ≠ private agent memory. Maliyet merdiveni; Ollama tartışması. Dış ajan: agent-card / A2A / MCP. Mission DNA erken eleştirilir. Ana tehlike: ünvanlı sohbet odası.
 
 ### 4) DeepSeek (browser doğrulandı)
 
-World-centered: World ≠ Environment ≠ Agent ≠ Model; yeni LLM eğitimi MVP değil. State federasyonu fikri (fiziksel/bilişsel/sosyal/evrimsel) — pratikte tek event log + projeksiyon tercihi öne çıkıyor. Provenance, Failure Memory, çelişki grafı, TTL, World Health. Doğrulama: farklı aile → `verified`; aynı sağlayıcı farklı model → `verified-weak`; aynı model → `unverified`. Faz 0 hedefi: mission → Researcher → Critic → Verifier → persist → ikinci mission’da reuse. Context Builder: token tavanı / TTL / izin / karantina dışı (ör. 8K önerisi). Mission DNA sonra veya `parent`/`retry`/`derived_from` sadeleştirmesi. Need/bidding/evolution ertelenir. Tartışma: minimal event log vs CRUD+audit — eğilim minimal log.
+World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon tercihi. Provenance, Failure Memory, çelişki grafı, TTL. Üç kademe verify. Faz 0: mission → Researcher → Critic → Verifier → reuse. Context Builder tavanı. Mission DNA sonra veya parent/retry. Minimal event log eğilimi.
 
 ### 5) Grok
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15) agent-world’te. DNA / token / Need erken reddedildi. flame-sage tur 9–12 notları ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage tur 9–12 ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)).
 
 ### 6) Claude
 
-Context builder golden-file kritik risk. Şema/test vurgusu. DeepSeek mühendis; Claude+Grok review. `verify_chain` sonrası geldi.
+Context builder golden-file kritik risk. Şema/test. `verify_chain` sonrası geldi.
 
 ### 7) Claude — v3 kanon
 
-Kalıcı çok-ajan OS; faz 0–5 yol haritası. Ertelenenler: DNA, token, 3D. İlke: kanıt + reuse.
+Kalıcı çok-ajan OS; faz 0–5. Ertelenenler: DNA, token, 3D. İlke: kanıt + reuse.
 
 ### 8) ChatGPT — araçlar
 
-Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün değil). Mixboard/Pomelli ikincil (world-first, graphics later).
+Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil). Mixboard/Pomelli ikincil.
 
 ### Ortak kararlar
 
@@ -92,22 +96,19 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 
 - Kernel önce; LLM doğrudan state yazmaz
 - Event log + hash zinciri + fail-closed doğrulama
-- Üç kademeli doğrulama (`unverified` / `verified-weak` / `verified`); `_attested` yok sayılır
-- Lease; verified görevleri rastgele yeniden açmama
-- Karantina (doğrulanmamış retrieval’a girmez)
-- Parçalı açık kaynak referans (tek monorepo fork değil)
+- Üç kademeli doğrulama; `_attested` yok sayılır
+- Lease; karantina
+- Parçalı OSS referans + lisans filtresi (Snowflake kod kopyalama yok; AgentSociety commercial hariç)
 - Kanıt + reuse; erken DNA/token/Need/3D yok
-- Beş-model hakemlik; kanon damgası tanı testinden gelir
+- Beş-model hakemlik
 
 **Reddedilen / ertelenen**
 
-- Mission DNA (erken; gerekirse parent/retry alanları)
-- Token ekonomisi / Need Engine / bidding (erken)
-- 3D / Godot NPC runtime (şimdi değil)
-- LLM’i ürün sanmak (Ollama = router katmanı)
-- Tek modelin “kanon” sayılması; ünvanlı sohbet riski
-- Antigravity/Jules’a mimari bağımlılık (geliştirme aracı, dünya runtime’ı değil)
-- Dört bağımsız mikroservis federasyonu (MVP’de tek log + projeksiyon)
+- Mission DNA (erken)
+- Token / Need / bidding (erken)
+- 3D / Godot NPC (şimdi değil)
+- LLM = ürün; Antigravity/Jules mimari bağımlılık
+- Ünvanlı sohbet; dört mikroservis federasyonu
 
 ### Faz 0 eşlemesi
 
@@ -125,15 +126,13 @@ Stitch → Antigravity → Jules zinciri. Ollama = Model Router katmanı (ürün
 
 | # | URL | Fetch sonucu | Özet farkı |
 |---|-----|--------------|------------|
-| 1 | ChatGPT kök | WebFetch: kabuk | Önceki kök özet korunuyor |
-| 2 | ChatGPT GitHub | WebFetch 500 | Önceki özet + referans haritası duruyor |
-| 3 | Gemini | Browser OK (`956fff2b4291`) | Event-sourced OS, lease, karantina, ünvanlı sohbet riski **doğrulandı**; DNA erken eleştirisi netleşti |
-| 4 | DeepSeek | Browser OK | Üç kademe verify + Faz 0 döngü + Context Builder tavanı **doğrulandı**; DNA sadeleştirme uyarısı |
-| 5 | Grok | WebFetch: uzun sohbet | Önceki özet doğrulandı; flame-sage tur 9–12 |
-| 6–7 | Claude ×2 | WebFetch: kabuk | Hâlâ browser ile yeniden denenecek |
-| 8 | ChatGPT araçlar | WebFetch: tam | Stitch→Antigravity→Jules + Ollama=router doğrulandı |
-
-Yeni çelişen mimari karar yok; Gemini/DeepSeek mevcut digesti güçlendirdi ve detaylandırdı. Claude kabuk kaldı.
+| 1 | ChatGPT kök | Kabuk / kısa ID başarısız | Tam UUID ile yeniden denenmeli |
+| 2 | ChatGPT GitHub | WebFetch OK (ikinci deneme) | **Lisans tablosu + katman bileşimi eklendi** |
+| 3 | Gemini | Browser OK | Doğrulandı |
+| 4 | DeepSeek | Browser OK | Doğrulandı |
+| 5 | Grok | WebFetch OK | Doğrulandı |
+| 6–7 | Claude ×2 | WebFetch kabuk | Browser bekliyor |
+| 8 | ChatGPT araçlar | WebFetch OK | Doğrulandı |
 
 ## Günlük / dönemsel notlar
 
@@ -142,5 +141,5 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-01:** Dosya oluşturuldu. ChatGPT paylaşım özeti ve 8 parçalı referans haritası seed olarak eklendi.
 - **2026-10-01 (akşam):** Yetki genişletmesi onaylandı (yalnızca bu dosya). “Sonraki tarama hedefi” bölümü eklendi.
 - **2026-10-02:** Sekiz AI sohbet özeti, ortak kararlar ve Faz 0 eşlemesi eklendi.
-- **2026-10-02 (gece):** Tam paylaşım URL’leri dolduruldu; Grok + ChatGPT araçlar WebFetch ile doğrulandı.
-- **2026-10-02 (gece+):** Gemini + DeepSeek browser ile yeniden çekildi; §3–§4 ve ortak kararlar zenginleştirildi.
+- **2026-10-02 (gece):** Tam URL’ler; Grok + araçlar + Gemini/DeepSeek browser doğrulandı.
+- **2026-10-02 (gece++):** ChatGPT GitHub tarama yeniden yüklendi; referans haritasına lisans/risk sütunu ve katman bileşimi eklendi.
