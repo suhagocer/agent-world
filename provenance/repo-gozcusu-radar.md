@@ -49,11 +49,13 @@ Bizim Faz 0 (event log, hash zinciri, fail-closed verify) “kernel önce / LLM 
 
 Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabilir; yazma yetkisi yalnızca Repo Gözcüsü’ndedir.
 
+**URL kuralı:** Kullanıcı yeni bir paylaşım URL’si verdiğinde, içerik eski sohbetle aynı görünse bile o URL kanoniktir; radardaki eski link yenisiyle değiştirilir.
+
 | # | Model | Kaynak |
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
 | A2 | Gemini | https://share.gemini.google/1tuZ3H4PH5af → https://gemini.google.com/share/d272dd7f8df1 (önceki `rbdXh…`/`9dPr…`; UI kısa link `TXv3jkvZV7w3` de aynı `d272dd…`; **aynı sohbet**) |
-| A3 | DeepSeek | https://chat.deepseek.com/share/wcnvcw1pdaacp6z5o2 |
+| A3 | DeepSeek | https://chat.deepseek.com/share/japybl2d3ejtr7ch0i (eski `wcnvcw1pdaacp6z5o2` aynı sohbet) |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
 | A6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
@@ -74,7 +76,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** / `TXv3…` (aynı içerik, son yayın ~05:13).
 
-### A3) DeepSeek (browser doğrulandı)
+### A3) DeepSeek (browser doğrulandı; kanonik `japybl2d3ejtr7ch0i`)
 
 World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenance, Failure Memory, çelişki grafı, TTL. Üç kademe verify. Faz 0 döngü + Context Builder tavanı. Mission DNA sonra veya parent/retry. Minimal event log eğilimi.
 
@@ -168,7 +170,7 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 |--------|-------|------------|
 | A1 ChatGPT kök | curl OK | Değişmedi. |
 | A2 Gemini `1tuZ3…` | curl OK → `d272dd7f8df1` | Aynı sohbet; değişmedi. |
-| A3 DeepSeek | 202 (bot koruması); alias `japybl2d3ejtr7ch0i` aynı gün browser’la çekildi | Alias, A3 ile aynı transkript (103142 karakter). A3 kanonik kalır; özet değişmedi. |
+| A3 DeepSeek | Browser OK (`japybl2d3ejtr7ch0i`) | Kanonik URL `japybl2d3ejtr7ch0i`; eski `wcnvcw1…` aynı sohbet (103142 karakter). Özet değişmedi. |
 | A4 Grok | curl OK | Değişmedi; Tur 13–14 / `0ddddfe` referansı yok. |
 | A5 flame-sage | curl OK | **Değişiklik:** `/tur-9`…`/tur-14` artık açık (v1.12–v1.17). `/tur-15` 404. |
 | A6 Claude | Kabuk (JS) | Doğrulanamadı; önceki digest geçerli. |
@@ -206,3 +208,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-02 (gece+++++):** Gemini kanonik kısa URL → `1tuZ3H4PH5af` / `d272dd7f8df1` (yine aynı sohbet).
 - **2026-10-02 (öğle):** Paylaşım yeniden fetch. A1 tam metin OK; flame-sage tur 9–12 404; Gemini `TXv3…` aynı `d272dd…`. Mimari digest değişmedi.
 - **2026-10-05 (gece):** Repo `0ddddfe`: korunan omurga `decisions/DECISION-LOG.md`’ye işlendi (karar kaydı orası, radar değil). flame-sage Tur 9–14 yeniden açık; özetleri eklendi. Diğer paylaşımlar değişmedi. Yeni OSS yok.
+- **2026-10-05 (gece+):** Kullanıcı kuralı: yeni paylaşım URL’si içerik aynı olsa bile kanonik olur. A3 DeepSeek → `japybl2d3ejtr7ch0i` (eski `wcnvcw1…` değiştirildi).
