@@ -80,7 +80,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: Tur 8’e kadar ([flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)); **tur 9–12 rotaları 404** (içerik Grok paylaşımında).
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 14’e kadar** (v1.0–v1.17; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; `/tur-15` 404.
 
 ### A6) Claude (browser doğrulandı)
 
@@ -130,6 +130,7 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 | Context builder + golden risk | Var; golden-file riski not edildi |
 | Postgres / LLM API | Yok (bilinçli) |
 | Runtime / env / world-model / NPC / economy | İskelet veya yok |
+| Korunan omurga karar kaydı | `decisions/DECISION-LOG.md` (2026-10-03 satırı, commit `0ddddfe`). Kanonik karar kaydı orası; bu radar dosyası karar kaydı değil |
 
 ## Paylaşım güncellemesi — 2026-10-02 (yeniden fetch)
 
@@ -161,6 +162,38 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 
 **Bu turda radar notu:** Mimari kararlar sabit; izleme farkı flame-sage tur 9–12’nin kamuya kapanması, A1’in tam fetch’e kavuşması ve Gemini `TXv3…` kısa linkinin aynı sohbete işaret etmesi. Yeni OSS adayı yok.
 
+## Paylaşım güncellemesi — 2026-10-05 (gece takip)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT kök | curl OK | Değişmedi. |
+| A2 Gemini `1tuZ3…` | curl OK → `d272dd7f8df1` | Aynı sohbet; değişmedi. |
+| A3 DeepSeek | 202 (bot koruması); alias `japybl2d3ejtr7ch0i` aynı gün browser’la çekildi | Alias, A3 ile aynı transkript (103142 karakter). A3 kanonik kalır; özet değişmedi. |
+| A4 Grok | curl OK | Değişmedi; Tur 13–14 / `0ddddfe` referansı yok. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-9`…`/tur-14` artık açık (v1.12–v1.17). `/tur-15` 404. |
+| A6 Claude | Kabuk (JS) | Doğrulanamadı; önceki digest geçerli. |
+| E1 / E3 ChatGPT | curl OK | Değişmedi. |
+| E2 Claude v3 | Kabuk (JS) | Doğrulanamadı. |
+
+**flame-sage yeni turlar (Grok okuyucu, “kanon değildir”):**
+
+- **Tur 9 (v1.12, 30 Eyl):** Repo boştu; dört çekirdek dosyası (`schema.sql`, `store.py`, `context_builder.py`, `test_faz0.py`) köke kondu. Boş klasörler silinmedi. `COLLABORATION.md` rol listesi kilit sayılmadı. 9/9, `c3776c5`.
+- **Tur 10 (v1.13, 1 Eki):** Claude’un beş maddesinden üçü koda girdi: kaynaklı `verified`, `verify_chain()`, terminal görev yeniden açılmaz. 12/12, `12b6857`. İki Claim sınıfı ayrı kaldı.
+- **Tur 11 (v1.14, 1 Eki):** Claude store v2 seçilerek alındı. Üç kademe, `verify_claim` kaynak ister, hash’e görev kimliği alındı. `_attested` bayrağı ve “terminal olmayan her görevi aç” alınmadı. Saat hash’e girmez. 15/15, `354241d`.
+- **Tur 12 (v1.15, 1 Eki):** Güncel kural cümlesi. `verify_chain` yeniden yazılmaz. Tek skip testi `test_skip_over_drops_oversized`. Son not `214c4e8`.
+- **Tur 13 (v1.16, 2 Eki):** `verify_chain` 457d059’dan beri aynı, 15/15 yeniden koştu, not `087525a`. Gözcü yalnızca bu radar dosyasını yazar.
+- **Tur 14 (v1.17, 3 Eki):** Korunan omurga `decisions/DECISION-LOG.md` içine işlendi (`0ddddfe`). Gözcü o dosyaya yazmaz. Faz 1 başlamaz. Claim sınıfları birleşmez.
+
+## Repo değişikliği — `0ddddfe` (2026-10-02T23:55Z)
+
+`decisions/DECISION-LOG.md` dosyasına 2026-10-03 tarihli “Korunan omurga” satırı ve notu eklendi. Kilitlenen cümle: dünya, ajan ve model ayrı; tek append-only event log; doğrulanmış iddia için kaynak şart; lease terminal görevi açmaz; üç sonuç (`unverified` / `verified-weak` / `verified`); doğrulanmamış aile `unverified` kalır; `_attested` yok sayılır; `verify_chain` yeniden yazılmaz; saat hash’e girmez; model dünya durumunu yazmaz.
+
+Reddedilenler: gözlemcinin karar günlüğüne yazması, şimdi Faz 1 ya da LLM araştırmacısı başlatmak, Claim sınıflarını bu turda birleştirmek, ikinci skip testi. Açık konu: Claim sınıfı birleşmesi takvimsiz.
+
+**Mimari haritadaki yeri:** (1) deterministik dünya çekirdeği katmanının kuralları artık karar kaydında yazılı. Yeni kod yok; boşluk kapatmıyor, mevcut çekirdeği kayda geçiriyor. Runtime, env/verifier, world-model, bellek ve gerçek zamanlı katmanlar hâlâ bilinçli olarak yok. Radardaki “Ortak kararlar / Korunan” listesi bu günlükle uyumlu; çelişki yok.
+
+**Bu turda radar notu:** Mimari kararlar sabit. Değişen iki şey var: karar günlüğü artık omurganın kanonik kaydı, ve flame-sage Tur 9–14 yeniden kamuya açık. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -172,3 +205,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-02 (gece++++):** Ana panel vs ekstra; Gemini `rbdXhpeLoM5J` (eskiyle aynı sohbet).
 - **2026-10-02 (gece+++++):** Gemini kanonik kısa URL → `1tuZ3H4PH5af` / `d272dd7f8df1` (yine aynı sohbet).
 - **2026-10-02 (öğle):** Paylaşım yeniden fetch. A1 tam metin OK; flame-sage tur 9–12 404; Gemini `TXv3…` aynı `d272dd…`. Mimari digest değişmedi.
+- **2026-10-05 (gece):** Repo `0ddddfe`: korunan omurga `decisions/DECISION-LOG.md`’ye işlendi (karar kaydı orası, radar değil). flame-sage Tur 9–14 yeniden açık; özetleri eklendi. Diğer paylaşımlar değişmedi. Yeni OSS yok.
