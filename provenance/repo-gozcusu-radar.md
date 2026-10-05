@@ -84,7 +84,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 14’e kadar** (v1.0–v1.17; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; `/tur-15` 404.
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 15’e kadar** (v1.0–v1.18; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` açıldı (v1.18), `/tur-16` ve `/tur-17` 404.
 
 ### A6) Claude (browser doğrulandı)
 
@@ -214,6 +214,29 @@ Reddedilenler: gözlemcinin karar günlüğüne yazması, şimdi Faz 1 ya da LLM
 
 **Bu turda radar notu:** Yalnızca A3 kanonik URL → `wfbt7ngfw6r7f8whwq`. Mimari karar listesi aynı. Yeni OSS yok.
 
+## Paylaşım güncellemesi — 2026-10-05 (akşam tam kontrol)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT kök | curl OK | Değişmedi. |
+| A2 Gemini `1tuZ3…` | curl → `d272dd7f8df1` (JS kabuk); browser OK | Aynı sohbet; browser’da digest temaları mevcut, yeni iddia yok. |
+| A3 DeepSeek `wfbt7ngfw6r7f8whwq` | curl OK (`/api/v0/share/content`) | Değişmedi: mesaj 54–55 (ebeveyn 53), ham 7768 bayt. |
+| A4 Grok | curl OK | Değişmedi; Tur 15 / `292026c` referansı yok. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-15` artık açık (v1.18, 5 Eki, “Yan kopya”). `/tur-14` açık; `/tur-16` `/tur-17` 404. Ana sayfa menüsünde Tur 15 var. |
+| A6 Claude | curl kabuk (JS); browser OK | Değişmedi (event log, `agent_projection`, `model_registry`, context-builder riski, verify kademeleri, `_attested` yok, lease terminal düzeltmesi). |
+| E1 / E3 ChatGPT | curl OK | Değişmedi. |
+| E2 Claude v3 | curl kabuk (JS); browser OK | Değişmedi (15 madde anayasa, ünvanlı sohbet testi, evidence contracts, Faz 1.5); ek dosya hâlâ gizli. |
+
+**flame-sage Tur 15 (v1.18, 5 Eki, Grok okuyucu, “kanon değildir”):**
+
+- Konu: Claude’un dosyalarının bir kopyası Grok sohbetinde koşuldu; kopyada 16/16 geçti. Bu, repodaki 15/15’in yerine geçmez. İki örnek belge (`sample_source_1.txt`, `sample_source_2.txt`) işlendi: 4 `verified`, 2 `disputed`; zincir sağlam.
+- Kopya ile repo farkları (Grok tespiti): kopyada `family_verified` varsayılanı `True` (fail-open), repoda eksikse `False`; kopyada `can_write_verified` aynı aileye de izin veriyor, repoda yalnız farklı doğrulanmış aile; kopyada kira alanı doğrudan değişiyor, repoda kira olay günlüğünden geçiyor; hash’in JSON biçimi farklı.
+- “Yüzde 66,7” öğrenme değil: `researcher.py` içinde sabit (ilk tur 120, tekrar 40; `skill_reused` bayrağı). Ölçülen bellek yok. Başkent itirazı belgeden değil, koddaki Ankara tablosundan geliyor.
+- Sonuç: Claude’un `store.py`’si repoya yazılmayacak; `store.py` değişmedi; karar günlüğü `0ddddfe`; Faz 1 yok. Gözcüye yönelik not: “Hayır. Karar günlüğü duruyor.”
+- Not: sayfada geçen `store.py 292026c` repo commit listesinde yok (tip `dd87763`); doğrulanmadı, muhtemelen dosya özeti.
+
+**Bu turda radar notu:** Mimari kararlar sabit. Tek doğrulanmış fark flame-sage Tur 15’in yayına girmesi; içeriği mevcut omurgayı (fail-closed aile kontrolü, kiranın olay günlüğünden geçmesi) teyit ediyor, yeni karar getirmiyor. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -229,3 +252,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-05 (gece+):** Kullanıcı kuralı: yeni paylaşım URL’si içerik aynı olsa bile kanonik olur. A3 DeepSeek → `japybl2d3ejtr7ch0i` (eski `wcnvcw1…` değiştirildi).
 - **2026-10-05 (gece++):** A3 DeepSeek kanonik URL → `ulwkayx5qsy0otx8vd` (önceki `japybl2d3ejtr7ch0i` değiştirildi). Paylaşım daha kısa; transkript aynı değil. Karar listesi değişmedi.
 - **2026-10-05 (gece+++):** A3 DeepSeek kanonik URL → `wfbt7ngfw6r7f8whwq` (önceki `ulwkayx5qsy0otx8vd`; `japybl…` / `wcnvcw…` yalnızca provenance). İçerik `ulwkay…` ile aynı değil (heartbeat düzeltmesi iddiası). Karar listesi değişmedi.
+- **2026-10-05 (akşam):** Tam paylaşım kontrolü. flame-sage `/tur-15` açıldı (v1.18 “Yan kopya”: Claude kopyası 16/16 ama fail-open farklar; `store.py` değişmez). Diğer tüm linkler değişmedi (Gemini/Claude browser ile doğrulandı). Karar listesi değişmedi. Yeni OSS yok.
