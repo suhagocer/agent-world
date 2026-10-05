@@ -55,7 +55,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6aa7584b-0b3c-83eb-a3aa-6b16d096db46 |
 | A2 | Gemini | https://share.gemini.google/1tuZ3H4PH5af → https://gemini.google.com/share/d272dd7f8df1 (önceki `rbdXh…`/`9dPr…`; UI kısa link `TXv3jkvZV7w3` de aynı `d272dd…`; **aynı sohbet**) |
-| A3 | DeepSeek | https://chat.deepseek.com/share/ulwkayx5qsy0otx8vd (önceki `japybl2d3ejtr7ch0i`; daha eski `wcnvcw1pdaacp6z5o2`) |
+| A3 | DeepSeek | https://chat.deepseek.com/share/wfbt7ngfw6r7f8whwq (önceki `ulwkayx5qsy0otx8vd`; daha eski `japybl2d3ejtr7ch0i` / `wcnvcw1pdaacp6z5o2`) |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_120d0cd7-772a-4041-b650-07d00ee5f6e1 |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
 | A6 | Claude | https://claude.ai/share/1c1203ca-4e67-455d-aabb-a6bbb8e28787 |
@@ -76,11 +76,11 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** / `TXv3…` (aynı içerik, son yayın ~05:13).
 
-### A3) DeepSeek (kanonik `ulwkayx5qsy0otx8vd`; önceki `japybl2d3ejtr7ch0i`)
+### A3) DeepSeek (kanonik `wfbt7ngfw6r7f8whwq`; önceki `ulwkayx5qsy0otx8vd`)
 
 World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenance, Failure Memory, çelişki grafı, TTL. Üç kademe verify. Faz 0 döngü + Context Builder tavanı. Mission DNA sonra veya parent/retry. Minimal event log eğilimi.
 
-2026-10-05 kanonik paylaşım aynı zincirin son turu (mesaj 52, ebeveyn 51). Görünen metin kısa (parça içeriği 14508 karakter); önceki `japybl…` paylaşımındaki uzun analiz (48 mesaj, 280982 karakter) bu URL’de yok. DeepSeek `run_mission.py` incelemesinde Faz 0’ın kapandığını ve Faz 1 LLM adaptörünü yazıyor. Radar bunu karar saymaz.
+2026-10-05 kanonik paylaşım `wfbt7ngfw6r7f8whwq` (mesaj 54–55, ebeveyn 53; curl `/api/v0/share/content` ham JSON 7768 bayt; görünen istek+yanıt 4123 karakter). Önceki `ulwkayx5qsy0otx8vd` (mesaj 52–53; ham 26752 bayt; görünen 4057 karakter) ile **aynı değil** — yeni tur. DeepSeek iddiası (karar değil): önerdiği 6 maddelik `DECISION-LOG` maddesinde “heartbeat” yazmış; Faz 0’da heartbeat yok, yalnızca lease + timeout; madde 4’ü “Lease + timeout” diye düzeltiyor (heartbeat Faz 1). Test referanslı 6 madde önerisi ve Anayasa (15) / DECISION-LOG (6) ayrımı DeepSeek’e ait; panele işlenmedi. Önceki `ulwkay…` turundaki `run_mission.py` / Faz 0 kapandı / Faz 1 notu da DeepSeek iddiasıydı; karar sayılmaz.
 
 ### A4–A5) Grok + flame-sage
 
@@ -194,7 +194,7 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 
 Reddedilenler: gözlemcinin karar günlüğüne yazması, şimdi Faz 1 ya da LLM araştırmacısı başlatmak, Claim sınıflarını bu turda birleştirmek, ikinci skip testi. Açık konu: Claim sınıfı birleşmesi takvimsiz.
 
-**Mimari haritadaki yeri:** (1) deterministik dünya çekirdeği katmanının kuralları artık karar kaydında yazılı. Yeni kod yok; boşluk kapatmıyor, mevcut çekirdeği kayda geçiriyor. Runtime, env/verifier, world-model, bellek ve gerçek zamanlı katmanlar hâlâ bilinçli olarak yok. Radardaki “Ortak kararlar / Korunan” listesi bu günlükle uyumlu; çelişki yok.
+**Mimari haritadaki yeri:** (1) projenin deterministik dünya çekirdeği katmanının kuralları artık karar kaydında yazılı. Yeni kod yok; boşluk kapatmıyor, mevcut çekirdeği kayda geçiriyor. Runtime, env/verifier, world-model, bellek ve gerçek zamanlı katmanlar hâlâ bilinçli olarak yok. Radardaki “Ortak kararlar / Korunan” listesi bu günlükle uyumlu; çelişki yok.
 
 **Bu turda radar notu:** Mimari kararlar sabit. Değişen iki şey var: karar günlüğü artık omurganın kanonik kaydı, ve flame-sage Tur 9–14 yeniden kamuya açık. Yeni OSS adayı yok.
 
@@ -205,6 +205,14 @@ Reddedilenler: gözlemcinin karar günlüğüne yazması, şimdi Faz 1 ya da LLM
 | A3 DeepSeek `ulwkayx5qsy0otx8vd` | curl OK (`/api/v0/share/content`; sayfa WAF) | Önceki `japybl2d3ejtr7ch0i` ile aynı zincir (mesaj 51’in devamı) ama bu paylaşım yalnızca mesaj 52–53. Transkript aynı değil, daha kısa. Yeni tur: kural tabanlı `run_mission.py` / `agents/` notu. Faz 0 kapandı ve Faz 1 iddiası DeepSeek’e ait; panele işlenmedi. |
 
 **Bu turda radar notu:** Yalnızca A3 kanonik URL değişti. Mimari karar listesi aynı. Yeni OSS yok.
+
+## Paylaşım güncellemesi — 2026-10-05 (A3 URL `wfbt7…`)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A3 DeepSeek `wfbt7ngfw6r7f8whwq` | curl OK (`/api/v0/share/content`; sayfa WAF) | Önceki `ulwkayx5qsy0otx8vd` ile **farklı** (mesaj 54–55 vs 52–53; ham 7768 vs 26752; görünen 4123 vs 4057). DeepSeek iddiası: “heartbeat” maddesini geri çekip madde 4’ü **Lease + timeout** yapıyor; 6 maddeye test referansı ekliyor. Karar sayılmaz. |
+
+**Bu turda radar notu:** Yalnızca A3 kanonik URL → `wfbt7ngfw6r7f8whwq`. Mimari karar listesi aynı. Yeni OSS yok.
 
 ## Günlük / dönemsel notlar
 
@@ -220,3 +228,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-05 (gece):** Repo `0ddddfe`: korunan omurga `decisions/DECISION-LOG.md`’ye işlendi (karar kaydı orası, radar değil). flame-sage Tur 9–14 yeniden açık; özetleri eklendi. Diğer paylaşımlar değişmedi. Yeni OSS yok.
 - **2026-10-05 (gece+):** Kullanıcı kuralı: yeni paylaşım URL’si içerik aynı olsa bile kanonik olur. A3 DeepSeek → `japybl2d3ejtr7ch0i` (eski `wcnvcw1…` değiştirildi).
 - **2026-10-05 (gece++):** A3 DeepSeek kanonik URL → `ulwkayx5qsy0otx8vd` (önceki `japybl2d3ejtr7ch0i` değiştirildi). Paylaşım daha kısa; transkript aynı değil. Karar listesi değişmedi.
+- **2026-10-05 (gece+++):** A3 DeepSeek kanonik URL → `wfbt7ngfw6r7f8whwq` (önceki `ulwkayx5qsy0otx8vd`; `japybl…` / `wcnvcw…` yalnızca provenance). İçerik `ulwkay…` ile aynı değil (heartbeat düzeltmesi iddiası). Karar listesi değişmedi.
