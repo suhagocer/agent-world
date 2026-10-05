@@ -194,7 +194,7 @@ Stitch → Antigravity → Jules. Ollama = Model Router (ürün değil).
 
 Reddedilenler: gözlemcinin karar günlüğüne yazması, şimdi Faz 1 ya da LLM araştırmacısı başlatmak, Claim sınıflarını bu turda birleştirmek, ikinci skip testi. Açık konu: Claim sınıfı birleşmesi takvimsiz.
 
-**Mimari haritadaki yeri:** (1) projenin deterministik dünya çekirdeği katmanının kuralları artık karar kaydında yazılı. Yeni kod yok; boşluk kapatmıyor, mevcut çekirdeği kayda geçiriyor. Runtime, env/verifier, world-model, bellek ve gerçek zamanlı katmanlar hâlâ bilinçli olarak yok. Radardaki “Ortak kararlar / Korunan” listesi bu günlükle uyumlu; çelişki yok.
+**Mimari haritadaki yeri:** (1) deterministik dünya çekirdeği katmanının kuralları artık karar kaydında yazılı. Yeni kod yok; boşluk kapatmıyor, mevcut çekirdeği kayda geçiriyor. Runtime, env/verifier, world-model, bellek ve gerçek zamanlı katmanlar hâlâ bilinçli olarak yok. Radardaki “Ortak kararlar / Korunan” listesi bu günlükle uyumlu; çelişki yok.
 
 **Bu turda radar notu:** Mimari kararlar sabit. Değişen iki şey var: karar günlüğü artık omurganın kanonik kaydı, ve flame-sage Tur 9–14 yeniden kamuya açık. Yeni OSS adayı yok.
 
