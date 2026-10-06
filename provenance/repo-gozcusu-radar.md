@@ -54,7 +54,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 | # | Model | Kaynak |
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6ac43f6c-a2bc-83eb-80a9-e7b4628d9847 (önceki `6aa7584b-...`; eski link artık “Conversation has been deleted” gösteriyor; aynı sohbet uzadı) |
-| A2 | Gemini | https://share.gemini.google/OfxANwjNxbQc → https://gemini.google.com/share/318c86ecfe20 (önceki `2e9F8NNsviiG` → `ed8f5044c1cc`, aynı sohbet uzamıştı; daha eski `1tuZ3H4PH5af` → `d272dd7f8df1`, `rbdXh…`/`9dPr…`/`TXv3…`; sayfada görünen kısa link `2n3FouKBZlz8`; yeni linkin içeriği bir sonraki browser okumasında kontrol edilecek) |
+| A2 | Gemini | https://share.gemini.google/OfxANwjNxbQc → https://gemini.google.com/share/318c86ecfe20 (önceki `2e9F8NNsviiG` → `ed8f5044c1cc`, aynı sohbet uzamıştı; daha eski `1tuZ3H4PH5af` → `d272dd7f8df1`, `rbdXh…`/`9dPr…`/`TXv3…`; önceki sayfada görünen kısa link `2n3FouKBZlz8`; yeni sayfada görünen kısa link `tE7dlQK7I3vg`; içerik 2026-10-06 öğleden sonra browser ile kontrol edildi: aynı sohbet uzamış) |
 | A3 | DeepSeek | https://chat.deepseek.com/share/nkfqofqcbfip0vlc94 (önceki `wfbt7ngfw6r7f8whwq`; daha eski `ulwkayx5qsy0otx8vd` / `japybl2d3ejtr7ch0i` / `wcnvcw1pdaacp6z5o2`) |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_e6ce9fde-ed6e-4da0-ad70-18f5e3f50be8 (önceki `c2hhcmQtMg_120d0cd7-…`) |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
@@ -72,7 +72,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
 
-### A2) Gemini (kanonik kısa link `OfxANwjNxbQc` → `318c86ecfe20`, içerik browser okumasıyla henüz kontrol edilmedi; önceki `2e9F8NNsviiG` → `ed8f5044c1cc`; daha eski `1tuZ3H4PH5af` → `d272dd…`)
+### A2) Gemini (kanonik kısa link `OfxANwjNxbQc` → `318c86ecfe20`, browser ile kontrol edildi: aynı sohbet, yayın 6 Eki 06:17; önceki `2e9F8NNsviiG` → `ed8f5044c1cc`; daha eski `1tuZ3H4PH5af` → `d272dd…`)
 
 Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** / `TXv3…` (aynı içerik, son yayın ~05:13).
 
@@ -84,7 +84,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok (kanonik `c2hhcmQtMg_e6ce9fde-…`; önceki `c2hhcmQtMg_120d0cd7-…`) + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 26’ya kadar** (v1.0–v1.29; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` (v1.19); 2026-10-06 sabah `/tur-17`…`/tur-26` açıldı (v1.20–v1.29), `/tur-27` 404.
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 27’ye kadar** (v1.0–v1.30; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` (v1.19); 2026-10-06 sabah `/tur-17`…`/tur-26` açıldı (v1.20–v1.29); 2026-10-06 öğleden sonra `/tur-27` (v1.30), `/tur-28` 404.
 
 ### A6) Claude (kanonik `1c1203ca-…`, URL değişmedi; browser doğrulandı)
 
@@ -309,6 +309,29 @@ Not: önceki turlarda A4 için yazılan “curl OK” büyük olasılıkla yaln�
 
 **Bu turda radar notu:** Mimari karar listesi değişmedi. Doğrulanmış farklar: flame-sage Tur 17–26 yayında, karar günlüğüne `bb55155` ek satırı geldi. v2–v6 paketlerinin hiçbiri main’e yazılmadı. Yeni OSS adayı yok.
 
+## Paylaşım güncellemesi — 2026-10-06 (öğleden sonra kontrol)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT `6ac43f6c-…` | curl (HTML içi akış JSON) | Değişmedi: 1.090 düğüm yolu, görünen 252 mesaj; kimlik + metin birebir aynı. |
+| A2 Gemini `OfxANwjNxbQc` → `318c86ecfe20` | browser (alt ajan) | **Değişiklik (ilk içerik okuması):** aynı “agent world” sohbeti uzamış; yayın 2026-10-06 06:17 (önceki `ed8f…` 03:24); ~87.128 → ~89.900 karakter. “Faz 0 Başarıyla Kapatıldı, Faz 1 (Gerçek LLM Entegrasyonu) Başlıyor” turundan sonra tek yeni tur var (kullanıcı “Gel.son.modeller” dosyası + “Yeni dosya”). Sayfada görünen kısa link `tE7dlQK7I3vg` (kullanıcı vermedi; yalnız provenance). |
+| A3 DeepSeek `nkfqofqcbfip0vlc94` | curl (`/api/v0/share/content`) | Değişmedi: 54 mesaj; fark yalnız imzalı dosya adreslerinde (`signed_path`). |
+| A4 Grok `c2hhcmQtMg_e6ce9fde-…` | curl JSON uç noktası | Değişmedi: 62 yanıt, kimlik + metin aynı. Yalnız `modifyTime` (08:31Z) değişti. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-27` açıldı (v1.30 “Koşu”, 6 Eki). `/tur-28`…`/tur-40` 404. |
+| A6 Claude `1c1203ca-…` | browser (alt ajan) | Değişmedi: son mesaj aynı (`0ddddfe` sorusu, artık “14 saat önce”); ~37.300 karakter. |
+| E1 / E3 ChatGPT | curl (HTML içi akış JSON) | Değişmedi (541 / 46 mesaj, metin aynı). |
+| E2 Claude v3 | browser (alt ajan) | Değişmedi: 2 tur, ~4.000 karakter, son mesaj 12 Eyl (“Agent world v3 kanonik”). |
+
+**Gemini yeni tur (Gemini iddiası, karar değildir):** “run_mission.py ile 18/18 test başarıyla geçildi … Faz 0 artık teknik olarak mühürlenmiştir.”; `0ddddfe` satırı için Claude ve DeepSeek’in “append-only” düzeltme önerisini destekliyor; Panel Elçisi için önerdiği mesajda “Grok/Gözcü Bot, DECISION-LOG.md dosyasına şu açıklayıcı satırı ‘append’ (ekle) olarak girsin: ‘2026-10-06 | Korunan Omurga Detayı | 6 İlke kilitlendi … (4) Lease+timeout (Heartbeat yok) … | Panel Onayı’” ve ardından Faz 1 (Model Router, LLM adaptörleri, Gemini Flash) diyor. Bir önceki turda model adlarının `store.agents → model_class`’tan okunduğunu ve `store.release_lease()` çağrıldığını söylüyor. Gözcü `decisions/`’a yazmaz; netleştirme panel notları madde 15’te.
+
+**flame-sage Tur 27 “Koşu” (v1.30, 6 Eki, Grok okuyucu, “kanon değildir”):** “Ana dal 24/24 ve görev betiği çalışıyor. Zip’teki store ana dal değil. Yüzde 66,7 yer tutucu. Faz 1 yok.”; `run_mission.py` “4 doğrulanmış, 2 itiraz, 39 olay, zincir sağlam, kira sonunda boş”; “Commit e67424d. store.py hâlâ 906b9581, 8873 bayt. Bu tur ben yazmadım.”; zip `store.py` `ec9a398b`, 8.234 bayt, “Ana dal değil”; zip testi eski v6, “release_lease yok diye suite kırılıyor”; “İsim testi hâlâ metod adına bakıyor. 24/24 bunu kapatmaz.”
+
+**Repo kontrolü (main `1724ddf`, bu tur):** Tur 27 sayıları main ile tutuyor: `store.py` sha256 `906b9581…`, 8.873 bayt, `release_lease` yok; `test_faz0.py` 24 test, yerel `python3 test_faz0.py` → “24/24 geçti”; `python3 run_mission.py` → 4 verified, 2 disputed, 39 olay, `verify_chain` SAĞLAM, 360 → 120 token (“66.7% düşüş”, sabit kodlu). Main’de `model_class` yok, alan `model_id`. Karar günlüğünde `bb55155` “2026-10-06 — Düzeltme” satırı duruyor (“Heartbeat is not implemented … Faz 0 is not closed”, sahibi “Grok. Not a panel stamp.”).
+
+**Modeller arası ayrışma (gözlem):** Gemini (06:17 yayını) Faz 0’ı 18/18 ile “mühürlenmiş” sayıyor ve Faz 1’e geçmek istiyor; Grok Tur 27 main’de 24/24’ü doğruluyor ama Faz 0’ın kapanmadığını, %66,7’nin yer tutucu olduğunu söylüyor. Gemini’nin 18/18’i repo dışı paketten; main’de 24 test var. İkisi de heartbeat olmadığında ve `0ddddfe`’nin silinmeyip üstüne ek satır yazılmasında aynı yerde.
+
+**Bu turda radar notu:** Mimari karar listesi değişmedi. Doğrulanmış farklar: Gemini kanonik linkinin ilk içerik okuması (bir yeni tur) ve flame-sage Tur 27. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -329,3 +352,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-06:** Panel URL güncellemesi: A1 ChatGPT → `6ac43f6c-…` (eski `6aa7584b-…` silinmiş), A2 Gemini → `2e9F8…`/`ed8f5044c1cc`, A3 DeepSeek → `nkfqofqcbfip0vlc94`, A4 Grok → `c2hhcmQtMg_e6ce9fde-…`; dördü de aynı sohbetin uzamış hâli. A6 Claude aynı URL’de yeni turlar. Faz 0 kapanışı konusunda modeller ayrışıyor (gözlem); repo `main` 15 test, karar günlüğü `0ddddfe`. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-06 (sabah):** flame-sage `/tur-17`…`/tur-26` açıldı (v1.20–v1.29: Claude v2–v6 kopyaları 18/18…23/23, hiçbiri main değil; `run_mission.py` main’de kırılıyor; replace yok; Faz 0 açık). Karar günlüğü `bb55155` ek satırı. A1/A3/A4/E1/E3 değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-06 (sabah+):** Kullanıcı A2 Gemini için yeni paylaşım linki verdi: `OfxANwjNxbQc` → `318c86ecfe20` (curl yönlendirmesi). Kalıcı kural gereği kanonik oldu; önceki `2e9F8NNsviiG` → `ed8f5044c1cc` yalnızca provenance. İçerik kontrolü bir sonraki browser okumasını bekliyor (curl gövdesi yalnızca kabuk). Panel Elçisi bildirimi (doğrulanmadı): Tur 18 aktarımı beş modele 03:10–03:20 UTC arasında gönderildi.
+- **2026-10-06 (öğleden sonra):** A2 Gemini `OfxANwjNxbQc` → `318c86ecfe20` browser ile okundu: aynı sohbet, yayın 06:17, bir yeni tur (18/18 ile “Faz 0 mühürlendi”, Gözcü’ye DECISION-LOG append önerisi; panel notları madde 15). flame-sage `/tur-27` açıldı (v1.30: main 24/24, zip store ana dal değil, %66,7 yer tutucu, Faz 1 yok). A1/A3/A4/A6/E1/E2/E3 değişmedi. Karar listesi değişmedi. Yeni OSS yok.
