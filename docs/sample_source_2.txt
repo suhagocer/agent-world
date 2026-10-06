@@ -1,0 +1,5 @@
+AGENT WORLD — Örnek Kaynak Belge 2 (ikinci mission: skill/memory reuse testi)
+
+FACT: Köyceğiz Gölü, Dalyan kanalı aracılığıyla Akdeniz'e bağlanır.
+FACT: Sultaniye Kaplıcaları, Köyceğiz Gölü kıyısında bulunan termal bir tesistir.
+FACT: Köyceğiz, Türkiye'nin başkentidir.
