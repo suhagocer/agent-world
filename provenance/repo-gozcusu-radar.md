@@ -84,7 +84,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok (kanonik `c2hhcmQtMg_e6ce9fde-…`; önceki `c2hhcmQtMg_120d0cd7-…`) + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 16’ya kadar** (v1.0–v1.19; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` açıldı (v1.19), `/tur-17` hâlâ 404.
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 26’ya kadar** (v1.0–v1.29; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` (v1.19); 2026-10-06 sabah `/tur-17`…`/tur-26` açıldı (v1.20–v1.29), `/tur-27` 404.
 
 ### A6) Claude (kanonik `1c1203ca-…`, URL değişmedi; browser doğrulandı)
 
@@ -277,6 +277,38 @@ Not: önceki turlarda A4 için yazılan “curl OK” büyük olasılıkla yaln�
 
 **Bu turda radar notu:** Dört panel URL’si yenilendi (A1–A4); A6 aynı URL’de uzadı. Mimari karar listesi ve karar günlüğü değişmedi. Yeni OSS adayı yok.
 
+## Paylaşım güncellemesi — 2026-10-06 (sabah kontrol)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT `6ac43f6c-…` | curl (HTML içi akış JSON) | Değişmedi: 1.090 düğüm yolu, görünen 252 mesaj; kimlik + metin birebir aynı. |
+| A2 Gemini `2e9F8…` → `ed8f5044c1cc` | browser (alt ajan) | Değişmedi: yayın 2026-10-06 03:24, 87.128 karakter; son tur aynı (“Faz 0 Başarıyla Kapatıldı, Faz 1 … Başlıyor”). |
+| A3 DeepSeek `nkfqofqcbfip0vlc94` | curl (`/api/v0/share/content`) | Değişmedi: ham 406.949 bayt, öncekiyle bit eş. |
+| A4 Grok `c2hhcmQtMg_e6ce9fde-…` | curl JSON uç noktası | Değişmedi: 62 yanıt, metin aynı. Yalnız `modifyTime` (06:17Z) ve sandbox önizleme adresi değişti. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-17`…`/tur-26` açıldı (v1.20–v1.29, hepsi 6 Eki). `/tur-27` ve sonrası 404. `/tur-16` metni aynı (yalnız menü). |
+| A6 Claude `1c1203ca-…` | browser (alt ajan) | Değişmedi: son mesaj aynı (`0ddddfe` sorusu, “7 saat önce”); sayfa ~37.313 karakter, fark kenar çubuğu / göreli zaman. |
+| E1 / E3 ChatGPT | curl (HTML içi akış JSON) | Değişmedi (541 / 46 mesaj, metin aynı). |
+| E2 Claude v3 | — | Bu turda kontrol edilmedi (önceki turlarda değişmedi). |
+
+**flame-sage Tur 17–26 (v1.20–v1.29, 6 Eki, Grok okuyucu, “kanon değildir”):**
+
+- Tur 17 “İkinci paket”: Claude v2 bu sohbette 18/18; kira bitişte boş ama olay yazılmıyor; kopyada `family_verified` varsayılanı `True`; “Bu paket repodaki store.py değil”; ChatGPT ve Gemini’nin Faz 1 isteğine “Geçilmez”.
+- Tur 18 “Elçi”: ad Suha; `0ddddfe` altındaki not bölümünü özetliyor; Claude depo iznini alamadı, yalnız tablo hücresini gördü; “Grok o release_lease’i yazmadı”; “Gemini Flash bağlanmaz”.
+- Tur 19 “Düzeltme”: Claude v3 20/20 ama iki yeni test yazma yolunu kanıtlamıyor; kira hâlâ olay yazmıyor; 6 Ekim satırı `bb55155`, eski satır duruyor.
+- Tur 20 “v4”: v4 21/21, kira artık `lease.acquire/release/expire` olayı yazıyor; `family_verified` hâlâ `True`; ChatGPT/Gemini/DeepSeek’in “20/20 mührü” bu düzeltmeden önce yazılmış; “Oy çokluğu mühür değil”.
+- Tur 21 “v5”: v5 22/22, eksik `family_verified` artık `False`; aynı ailede `can_write_verified` hâlâ `True`; v5 `store.py` sha256 `51598b5f`.
+- Tur 22 “Hash”: v6 23/23, kapı artık yalnız verified; dosyalar eşit değil (v6 `store.py` `80d23825`, 19.023 bayt; repo `906b9581`, 8.873 bayt).
+- Tur 23 “Eşit değil”: dört dosyanın tam sha256’ları; hiçbiri v6 ile aynı değil; “Üzerine yazmak çekirdeği siler”.
+- Tur 24 “İki program”: “Claude üzerine yazmayı geri çekti. Replace yok.”; ChatGPT’nin `292026c` / `80f8b172` değerleri git blob SHA-1, dosya sha256 değil.
+- Tur 25 “Sayım”: test hash’i 64 karakter, 62 değil; “Claude bu tur tersine döndü”, ChatGPT/Gemini/DeepSeek üzerine yazmama diyor.
+- Tur 26 “Kırık”: v6 `run_mission.py` main `store.py` ile koşunca ilk görevde kırıldı (`model_class` yok, çekirdekte `model_id`; `release_lease` yok); “Altı dosya eklenmedi”; Faz 0 kapanmadı.
+
+**Repo kontrolü (main, bu tur):** Grok’un sayıları main ile tutuyor. `store.py` sha256 `906b9581…`, 8.873 bayt (git blob `292026c`, değişmedi); `test_faz0.py` sha256 `34b0a2c0…` (64 karakter), 15 test (blob `80f8b17`); `context_builder.py` sha256 `3ac9b248…`; `run_mission.py` 404. `store.py`’de `release_lease` metodu yok; `lease.acquire` / `lease.release` olayları var (`lease.release` `expire_leases` içinden); `family_verified` varsayılanı `False`; `can_write_verified` = `evaluate_verification(...) == "verified"`; ajan alanı `model_id`. Karar günlüğüne `bb55155` (2026-10-06T03:14Z) ile “2026-10-06 — Düzeltme” satırı eklendi; sahibi “Grok. Not a panel stamp.”; 3 Ekim satırı duruyor.
+
+**Modeller arası ayrışma (gözlem):** Grok Tur 17–26’ya göre ChatGPT, Gemini ve DeepSeek Claude paketini 20/20 ile onaylamış, sonra üçü de üzerine yazmaya karşı çıkmış; Claude üzerine yazmayı önce geri çekmiş, Tur 25’e göre tekrar istemiş. Bu turlar A1/A3/A4 paylaşımlarına henüz yansımadı (o linkler değişmedi), yani yalnız Grok’un aktarımı.
+
+**Bu turda radar notu:** Mimari karar listesi değişmedi. Doğrulanmış farklar: flame-sage Tur 17–26 yayında, karar günlüğüne `bb55155` ek satırı geldi. v2–v6 paketlerinin hiçbiri main’e yazılmadı. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -295,3 +327,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-05 (akşam):** Tam paylaşım kontrolü. flame-sage `/tur-15` açıldı (v1.18 “Yan kopya”: Claude kopyası 16/16 ama fail-open farklar; `store.py` değişmez). Diğer tüm linkler değişmedi (Gemini/Claude browser ile doğrulandı). Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-05/06 (gece):** Tam paylaşım kontrolü (Gemini browser üst ajan: değişmedi). flame-sage `/tur-16` açıldı (v1.19 “Aynı koşu”: 16/16 yeniden; heartbeat/günlük/store değişmez). Diğer curl linkleri değişmedi; Claude yalnızca kabuk. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-06:** Panel URL güncellemesi: A1 ChatGPT → `6ac43f6c-…` (eski `6aa7584b-…` silinmiş), A2 Gemini → `2e9F8…`/`ed8f5044c1cc`, A3 DeepSeek → `nkfqofqcbfip0vlc94`, A4 Grok → `c2hhcmQtMg_e6ce9fde-…`; dördü de aynı sohbetin uzamış hâli. A6 Claude aynı URL’de yeni turlar. Faz 0 kapanışı konusunda modeller ayrışıyor (gözlem); repo `main` 15 test, karar günlüğü `0ddddfe`. Karar listesi değişmedi. Yeni OSS yok.
+- **2026-10-06 (sabah):** flame-sage `/tur-17`…`/tur-26` açıldı (v1.20–v1.29: Claude v2–v6 kopyaları 18/18…23/23, hiçbiri main değil; `run_mission.py` main’de kırılıyor; replace yok; Faz 0 açık). Karar günlüğü `bb55155` ek satırı. A1/A3/A4/E1/E3 değişmedi. Karar listesi değişmedi. Yeni OSS yok.
