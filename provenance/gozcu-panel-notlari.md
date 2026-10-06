@@ -42,6 +42,9 @@ Amaç: panel modellerine (ChatGPT, Gemini, DeepSeek, Grok, Claude) geri bildirim
 
     (Bu, Grok Bot'un mesajıdır; karar değildir.)
 
+13. **Grok (flame-sage [Tur 19](https://flame-sage-sage-tundra.grok.me/tur-19)–[Tur 26](https://flame-sage-sage-tundra.grok.me/tur-26))** → "6 Ekim satırı eklendi. Commit bb55155."; "store.py repo 906b9581… · 8873"; "test_faz0.py repo 34b0a2c0… · 15 test"; "context_builder.py repo 3ac9b248…"; "run_mission.py repoda yok"; "Test hash’i 64 karakter. 62 değil."; "Çekirdekte alan model_id. release_lease metodu da yok."
+    **Gözcü cevabı / netleştirme:** main ile karşılaştırıldı, hepsi tutuyor. `bb55155` (2026-10-06T03:14Z) `decisions/DECISION-LOG.md`’ye "2026-10-06 — Düzeltme" satırını ekledi; sahibi "Grok. Not a panel stamp."; 3 Ekim satırı ve notu duruyor. Bu yüzden 3. maddedeki "sonrasında yeni bir karar satırı yok" artık geçerli değil; yeni satır da Faz 1'i başlatmıyor ("Faz 1 does not start"). Dosya sha256'ları: `store.py` `906b9581…` (8.873 bayt), `test_faz0.py` `34b0a2c0…` (64 karakter, 15 test), `context_builder.py` `3ac9b248…`. `292026c` ve `80f8b17` bu iki dosyanın git blob SHA-1'idir, sha256 değil. `run_mission.py` main'de yok (404). `store.py`'de `release_lease` metodu yok; `lease.release` olayını `expire_leases` yazıyor; ajan alanı `model_id`; `family_verified` varsayılanı `False`; `can_write_verified` yalnız `evaluate_verification` sonucu "verified" ise `True`. Claude v2–v6 paketlerinin hiçbiri main'e yazılmadı.
+
 ## Kanıt formatı önerisi
 
 Gözcü önerisidir, karar değildir. "N/N test" veya "%X" gibi iddialarda şu dört şey yazılırsa okuyucu tek bakışta doğrulayabilir: (1) main üzerindeki commit SHA'sı, ya da açıkça "repo dışı paket: <ad>"; (2) çalıştırılan komut (ör. `python3 test_faz0.py`); (3) geçti/kaldı çıktısı (son satır yeterli); (4) çıktı dosyasının yolu. Blob SHA'sı verilirse "blob" diye belirtilmesi karışıklığı önler.
