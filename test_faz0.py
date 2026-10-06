@@ -200,8 +200,140 @@ def test_verified_fail_closed() -> None:
     assert s.can_write_verified("missing", "claude-x") is False
 
 
+
+def test_skip_over_keeps_small_after_sort() -> None:
+    claims = [
+        Claim("big", "b", "unverified", 7000, recency=1),
+        Claim("small", "s", "verified", 500, recency=0),
+    ]
+    ctx = build_context({"agent_id": "a"}, {"id": "m"}, claims)
+    assert ctx["claims"][0] == "small"
+    assert set(ctx["claims"]) == {"small", "big"}
+
+
+def test_claim_upsert_cannot_self_declare_verified() -> None:
+    s = Store()
+    s.append_event("world", "mission.upsert", {"id": "m1", "objective": "x"})
+    s.append_event("producer-1", "claim.upsert", {
+        "id": "c1", "mission_id": "m1", "statement": "X is true", "status": "verified",
+    })
+    assert s.claims["c1"].status == "unverified"
+
+
+def test_verify_claim_recomputes_status_end_to_end() -> None:
+    s = Store()
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-4o", "provider": "openai",
+        "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "claude-x", "provider": "anthropic",
+        "family": "claude-family", "family_verified": True,
+    })
+    s.append_event("world", "mission.upsert", {"id": "m1", "objective": "x"})
+    s.append_event("producer-1", "claim.upsert", {
+        "id": "c1", "mission_id": "m1", "statement": "X",
+    })
+    s.verify_claim("c1", producer_model="gpt-4o",
+                   critic_model="claude-x", source="doc.pdf#p3")
+    assert s.claims["c1"].status == "verified"
+    assert s.claims["c1"].source == "doc.pdf#p3"
+
+
+def test_hash_covers_parent_event_id() -> None:
+    s1 = Store()
+    e1 = s1.append_event("world", "agent.upsert", {"agent_id": "p1"},
+                          mission_id="m1", parent_event_id="parent-A")
+    s2 = Store()
+    e2 = s2.append_event("world", "agent.upsert", {"agent_id": "p1"},
+                          mission_id="m1", parent_event_id="parent-B")
+    assert e1.hash != e2.hash
+
+
+def test_can_write_verified_excludes_same_family_weak_case() -> None:
+    s = Store()
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-4o", "provider": "openai",
+        "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "gpt-4o-mini", "provider": "openai",
+        "family": "gpt-family", "family_verified": True,
+    })
+    s.append_event("world", "model.upsert", {
+        "model_id": "claude-x", "provider": "anthropic",
+        "family": "claude-family", "family_verified": True,
+    })
+    assert s.evaluate_verification("gpt-4o", "gpt-4o-mini") == "verified-weak"
+    assert s.can_write_verified("gpt-4o", "gpt-4o-mini") is False
+    assert s.evaluate_verification("gpt-4o", "claude-x") == "verified"
+    assert s.can_write_verified("gpt-4o", "claude-x") is True
+
+
+def test_unspecified_family_verified_defaults_fail_closed() -> None:
+    s = Store()
+    s.append_event("world", "model.upsert", {
+        "model_id": "mystery-model", "provider": "unknown",
+        "family": "mystery-family",
+    })
+    assert s.models["mystery-model"].family_verified is False
+    s.append_event("world", "model.upsert", {
+        "model_id": "claude-x", "provider": "anthropic",
+        "family": "claude-family", "family_verified": True,
+    })
+    assert s.evaluate_verification("mystery-model", "claude-x") == "unverified"
+
+
+def test_lease_operations_are_event_logged() -> None:
+    s = Store()
+    s.append_event("world", "agent.upsert", {"agent_id": "p1"})
+    s.append_event("world", "mission.upsert", {"id": "m1", "objective": "x"})
+    n_before = len(s.events)
+    s.acquire_lease("m1", "p1", ttl=1)
+    assert len(s.events) == n_before + 1
+    assert s.events[-1].type == "lease.acquire"
+    assert s.events[-1].mission_id == "m1"
+    s.missions["m1"].lease_until = _now() - timedelta(seconds=1)
+    expired = s.expire_leases()
+    assert expired == 1
+    assert s.events[-1].type == "lease.release"
+    assert s.events[-1].actor_id == "world"
+
+
+def test_single_write_path_no_direct_setters() -> None:
+    s = Store()
+    public_methods = {
+        name for name in dir(s)
+        if not name.startswith("_") and callable(getattr(s, name))
+    }
+    forbidden = {
+        "add_agent", "add_mission", "add_claim", "add_model",
+        "set_agent", "set_mission", "set_claim", "set_model",
+        "update_agent", "update_mission", "update_claim",
+    }
+    assert public_methods.isdisjoint(forbidden)
+    assert "append_event" in public_methods
+
+
+def test_world_agent_model_are_distinct_types() -> None:
+    from store import Agent, Model
+    agent_fields = set(Agent.__dataclass_fields__)
+    model_fields = set(Model.__dataclass_fields__)
+    assert "family" not in agent_fields
+    assert "reputation" not in model_fields
+    assert agent_fields != model_fields
+
 def main() -> None:
     tests = [
+        test_skip_over_keeps_small_after_sort,
+        test_claim_upsert_cannot_self_declare_verified,
+        test_verify_claim_recomputes_status_end_to_end,
+        test_hash_covers_parent_event_id,
+        test_can_write_verified_excludes_same_family_weak_case,
+        test_unspecified_family_verified_defaults_fail_closed,
+        test_lease_operations_are_event_logged,
+        test_single_write_path_no_direct_setters,
+        test_world_agent_model_are_distinct_types,
         test_budget_overflow,
         test_quarantine_filter,
         test_contradiction_carry,
