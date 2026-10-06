@@ -54,7 +54,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 | # | Model | Kaynak |
 |---|--------|--------|
 | A1 | ChatGPT (kök fikir) | https://chatgpt.com/share/6ac43f6c-a2bc-83eb-80a9-e7b4628d9847 (önceki `6aa7584b-...`; eski link artık “Conversation has been deleted” gösteriyor; aynı sohbet uzadı) |
-| A2 | Gemini | https://share.gemini.google/2e9F8NNsviiG → https://gemini.google.com/share/ed8f5044c1cc (önceki `1tuZ3H4PH5af` → `d272dd7f8df1`; daha eski `rbdXh…`/`9dPr…`/`TXv3…`; sayfada görünen kısa link `2n3FouKBZlz8`; aynı sohbet uzadı) |
+| A2 | Gemini | https://share.gemini.google/OfxANwjNxbQc → https://gemini.google.com/share/318c86ecfe20 (önceki `2e9F8NNsviiG` → `ed8f5044c1cc`, aynı sohbet uzamıştı; daha eski `1tuZ3H4PH5af` → `d272dd7f8df1`, `rbdXh…`/`9dPr…`/`TXv3…`; sayfada görünen kısa link `2n3FouKBZlz8`; yeni linkin içeriği bir sonraki browser okumasında kontrol edilecek) |
 | A3 | DeepSeek | https://chat.deepseek.com/share/nkfqofqcbfip0vlc94 (önceki `wfbt7ngfw6r7f8whwq`; daha eski `ulwkayx5qsy0otx8vd` / `japybl2d3ejtr7ch0i` / `wcnvcw1pdaacp6z5o2`) |
 | A4 | Grok | https://grok.com/share/c2hhcmQtMg_e6ce9fde-ed6e-4da0-ad70-18f5e3f50be8 (önceki `c2hhcmQtMg_120d0cd7-…`) |
 | A5 | Grok tur okuyucu | https://flame-sage-sage-tundra.grok.me |
@@ -72,7 +72,7 @@ Fikir + karar kaynağı (öncelikli takip). Diğer ajanlar buradan yararlanabili
 
 İnsan → ajan → dünya katmanı. Yetki seviyeleri; A2A; web MVP. Sonra: ajanların keşfedip girdiği dünya, resident ajanlar, Need Engine, multi-model, sandbox.
 
-### A2) Gemini (browser; kanonik kısa link `2e9F8NNsviiG` → `ed8f5044c1cc`, aynı sohbet uzadı; önceki `1tuZ3H4PH5af` → `d272dd…`)
+### A2) Gemini (kanonik kısa link `OfxANwjNxbQc` → `318c86ecfe20`, içerik browser okumasıyla henüz kontrol edilmedi; önceki `2e9F8NNsviiG` → `ed8f5044c1cc`; daha eski `1tuZ3H4PH5af` → `d272dd…`)
 
 Event-sourced, provenance-first multi-agent OS (chat/3D değil). Agent Engine vs World Engine; LLM değiştirilebilir biliş sağlayıcısı; Multi-Model Router (görev/maliyet/gecikme). Append-only log → projeksiyonlar; lease + heartbeat + timeout. Kanıt sözleşmesi (factual/executable/judgmental/procedural); karantina retrieval’a girmez. Model çeşitliliği (producer ≠ critic ailesi). Maliyet merdiveni + mission bütçesi. Need Engine eşikli. Chaos Agent → Critic. Dış: World Card / A2A / MCP. Ana tehlike: ünvanlı sohbet odası. Operasyonel: Faz 0 dogfood; golden Context Builder; `agent_projection` + `model_registry`; bilinmeyen aile → `unverified`; altıncı model yok. Link zinciri: `9dPr…` → `rbdXh…` → **`1tuZ3…`** / `TXv3…` (aynı içerik, son yayın ~05:13).
 
@@ -328,3 +328,4 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-05/06 (gece):** Tam paylaşım kontrolü (Gemini browser üst ajan: değişmedi). flame-sage `/tur-16` açıldı (v1.19 “Aynı koşu”: 16/16 yeniden; heartbeat/günlük/store değişmez). Diğer curl linkleri değişmedi; Claude yalnızca kabuk. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-06:** Panel URL güncellemesi: A1 ChatGPT → `6ac43f6c-…` (eski `6aa7584b-…` silinmiş), A2 Gemini → `2e9F8…`/`ed8f5044c1cc`, A3 DeepSeek → `nkfqofqcbfip0vlc94`, A4 Grok → `c2hhcmQtMg_e6ce9fde-…`; dördü de aynı sohbetin uzamış hâli. A6 Claude aynı URL’de yeni turlar. Faz 0 kapanışı konusunda modeller ayrışıyor (gözlem); repo `main` 15 test, karar günlüğü `0ddddfe`. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-06 (sabah):** flame-sage `/tur-17`…`/tur-26` açıldı (v1.20–v1.29: Claude v2–v6 kopyaları 18/18…23/23, hiçbiri main değil; `run_mission.py` main’de kırılıyor; replace yok; Faz 0 açık). Karar günlüğü `bb55155` ek satırı. A1/A3/A4/E1/E3 değişmedi. Karar listesi değişmedi. Yeni OSS yok.
+- **2026-10-06 (sabah+):** Kullanıcı A2 Gemini için yeni paylaşım linki verdi: `OfxANwjNxbQc` → `318c86ecfe20` (curl yönlendirmesi). Kalıcı kural gereği kanonik oldu; önceki `2e9F8NNsviiG` → `ed8f5044c1cc` yalnızca provenance. İçerik kontrolü bir sonraki browser okumasını bekliyor (curl gövdesi yalnızca kabuk). Panel Elçisi bildirimi (doğrulanmadı): Tur 18 aktarımı beş modele 03:10–03:20 UTC arasında gönderildi.
