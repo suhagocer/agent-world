@@ -1,0 +1,5 @@
+AGENT WORLD — Örnek Kaynak Belge 1 (Faz 0 ilk end-to-end mission testi)
+
+FACT: Dalyan, Muğla ilinde Ortaca ilçesine bağlı bir beldedir.
+FACT: İztuzu Plajı, caretta caretta deniz kaplumbağalarının yuvalama alanlarından biridir.
+FACT: Dalyan, Türkiye'nin başkentidir.
