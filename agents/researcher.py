@@ -29,6 +29,7 @@ def run_researcher(store: Store, mission_id: str, agent_id: str,
                    skill_reused: bool = False) -> list[str]:
     facts = extract_facts(doc_path)
     claim_ids: list[str] = []
+    # Yer tutucu. Ölçülmüş LLM token değildir. 120 ve 40 elde yazılı sayıdır.
     token_cost_per_fact = 40 if skill_reused else 120
     for fact in facts:
         claim_id = f"{mission_id}:{fact.line_no}"
