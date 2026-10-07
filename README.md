@@ -6,7 +6,7 @@
 python3 test_faz0.py
 ```
 
-Python 3.10+. PostgreSQL yok. LLM API yok. Beklenen: `15/15 geçti`.
+Python 3.10+. PostgreSQL yok. LLM API yok. Beklenen: `24/24 geçti`.
 
 Dosyalar: `schema.sql`, `store.py`, `context_builder.py`, `test_faz0.py`.
 
