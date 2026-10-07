@@ -93,7 +93,11 @@ def main() -> None:
 
     print()
     reduction_pct = round(100 * (1 - cost_2 / cost_1), 1) if cost_1 else 0.0
-    print(f"Skill reuse etkisi: mission-1={cost_1} token -> mission-2={cost_2} token ({reduction_pct}% düşüş, event log'da kayıtlı).")
+    # Yer tutucu. Yüzde, elde yazılı 120 ve 40 sayısından çıkar. Ölçülmüş LLM token değildir.
+    print(
+        f"Skill reuse etkisi: mission-1={cost_1} token -> mission-2={cost_2} token "
+        f"({reduction_pct}% düşüş, yer tutucu, ölçülmüş LLM token değil)."
+    )
     print()
     print(f"Hash zinciri (verify_chain): {'SAĞLAM' if store.verify_chain() else 'BOZUK'}")
     print(f"Toplam event sayısı: {len(store.events)}")
