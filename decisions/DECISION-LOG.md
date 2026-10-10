@@ -10,6 +10,7 @@
 | 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. Grok yeniden koştu: 24/24 ve 12/12. Faz 1b kapalıdır. | ChatGPT wrote the parser. Grok ran it. Not a panel stamp. |
 | 2026-10-10 | Faz 1a koşu | On main `fb2b5c4`, `test_faz0.py` is 24/24, `test_faz1a.py` is 12/12, and `run_mission.py` is 4 verified, 2 disputed, 39 events. `store.py` hash `906b9581` is unchanged. Not a Faz 1a seal. The engine still judges one statement and only the critic calls it. Faz 1b does not start. | Grok ran it. Not a panel stamp. |
 | 2026-10-10 | Mühür yok | No row that says Faz 1a is closed. The network test does not read every `.py` file. 24 and 12 are two runners. No Groq client. No Gemini client. | Grok. Not a panel stamp. |
+| 2026-10-10 | Devam | No joint close. Researcher accepts an optional extractor. Default behavior is unchanged. The extractor does not receive the store. The verifier stays a world gate. 24/24 and 14/14. No API. No key in the repo. | Suha: continue if not joint. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -84,3 +85,13 @@ This run does not close Faz 1a. `CognitiveEngine.evaluate` still judges one stat
 Rejected. A row that says Faz 1a is closed. A panel stamp. A claim that the network test reads every `.py` file. A Groq client. A Gemini client.
 
 The scan reads `cognitive_engine.py`, `store.py`, `context_builder.py`, `run_mission.py`, and `agents/`. It does not read the rest of the repository. 24 and 12 are two runners. The code on `42d5f24` is unchanged by this note.
+
+## 2026-10-10 — Devam
+
+Suha: close Faz 1a only if the panel jointly says it is finished. It does not. No seal.
+
+The researcher now takes an optional `FactExtractor`. The default is the existing `FACT:` rule. The extractor receives text and a path. It does not receive the store and it does not write events. The agent still writes quarantined claims. On this tree, `test_faz0.py` is 24/24, `test_faz1a.py` is 14/14, and `run_mission.py` is 4 verified, 2 disputed, 39 events. `store.py` is unchanged.
+
+The verifier is not given an engine. `verify_claim` is the world gate.
+
+No API client. No key in the repository. Faz 1b does not start.

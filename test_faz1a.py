@@ -23,7 +23,7 @@ from cognitive_engine import (
     Verdict,
 )
 from store import Store
-from agents.researcher import run_researcher
+from agents.researcher import run_researcher, RuleBasedFactExtractor, extract_facts
 from agents.critic import run_critic
 
 _checks: list[tuple[str, callable]] = []
@@ -183,6 +183,38 @@ def test_no_network_module_exists() -> None:
         src = path.read_text(encoding="utf-8")
         for needle in forbidden:
             assert needle not in src, f"{path} içinde ağ çağrısı: {needle}"
+
+
+class _FixedExtractor:
+    name = "fixed-v1"
+
+    def extract(self, text: str, doc_path: str) -> list[tuple[int, str]]:
+        del text, doc_path
+        return [(3, "Uydurma çıkarıcı iddiası.")]
+
+
+@check
+def test_default_extractor_matches_rule() -> None:
+    facts = extract_facts("docs/sample_source_1.txt")
+    again = RuleBasedFactExtractor().extract(
+        open("docs/sample_source_1.txt", encoding="utf-8").read(),
+        "docs/sample_source_1.txt",
+    )
+    assert [(f.line_no, f.statement) for f in facts] == again
+    assert len(facts) == 3
+
+
+@check
+def test_extractor_cannot_write_store() -> None:
+    s = Store()
+    s.append_event("world", "mission.upsert", {"id": "m1", "objective": "x"})
+    ids = run_researcher(
+        s, "m1", "researcher-1", "model-a", "docs/sample_source_1.txt",
+        extractor=_FixedExtractor(),
+    )
+    assert ids == ["m1:3"]
+    assert s.claims["m1:3"].status == "quarantined"
+    assert all(ev.type in ("mission.upsert", "claim.upsert", "research.extracted") for ev in s.events)
 
 
 def main() -> None:
