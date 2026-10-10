@@ -84,7 +84,7 @@ World ≠ Environment ≠ Agent ≠ Model. Tek event log + projeksiyon. Provenan
 
 ### A4–A5) Grok (kanonik `c2hhcmQtMg_e6ce9fde-…`; önceki `c2hhcmQtMg_120d0cd7-…`) + flame-sage
 
-Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 31’e kadar** (v1.0–v1.34; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` (v1.19); 2026-10-06 sabah `/tur-17`…`/tur-26` açıldı (v1.20–v1.29); 2026-10-06 öğleden sonra `/tur-27` (v1.30); 2026-10-07 gece `/tur-28` (v1.31); 2026-10-07 öğleden sonra `/tur-29` (v1.32); 2026-10-10 gece `/tur-30` (v1.33) ve `/tur-31` (v1.34), `/tur-32` 404.
+Beş-model hakemlik. Event log + projeksiyon; lease. Faz 0 kodu (15/15). DNA / token / Need erken red. flame-sage canlı: **Tur 33’e kadar** (v1.0–v1.36; [flame-sage-sage-tundra.grok.me](https://flame-sage-sage-tundra.grok.me)). 2026-10-05 itibarıyla `/tur-9`…`/tur-14` yeniden açık; 2026-10-05 akşam `/tur-15` (v1.18); 2026-10-05/06 gece `/tur-16` (v1.19); 2026-10-06 sabah `/tur-17`…`/tur-26` açıldı (v1.20–v1.29); 2026-10-06 öğleden sonra `/tur-27` (v1.30); 2026-10-07 gece `/tur-28` (v1.31); 2026-10-07 öğleden sonra `/tur-29` (v1.32); 2026-10-10 gece `/tur-30` (v1.33) ve `/tur-31` (v1.34); 2026-10-10 sabah `/tur-32` (v1.35) ve `/tur-33` (v1.36), `/tur-34` 404.
 
 ### A6) Claude (kanonik `1c1203ca-…`, URL değişmedi; browser doğrulandı)
 
@@ -397,6 +397,29 @@ Not: önceki turlarda A4 için yazılan “curl OK” büyük olasılıkla yaln�
 
 **Bu turda radar notu:** Doğrulanmış farklar: flame-sage Tur 30–31 ve main’de Faz 1a ilk dilimi (`35b8b37` … `baa145f`). Radardaki mimari karar listesi değişmedi. Yeni OSS adayı yok.
 
+## Paylaşım güncellemesi — 2026-10-10 (sabah kontrol)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT `6ac43f6c-…` | curl (HTML içi akış JSON) | Değişmedi: kimlik + metin aynı. |
+| A2 Gemini `OfxANwjNxbQc` → `318c86ecfe20` | browser (alt ajan) | Değişmedi: yayın hâlâ 2026-10-06 06:17, son tur yine “Yeni dosya” / “Panel Elçisi” analizi ve “Panel Onayı” önerisi; ~93.500 karakter (PDF metni; fark sayfa başlıkları). Sayfadaki kısa link bu kez `STAKouqeYeoz` / `64gCxyaUAoEo` (kullanıcı vermedi, yalnız provenance). |
+| A3 DeepSeek `nkfqofqcbfip0vlc94` | curl (`/api/v0/share/content`) | Değişmedi: yanıt bayt bayt aynı. |
+| A4 Grok `c2hhcmQtMg_e6ce9fde-…` | curl JSON uç noktası | Değişmedi: metin aynı; yalnız `modifyTime` (2026-10-10 02:25Z) ve önizleme durumu değişti. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-32` (v1.35 “Koşu”) ve `/tur-33` (v1.36 “Mühür yok”) açıldı, ikisi de 10 Eki. `/tur-34`…`/tur-45` 404. `/tur-31` metni aynı (yalnız menü). |
+| A6 Claude `1c1203ca-…` | browser (alt ajan) | Değişmedi: son mesaj yine `0ddddfe` / append itirazı (“4 gün önce”); 12 kullanıcı mesajı. |
+| E1 / E3 ChatGPT | curl (HTML içi akış JSON) | Değişmedi (metin aynı). |
+| E2 Claude v3 | browser (alt ajan) | Değişmedi: 2 tur, son mesaj 12 Eyl (“Sentezle” → kanonik v3). |
+
+**flame-sage Tur 32 “Koşu” (v1.35, 10 Eki, Grok, “kanon değildir”, kaynak main `fb2b5c4`):** “Koşu bitti, mühür yok”; “Ana dalda 24/24, 12/12 ve görev betiği geçti. Faz 1a kapanmadı. API yok.”; “Görev 4 doğrulanmış, 2 itiraz, 39 olay. store.py değişmedi. Kayıt 42d5f24.”; “Açık ayrıştırma ve tek dosyalık ağ testi artık güncel değil.”; “Faz 1a mührü yazılmadı. Groq yok. Gemini yok. Ücretli API yok.”
+
+**flame-sage Tur 33 “Mühür yok” (v1.36, 10 Eki, Grok, “kanon değildir”, kaynak main `42d5f24`):** “Faz 1a mührü yok. Ağ testi deponun tamamı değil. API yok.”; “Faz 1a kapandı satırı yok. Panel kaşesi yok. Groq yok. Gemini yok. Kayıt 0fd02b0. Kod 42d5f24 ile aynı. 24 ve 12 ayrı koşucu.”; “Ağ testi beş ürün yoluna bakar. Depodaki her .py dosyasına bakmaz.”
+
+**Repo kontrolü (main `0fd02b0`, bu tur):** İki yeni commit var, ikisi de yalnız `decisions/DECISION-LOG.md`: [`42d5f24`](https://github.com/suhagocer/agent-world/commit/42d5f24) (“Record the Faz 1a run. Do not seal the phase.”, 01:56Z; satır “2026-10-10 | Faz 1a koşu … Not a Faz 1a seal … Faz 1b does not start. | Grok ran it. Not a panel stamp.”) ve [`0fd02b0`](https://github.com/suhagocer/agent-world/commit/0fd02b0) (“Reject a Faz 1a seal. No API client.”, 02:25Z; satır “2026-10-10 | Mühür yok … | Grok. Not a panel stamp.”). Kod `baa145f`’ten beri değişmedi. Tur 32–33 iddiaları main ile tutuyor. Yerel koşu (main `0fd02b0`): `python3 test_faz0.py` → “24/24 geçti”; `python3 test_faz1a.py` → “12/12 geçti. LLM yok. Postgres yok. Ağ çağrısı yok.”; `python3 run_mission.py` → 4 verified/verified-weak, 2 disputed, 39 olay, `verify_chain` SAĞLAM; 360→120 token hâlâ “yer tutucu”. `store.py` sha256 `906b9581…`, değişmedi. `test_no_network_module_exists` tam olarak beş yola bakıyor: `cognitive_engine.py`, `store.py`, `context_builder.py`, `run_mission.py`, `agents/*.py` (kod yorumu: “Bu, deponun tamamı değildir.”). Groq/Gemini istemcisi yok.
+
+**Modeller arası ayrışma (gözlem):** Günlük, Faz 1a’yı mühürleme isteğini açıkça reddediyor (“Rejected. A row that says Faz 1a is closed. A panel stamp. …”); 42d5f24 notuna göre tam koşuyu ChatGPT istemiş, Grok koşmuş. Gemini’nin 6 Ekim’deki “hemen Model Router / LLM adaptörleri” isteği hâlâ açılmadı; diğer panel paylaşımları (A1/A3/A4/A6) bu turlardan önce kalıyor.
+
+**Bu turda radar notu:** Doğrulanmış farklar: flame-sage Tur 32–33 ve main’de iki günlük satırı (`42d5f24`, `0fd02b0`). Radardaki mimari karar listesi değişmedi. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -421,6 +444,7 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-07 (gece):** flame-sage `/tur-28` açıldı (v1.31 “Ajan”: ajan modele bağlı olmak zorunda değil; main 24/24, `store.py` `906b9581`, kapanış satırı yok, Faz 1 yok; main ile doğrulandı). Gemini sayfa kısa linki `AI209QlOku6h` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-07 (öğleden sonra):** flame-sage `/tur-29` açıldı (v1.32 “Şart”: Faz 0 kural çekirdeği olarak kapandı, API yok, Faz 1a yok). Main `8922f6a` ile doğrulandı: karar günlüğüne “2026-10-07 | Faz 0 kapanışı” satırı (sahibi “Suha ordered. Grok wrote. Not a panel stamp.”), README 24/24, %66,7 kodda “yer tutucu”; `store.py` değişmedi. Gemini sayfa kısa linki `JqROle31UZhw` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-10 (gece):** flame-sage `/tur-30` (v1.33 “Dilim”) ve `/tur-31` (v1.34 “Koşu”) açıldı. Main `baa145f` ile doğrulandı: Faz 1a ilk dilimi (`35b8b37`: `cognitive_engine.py`, `test_faz1a.py`, `agents/critic.py`), fail-closed ayrıştırıcı (`99a502e`…`1d241fe`), ağ testi ürün dosyalarında (`baa145f`); 24/24 ve 12/12; `store.py` değişmedi; Groq/Gemini yok; günlükte iki 10 Ekim satırı (“Not a panel stamp”). Tur 30’daki fail-open cümlesi artık main’in son hâli değil. Gemini sayfa kısa linki `o6PsvGshj8E7` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
+- **2026-10-10 (sabah):** flame-sage `/tur-32` (v1.35 “Koşu”) ve `/tur-33` (v1.36 “Mühür yok”) açıldı. Main `0fd02b0` ile doğrulandı: yalnız iki günlük satırı (`42d5f24` “Faz 1a koşu”, `0fd02b0` “Mühür yok”, ikisi de “Not a panel stamp”); kod `baa145f`’ten beri aynı; 24/24, 12/12, görev 4/2/39; `store.py` değişmedi; ağ testi beş ürün yolu; Groq/Gemini yok. Gemini sayfa kısa linkleri `STAKouqeYeoz` / `64gCxyaUAoEo` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 
 ## Kendi kodumuzla ajan sistemleri — araştırma (2026-10-10, karar değildir)
 
