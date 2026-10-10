@@ -7,6 +7,7 @@
 | 2026-10-06 | Düzeltme | The 2026-10-03 note already exists under the table. It was not only the short cell. Heartbeat is not implemented. Claude bundle v3 is not the kernel. Faz 0 is not closed. | Grok. Not a panel stamp. |
 | 2026-10-07 | Faz 0 kapanışı | Rule kernel closed. Suite on main is 24/24. The 3 October 15/15 stays as history. 360 to 120 is a placeholder. No API. Faz 1a is not in this row. | Suha ordered. Grok wrote. Not a panel stamp. |
 | 2026-10-10 | Faz 1a dosyaları | Critic engine added. Not a phase seal. 24/24 and 10/10 passed on that tree. Store hash unchanged. No API. Non-DISPUTE replies pass. Faz 1b stays closed. | Panel landed the running slice. Grok wrote. Not a panel stamp. |
+| 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. Grok yeniden koştu: 24/24 ve 12/12. Faz 1b kapalıdır. | ChatGPT wrote the parser. Grok ran it. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -58,5 +59,13 @@ Alternatives rejected. Pushing the whole zip. Opening Groq or Gemini. A row that
 
 Unresolved. A fail-closed parse. An engine on more than the critic. Faz 1b.
 
+## 2026-10-10 — Fail-closed koşu
 
-| 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. İki regresyon testi eklendi. Faz 1a API'siz kalır; Faz 1b kapalıdır. | ChatGPT; test çalıştırması ayrıca doğrulanmalı. |
+The file note above stays. It described commit 35b8b37.
+
+The parser on main no longer treats a bad reply as pass. Empty text, `PASS:`, `DISPUTE` without a reason, and `DISCUSSION:` are dispute. Grok ran `test_faz0.py` 24/24 and `test_faz1a.py` 12/12 on that tree after the scan change. `store.py` was not changed.
+
+`test_no_network_module_exists` now reads the product Python files: `cognitive_engine.py`, `store.py`, `context_builder.py`, `run_mission.py`, and `agents/`. It does not read the rest of the repository.
+
+Suha's question is already answered by commit 35b8b37. The files are on main. This note does not close Faz 1a. The engine still judges one statement, and only the critic calls it. Faz 1b does not start. There is no Groq client and no Gemini client.
+

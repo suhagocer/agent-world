@@ -100,7 +100,7 @@ def test_llm_engine_default_response_is_pass() -> None:
 
 @check
 def test_llm_engine_malformed_response_fails_closed() -> None:
-    for raw in ("", "MAYBE: unsure", "DISPUTE", "random text", "PASS:"):
+    for raw in ("", "MAYBE: unsure", "DISPUTE", "DISCUSSION: bu itiraz değildir", "random text", "PASS:"):
         engine = LLMCognitiveEngine(FakeModelClient(default=raw))
         verdict = engine.evaluate("Test iddiası.")
         assert verdict.verdict == "dispute", f"onay sayılmamalı: {raw!r}"
@@ -169,14 +169,20 @@ def test_provenance_gate_cannot_be_bypassed_by_engine() -> None:
 
 @check
 def test_no_network_module_exists() -> None:
-    # Suha'nın şartı: "Faz 1a'da API kullanılmayacak." Bunu somut hale
-    # getiriyoruz: repoda `requests`/`httpx`/`urllib` gibi ağ
-    # kütüphanelerini içe aktaran, cognitive_engine.py dışında bir
-    # "gerçek model client" modülü olmamalı.
-    import cognitive_engine
-    src = open(cognitive_engine.__file__, encoding="utf-8").read()
-    for forbidden in ("import requests", "import httpx", "urllib.request", "socket."):
-        assert forbidden not in src, f"Faz 1a'da ağ çağrısı bulundu: {forbidden}"
+    # Ürün Python dosyalarında ağ istemcisi yok. Bu, deponun tamamı değildir.
+    from pathlib import Path
+    files = [
+        Path("cognitive_engine.py"),
+        Path("store.py"),
+        Path("context_builder.py"),
+        Path("run_mission.py"),
+        *sorted(Path("agents").glob("*.py")),
+    ]
+    forbidden = ("import requests", "import httpx", "urllib.request", "import socket", "from socket", "from urllib")
+    for path in files:
+        src = path.read_text(encoding="utf-8")
+        for needle in forbidden:
+            assert needle not in src, f"{path} içinde ağ çağrısı: {needle}"
 
 
 def main() -> None:
