@@ -107,7 +107,7 @@ class LLMCognitiveEngine:
         ).strip()
         # Fail-closed: yalnızca beklenen iki açık format kabul edilir.
         # Boş/hatalı/belirsiz çıktı hiçbir koşulda onay sayılmaz.
-        match = re.fullmatch(r"(PASS|DISPUTE):\\s*(.+)", raw, flags=re.IGNORECASE)
+        match = re.fullmatch(r"(PASS|DISPUTE):\s*(.+)", raw, flags=re.IGNORECASE)
         if match is None:
             return Verdict(
                 verdict="dispute",
