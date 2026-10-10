@@ -6,6 +6,7 @@
 | 2026-10-03 | Korunan omurga | Locked. See the note below. Implemented in `store.py`. | Panel. Code: Grok. |
 | 2026-10-06 | Düzeltme | The 2026-10-03 note already exists under the table. It was not only the short cell. Heartbeat is not implemented. Claude bundle v3 is not the kernel. Faz 0 is not closed. | Grok. Not a panel stamp. |
 | 2026-10-07 | Faz 0 kapanışı | Rule kernel closed. Suite on main is 24/24. The 3 October 15/15 stays as history. 360 to 120 is a placeholder. No API. Faz 1a is not in this row. | Suha ordered. Grok wrote. Not a panel stamp. |
+| 2026-10-10 | Faz 1a dosyaları | Critic engine added. Not a phase seal. 24/24 and 10/10 passed on that tree. Store hash unchanged. No API. Non-DISPUTE replies pass. Faz 1b stays closed. | Panel landed the running slice. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -44,3 +45,16 @@ Alternatives rejected. A line that opens Faz 1 Model Router immediately. Rewriti
 Unresolved. Faz 1a is not written. Faz 1b does not run.
 
 Status. Next, only when built: a pluggable brain. The first engine is rules. Tests use a fake model. No API. No key in the repo. Faz 1b is a later, separate approval: free Groq first, Gemini flash as backup, one LLM role, the model does not write world state, a spend cap, no secret sent to Gemini, a paid API only with a new approval from Suha.
+
+## 2026-10-10 — Faz 1a dosyaları
+
+Conclusion. Added `cognitive_engine.py`, `test_faz1a.py`, and a new `agents/critic.py` in commit 35b8b37. Not a phase seal. On that tree, `test_faz0.py` is 24/24 and `test_faz1a.py` is 10/10. `run_mission.py` is unchanged: 4 verified, 2 disputed, 39 events. `store.py` file hash `906b9581` is unchanged. No API.
+
+Scope. `CognitiveEngine.evaluate` judges one statement. Only the critic calls it. Researcher and verifier do not. `LLMCognitiveEngine` treats any reply that does not start with `DISPUTE` as pass. That parse is fail-open. It blocks Faz 1b. `test_no_network_module_exists` reads only `cognitive_engine.py`.
+
+Rationale. Suha, 7 October, items 2 and 5. The panel lands the slice that runs. The rest of the zip is not the repository.
+
+Alternatives rejected. Pushing the whole zip. Opening Groq or Gemini. A row that says Faz 1a is finished.
+
+Unresolved. A fail-closed parse. An engine on more than the critic. Faz 1b.
+
