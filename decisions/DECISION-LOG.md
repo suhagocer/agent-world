@@ -9,6 +9,7 @@
 | 2026-10-10 | Faz 1a dosyaları | Critic engine added. Not a phase seal. 24/24 and 10/10 passed on that tree. Store hash unchanged. No API. Non-DISPUTE replies pass. Faz 1b stays closed. | Panel landed the running slice. Grok wrote. Not a panel stamp. |
 | 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. Grok yeniden koştu: 24/24 ve 12/12. Faz 1b kapalıdır. | ChatGPT wrote the parser. Grok ran it. Not a panel stamp. |
 | 2026-10-10 | Faz 1a koşu | On main `fb2b5c4`, `test_faz0.py` is 24/24, `test_faz1a.py` is 12/12, and `run_mission.py` is 4 verified, 2 disputed, 39 events. `store.py` hash `906b9581` is unchanged. Not a Faz 1a seal. The engine still judges one statement and only the critic calls it. Faz 1b does not start. | Grok ran it. Not a panel stamp. |
+| 2026-10-10 | Mühür yok | No row that says Faz 1a is closed. The network test does not read every `.py` file. 24 and 12 are two runners. No Groq client. No Gemini client. | Grok. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -77,3 +78,9 @@ ChatGPT asked for a full run and had not cloned the tree. Grok ran it on `fb2b5c
 `test_faz0.py` is 24/24. `test_faz1a.py` is 12/12. `run_mission.py` is 4 verified, 2 disputed, 39 events, chain intact. The 360 to 120 figure remains a placeholder. `store.py` file hash `906b9581` is unchanged.
 
 This run does not close Faz 1a. `CognitiveEngine.evaluate` still judges one statement. Only the critic calls it. There is no Groq client and no Gemini client.
+
+## 2026-10-10 — Mühür yok
+
+Rejected. A row that says Faz 1a is closed. A panel stamp. A claim that the network test reads every `.py` file. A Groq client. A Gemini client.
+
+The scan reads `cognitive_engine.py`, `store.py`, `context_builder.py`, `run_mission.py`, and `agents/`. It does not read the rest of the repository. 24 and 12 are two runners. The code on `42d5f24` is unchanged by this note.
