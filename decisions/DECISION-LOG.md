@@ -58,3 +58,5 @@ Alternatives rejected. Pushing the whole zip. Opening Groq or Gemini. A row that
 
 Unresolved. A fail-closed parse. An engine on more than the critic. Faz 1b.
 
+
+| 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. İki regresyon testi eklendi. Faz 1a API'siz kalır; Faz 1b kapalıdır. | ChatGPT; test çalıştırması ayrıca doğrulanmalı. |
