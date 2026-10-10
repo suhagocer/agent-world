@@ -105,12 +105,24 @@ class LLMCognitiveEngine:
             "'PASS: <kısa sebep>' ya da 'DISPUTE: <kısa sebep>' "
             f"formatında tek satır cevap ver.\nİfade: {statement}"
         ).strip()
-        is_dispute = raw.upper().startswith("DISPUTE")
-        reason = raw.split(":", 1)[1].strip() if ":" in raw else (
-            "model itiraz etti." if is_dispute else "model onayladı."
-        )
+        # Fail-closed: yalnızca beklenen iki açık format kabul edilir.
+        # Boş/hatalı/belirsiz çıktı hiçbir koşulda onay sayılmaz.
+        match = re.fullmatch(r"(PASS|DISPUTE):\\s*(.+)", raw, flags=re.IGNORECASE)
+        if match is None:
+            return Verdict(
+                verdict="dispute",
+                reason="geçersiz veya belirsiz model yanıtı; güvenli varsayılan olarak onaylanmadı.",
+                engine=self.name,
+            )
+        label, reason = match.group(1).upper(), match.group(2).strip()
+        if not reason:
+            return Verdict(
+                verdict="dispute",
+                reason="model yanıtında gerekçe yok; güvenli varsayılan olarak onaylanmadı.",
+                engine=self.name,
+            )
         return Verdict(
-            verdict="dispute" if is_dispute else "pass",
+            verdict="dispute" if label == "DISPUTE" else "pass",
             reason=reason,
             engine=self.name,
         )
