@@ -1,22 +1,17 @@
 """
-AGENT WORLD — Faz 0 Critic ajanı (kural-tabanlı, LLM yok)
+AGENT WORLD — Faz 0/1a Critic ajanı.
+
+Faz 1a değişikliği (Suha'nın 7 Ekim 2026 şartlı onayı, madde 2+5): içerik
+kararı artık sabit kodlanmış değil, takılıp çıkarılabilir bir
+CognitiveEngine'den geliyor. Varsayılan hâlâ RuleBasedCognitiveEngine —
+davranış Faz 0'dakiyle birebir aynı. Provenance kontrolü ise HİÇBİR
+motor tarafından atlanamayan, world-seviyesinde ayrı bir kapı olarak
+kalıyor (bir "beyin" kaynağı sahte/yanlış olduğunu söyleyemez).
 """
 from __future__ import annotations
-import re
 from pathlib import Path
 from store import Store
-
-_KNOWN_CAPITALS = {"Türkiye": "Ankara"}
-_CAPITAL_CLAIM = re.compile(r"^(?P<subject>.+?),?\s*Türkiye'nin başkentidir\.?$")
-
-def _rule_based_check(statement: str) -> tuple[bool, str]:
-    m = _CAPITAL_CLAIM.match(statement)
-    if m:
-        subject = m.group("subject").strip()
-        known = _KNOWN_CAPITALS["Türkiye"]
-        if subject != known:
-            return False, f"bilinen-gerçekler çelişkisi: Türkiye'nin başkenti '{known}'dır, '{subject}' değil."
-    return True, ""
+from cognitive_engine import CognitiveEngine, RuleBasedCognitiveEngine
 
 def _source_actually_contains(statement: str, source_ref: str) -> bool:
     path_part, _, line_part = source_ref.rpartition("#L")
@@ -32,18 +27,26 @@ def _source_actually_contains(statement: str, source_ref: str) -> bool:
     return statement in lines[idx]
 
 def run_critic(store: Store, mission_id: str, agent_id: str,
-               claim_ids: list[str]) -> dict[str, tuple[str, str]]:
+               claim_ids: list[str],
+               engine: CognitiveEngine | None = None) -> dict[str, tuple[str, str]]:
+    """`engine` verilmezse Faz 0 davranışıyla birebir aynı
+    RuleBasedCognitiveEngine kullanılır — geriye dönük uyumluluk
+    korunur, run_mission.py'de hiçbir çağrı değişmeden çalışmaya
+    devam eder."""
+    engine = engine or RuleBasedCognitiveEngine()
     verdicts: dict[str, tuple[str, str]] = {}
     for claim_id in claim_ids:
         claim = store.claims[claim_id]
+        # Provenance kapısı: hiçbir beyin bunu atlayamaz (world kuralı,
+        # "cognition" değil).
         provenance_ok = _source_actually_contains(claim.statement, claim.source or "")
-        rule_ok, reason = _rule_based_check(claim.statement)
+        content_verdict = engine.evaluate(claim.statement)
         if not provenance_ok:
             verdict, why = "dispute", "provenance kontrolü başarısız: kaynakta birebir bulunamadı."
-        elif not rule_ok:
-            verdict, why = "dispute", reason
+        elif content_verdict.verdict == "dispute":
+            verdict, why = "dispute", content_verdict.reason
         else:
-            verdict, why = "pass", "provenance doğrulandı, bilinen-gerçekler çelişkisi yok."
+            verdict, why = "pass", f"provenance doğrulandı, {content_verdict.engine}: {content_verdict.reason}"
         store.append_event(agent_id, "critic.review", {
             "claim_id": claim_id, "verdict": verdict, "reason": why,
         }, mission_id=mission_id)
