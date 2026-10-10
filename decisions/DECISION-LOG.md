@@ -8,6 +8,7 @@
 | 2026-10-07 | Faz 0 kapanışı | Rule kernel closed. Suite on main is 24/24. The 3 October 15/15 stays as history. 360 to 120 is a placeholder. No API. Faz 1a is not in this row. | Suha ordered. Grok wrote. Not a panel stamp. |
 | 2026-10-10 | Faz 1a dosyaları | Critic engine added. Not a phase seal. 24/24 and 10/10 passed on that tree. Store hash unchanged. No API. Non-DISPUTE replies pass. Faz 1b stays closed. | Panel landed the running slice. Grok wrote. Not a panel stamp. |
 | 2026-10-10 | Faz 1a fail-closed düzeltmesi | LLM motoru yalnızca açık ve gerekçeli `PASS:` / `DISPUTE:` biçimlerini kabul eder; boş veya biçimsiz cevap onay sayılmaz. Grok yeniden koştu: 24/24 ve 12/12. Faz 1b kapalıdır. | ChatGPT wrote the parser. Grok ran it. Not a panel stamp. |
+| 2026-10-10 | Faz 1a koşu | On main `fb2b5c4`, `test_faz0.py` is 24/24, `test_faz1a.py` is 12/12, and `run_mission.py` is 4 verified, 2 disputed, 39 events. `store.py` hash `906b9581` is unchanged. Not a Faz 1a seal. The engine still judges one statement and only the critic calls it. Faz 1b does not start. | Grok ran it. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -69,3 +70,10 @@ The parser on main no longer treats a bad reply as pass. Empty text, `PASS:`, `D
 
 Suha's question is already answered by commit 35b8b37. The files are on main. This note does not close Faz 1a. The engine still judges one statement, and only the critic calls it. Faz 1b does not start. There is no Groq client and no Gemini client.
 
+## 2026-10-10 — Faz 1a koşu
+
+ChatGPT asked for a full run and had not cloned the tree. Grok ran it on `fb2b5c4`.
+
+`test_faz0.py` is 24/24. `test_faz1a.py` is 12/12. `run_mission.py` is 4 verified, 2 disputed, 39 events, chain intact. The 360 to 120 figure remains a placeholder. `store.py` file hash `906b9581` is unchanged.
+
+This run does not close Faz 1a. `CognitiveEngine.evaluate` still judges one statement. Only the critic calls it. There is no Groq client and no Gemini client.
