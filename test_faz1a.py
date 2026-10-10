@@ -98,6 +98,23 @@ def test_llm_engine_default_response_is_pass() -> None:
     assert v.verdict == "pass"
 
 
+@check
+def test_llm_engine_malformed_response_fails_closed() -> None:
+    for raw in ("", "MAYBE: unsure", "DISPUTE", "random text", "PASS:"):
+        engine = LLMCognitiveEngine(FakeModelClient(default=raw))
+        verdict = engine.evaluate("Test iddiası.")
+        assert verdict.verdict == "dispute", f"onay sayılmamalı: {raw!r}"
+        assert "onaylanmadı" in verdict.reason or "gerekçe yok" in verdict.reason
+
+
+@check
+def test_llm_engine_accepts_only_explicit_valid_pass_or_dispute() -> None:
+    passed = LLMCognitiveEngine(FakeModelClient(default="PASS: kaynakla tutarlı."))
+    disputed = LLMCognitiveEngine(FakeModelClient(default="DISPUTE: çelişki bulundu."))
+    assert passed.evaluate("İddia A").verdict == "pass"
+    assert disputed.evaluate("İddia B").verdict == "dispute"
+
+
 # --- 4. Critic, hangi motor verilirse onu kullanır (takılıp-çıkarılabilirlik) ---
 
 @check
