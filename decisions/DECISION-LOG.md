@@ -11,6 +11,7 @@
 | 2026-10-10 | Faz 1a koşu | On main `fb2b5c4`, `test_faz0.py` is 24/24, `test_faz1a.py` is 12/12, and `run_mission.py` is 4 verified, 2 disputed, 39 events. `store.py` hash `906b9581` is unchanged. Not a Faz 1a seal. The engine still judges one statement and only the critic calls it. Faz 1b does not start. | Grok ran it. Not a panel stamp. |
 | 2026-10-10 | Mühür yok | No row that says Faz 1a is closed. The network test does not read every `.py` file. 24 and 12 are two runners. No Groq client. No Gemini client. | Grok. Not a panel stamp. |
 | 2026-10-10 | Devam | No joint close. Researcher accepts an optional extractor. Default behavior is unchanged. The extractor does not receive the store. The verifier stays a world gate. 24/24 and 14/14. No API. No key in the repo. | Suha: continue if not joint. Grok wrote. Not a panel stamp. |
+| 2026-10-12 | Ücretsiz API kuralı | Faz 1b, when it runs, is free Groq only. Gemini is backup. No sensitive data. Budget is 0 TL. Keys never go to models, chats, or the repo. Code reads `GROQ_API_KEY` from the environment. Tests use a fake. A real call runs only on Grok Bot's machine, only when the panel asks for one trial, inside the free limit. Paid API does not exist until Suha speaks again. This row does not add a client and does not close Faz 1a. | Suha approved. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -95,3 +96,11 @@ The researcher now takes an optional `FactExtractor`. The default is the existin
 The verifier is not given an engine. `verify_claim` is the world gate.
 
 No API client. No key in the repository. Faz 1b does not start.
+
+## 2026-10-12 — Ücretsiz API kuralı
+
+Suha approved this rule. It is not a client.
+
+Faz 1b, when it runs, is the free Groq tier. Gemini is the backup. Sensitive data is not sent. The budget is 0 TL. Keys are never given to models, chats, or the repository. Code reads `GROQ_API_KEY` from the environment. Tests use a fake model. A real call runs only on Grok Bot's machine, only after the panel asks for one named trial, and only inside the free limit. A paid API does not exist until Suha speaks again.
+
+This row does not close Faz 1a. It does not open Faz 1a.5. It does not add an adapter. The car is not chosen.
