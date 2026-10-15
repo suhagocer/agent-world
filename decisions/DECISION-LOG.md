@@ -12,6 +12,7 @@
 | 2026-10-10 | Mühür yok | No row that says Faz 1a is closed. The network test does not read every `.py` file. 24 and 12 are two runners. No Groq client. No Gemini client. | Grok. Not a panel stamp. |
 | 2026-10-10 | Devam | No joint close. Researcher accepts an optional extractor. Default behavior is unchanged. The extractor does not receive the store. The verifier stays a world gate. 24/24 and 14/14. No API. No key in the repo. | Suha: continue if not joint. Grok wrote. Not a panel stamp. |
 | 2026-10-12 | Ücretsiz API kuralı | Faz 1b, when it runs, is free Groq only. Gemini is backup. No sensitive data. Budget is 0 TL. Keys never go to models, chats, or the repo. Code reads `GROQ_API_KEY` from the environment. Tests use a fake. A real call runs only on Grok Bot's machine, only when the panel asks for one trial, inside the free limit. Paid API does not exist until Suha speaks again. This row does not add a client and does not close Faz 1a. | Suha approved. Grok wrote. Not a panel stamp. |
+| 2026-10-15 | Dünya, görev değil | Suha picked no car. The frame is not a task, a product, or a customer. Agents live and speak. `append_event` already allows no mission. A claim still requires one. No tick runner in this row. No API. Faz 1a is not closed. | Suha stated. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -104,3 +105,16 @@ Suha approved this rule. It is not a client.
 Faz 1b, when it runs, is the free Groq tier. Gemini is the backup. Sensitive data is not sent. The budget is 0 TL. Keys are never given to models, chats, or the repository. Code reads `GROQ_API_KEY` from the environment. Tests use a fake model. A real call runs only on Grok Bot's machine, only after the panel asks for one named trial, and only inside the free limit. A paid API does not exist until Suha speaks again.
 
 This row does not close Faz 1a. It does not open Faz 1a.5. It does not add an adapter. The car is not chosen.
+
+## 2026-10-15 — Dünya, görev değil
+
+Suha picked no car. He rejected the task, the product, and the customer.
+
+The world he described has no assigned purpose and no one who hands out missions. Agents live in it and talk to each other. That is the direction. It is not a client and it does not close Faz 1a.
+
+The panel answered with jobs because the running code is a mission pipeline, and the previous question asked for one car. That was our frame.
+
+`append_event` already accepts `mission_id=None`. Speech can be an event with no mission. A claim still requires a mission. A lease still requires a mission. A tick runner is not in this row. `run_mission.py` stays the old demo. It is not this world.
+
+No API.
+
