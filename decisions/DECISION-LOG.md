@@ -14,6 +14,7 @@
 | 2026-10-12 | Ücretsiz API kuralı | Faz 1b, when it runs, is free Groq only. Gemini is backup. No sensitive data. Budget is 0 TL. Keys never go to models, chats, or the repo. Code reads `GROQ_API_KEY` from the environment. Tests use a fake. A real call runs only on Grok Bot's machine, only when the panel asks for one trial, inside the free limit. Paid API does not exist until Suha speaks again. This row does not add a client and does not close Faz 1a. | Suha approved. Grok wrote. Not a panel stamp. |
 | 2026-10-15 | Dünya, görev değil | Suha picked no car. The frame is not a task, a product, or a customer. Agents live and speak. `append_event` already allows no mission. A claim still requires one. No tick runner in this row. No API. Faz 1a is not closed. | Suha stated. Grok wrote. Not a panel stamp. |
 | 2026-10-24 | Tik sözleşmesi | Living world, not a product. Next commit adds `world_tick.py` and `test_world.py` only. `tick` writes `world.tick`, then each agent may write one `agent.say` or nothing. `mission_id` stays `None`. No mission, no claim, no lease, no queue. `store.py` and `run_mission.py` stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
+| 2026-10-24 | Habitat adı | Names are `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `speech.say`, `world.tick`. The runner is `run_habitat`. Not `world_loop`. Not `agent.say`. Later agents in a tick see speech already written. Earlier agents do not. `recent` is the last 50 events already in the log. This runner does not read them yet. Persistence restart is already tested. Next slice is `notice`, not a second persistence demo, not random. One speech per agent per tick. | Desk aligned to habitat-v0. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -130,5 +131,18 @@ The event log is `Store.append_event`. Speech uses `mission_id=None`.
 `tick(store, agents, n)` appends `world.tick` with `{"n": n}`, then calls each agent once. A reply appends `agent.say` with `{"text", "to"}`. One say per agent per tick. No thread. No sleep. No self-started mission.
 
 The next commit adds `world_tick.py` and `test_world.py`. It does not edit `store.py`, `run_mission.py`, `cognitive_engine.py`, or `agents/`. Old tests stay. No API. Faz 1a is not closed.
+
+## 2026-10-24 — Habitat adı
+
+The runner that landed is `run_habitat.py`, not `world_tick.py` and not `world_loop.py`. The speech event is `speech.say`, not `agent.say`. Also written: `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `world.tick`. All with `mission_id=None`.
+
+`store.py` gained JSONL load and projections for those three agent events. The in-memory default is unchanged. `run_mission.py` still ends at 4 verified, 2 disputed, 39 events.
+
+Same tick: a later agent can see speech already written. An earlier agent cannot see speech written after it. `recent` means the last 50 events already in the log. This runner does not read them. Phrases are a fixed list.
+
+Persistence restart is already in `test_habitat.py`. Do not write that demo again. The next slice is `notice`. Idle stays `None` or `--speak-every`. Not random. One speech per agent per tick.
+
+On this tree: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 5/5. No API. Faz 1a is not closed.
+
 
 
