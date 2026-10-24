@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Habitat v0.1 — agents coexist, notice, hear, speak. No mission. No network."""
+"""Habitat v0.2 — agents coexist, notice, hear, speak; seeded speech density. No mission. No network."""
 
 from __future__ import annotations
 
@@ -122,12 +122,23 @@ def hear(store: Store, agent_id: str, say_ev: Event, tick: int) -> Event:
     )
 
 
+def _validate_density(density: float) -> None:
+    if not (0.0 <= density <= 1.0):
+        raise ValueError(f"density must be in [0, 1], got {density!r}")
+
+
 def agent_turn(
     store: Store,
     agent_id: str,
     tick: int,
     speak_every: int,
+    density: float = 1.0,
+    rng: random.Random | None = None,
 ) -> None:
+    _validate_density(density)
+    if density < 1.0 and rng is None:
+        raise ValueError("density < 1.0 requires rng (Random)")
+
     heartbeat(store, agent_id, tick)
     noticed = notice(store, tick)
     observe(store, agent_id, tick, noticed)
@@ -136,6 +147,9 @@ def agent_turn(
             continue
         hear(store, agent_id, say_ev, tick)
     if speak_every > 0 and tick % speak_every == 0:
+        # density==1.0: no lottery (v0.1 behavior). density<1: one draw after shuffle.
+        if density < 1.0 and rng.random() >= density:
+            return
         bank = PHRASES.get(agent_id) or ["..."]
         say(store, agent_id, bank[tick % len(bank)], tick)
 
@@ -148,8 +162,10 @@ def run_habitat(
     speak_every: int = 1,
     seed: int | None = None,
     shuffle: bool = True,
+    density: float = 1.0,
 ) -> Store:
     """Run M ticks of coexistence. Always mission_id=None. No lease/claim."""
+    _validate_density(density)
     store = open_habitat(log_path)
     for agent_id in agents:
         spawn_if_needed(store, agent_id)
@@ -166,7 +182,7 @@ def run_habitat(
         if shuffle:
             rng.shuffle(order)
         for agent_id in order:
-            agent_turn(store, agent_id, tick, speak_every)
+            agent_turn(store, agent_id, tick, speak_every, density=density, rng=rng)
 
     if despawn:
         for agent_id in agents:
@@ -227,16 +243,24 @@ def format_transcript(store: Store) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="Agent World Habitat v0.1 — live, notice, no mission")
+    p = argparse.ArgumentParser(description="Agent World Habitat v0.2 — live, notice, seeded density, no mission")
     p.add_argument("--ticks", type=int, default=5, help="number of habitat ticks")
     p.add_argument("--agents", default=",".join(DEFAULT_AGENTS), help="comma-separated agent ids")
     p.add_argument("--log", default="data/habitat_events.jsonl", help="durable JSONL path")
     p.add_argument("--despawn", action="store_true", help="despawn agents at end of this run")
     p.add_argument("--speak-every", type=int, default=1, help="speak every N ticks (0=silent)")
-    p.add_argument("--seed", type=int, default=None, help="RNG seed for tick shuffle")
+    p.add_argument("--seed", type=int, default=None, help="RNG seed for tick shuffle and density lottery")
+    p.add_argument("--density", type=float, default=1.0, help="speech density in [0,1]; 1.0 = always (no lottery)")
     p.add_argument("--no-shuffle", action="store_true", help="keep agent order fixed (debug)")
     p.add_argument("--quiet", action="store_true", help="suppress transcript print")
     args = p.parse_args(argv)
+
+    if args.density < 1.0 and args.seed is None:
+        p.error("--density < 1 requires --seed")
+    try:
+        _validate_density(args.density)
+    except ValueError as e:
+        p.error(str(e))
 
     agents = tuple(a.strip() for a in args.agents.split(",") if a.strip())
     store = run_habitat(
@@ -247,6 +271,7 @@ def main(argv: list[str] | None = None) -> int:
         speak_every=args.speak_every,
         seed=args.seed,
         shuffle=not args.no_shuffle,
+        density=args.density,
     )
     if not args.quiet:
         print(format_transcript(store))
