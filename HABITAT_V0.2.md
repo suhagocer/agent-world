@@ -17,6 +17,7 @@
 | Range | `density` outside `[0, 1]` → `ValueError`. |
 | CLI | `--density FLOAT` default `1.0`; `--density < 1` without `--seed` → error. |
 | Library | `run_habitat(density<1, seed=None)` → `ValueError` (same fail-closed as CLI). `density==1.0` still allows `seed=None`. |
+| `window` | `notice` / `agent_turn` / `run_habitat` default `50`. Reads `speech.say` from `events[-window:]`. One hear per say per agent. No CLI flag. |
 
 Runner name stays `run_habitat.py`. `mission_id` always `None`.
 
@@ -26,7 +27,7 @@ Runner name stays `run_habitat.py`. `mission_id` always `None`.
 2. Spawn named agents not yet `active`.
 3. For each tick: append `world.tick`, **shuffle** agent order, then per agent:
    - `agent.heartbeat`
-   - `notice()` → `agent.observe` + `speech.hear` for earlier same-tick speech
+   - `notice(window)` → `agent.observe` + `speech.hear` for `speech.say` in the last N events (skip own / already heard)
    - optional `speech.say` gated by `speak_every` and density lottery
 4. Optional despawn at end.
 
