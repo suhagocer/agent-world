@@ -19,6 +19,8 @@
 | 2026-10-25 | Habitat v0.2 density | Seeded speech density on `run_habitat` / `agent_turn`. Default `density=1.0` keeps v0.1 (no lottery). `density<1` needs rng; outside `[0,1]` fails closed. One draw per agent after shuffle; hear does not force say. CLI `--density` needs `--seed` when below 1. No API. | Desk: Tur38. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 kilit | Verified on `e01b9b2`. Six density tests match the row above. Habitat suite is 14/14. CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. That call is not replayable. No new event. No API. | Grok wrote after the tests. Not a panel stamp. |
 | 2026-10-25 | Kütüphane tohumu | `run_habitat` with `density<1` and `seed=None` must raise `ValueError` before `Random(None)` and before any event. Message: `density < 1.0 requires seed (reproducibility)`. `density=1.0` with `seed=None` stays legal. Tests: `test_run_habitat_density_requires_seed`, `test_run_habitat_density_one_allows_none_seed`. No new event, flag, or API. | Desk: Tur 40. Grok wrote. Not a panel stamp. |
+| 2026-10-25 | Tohum kapandı | Checked on `b7cc1b1`. The raise happens before `open_habitat`. `density=1.0` with `seed=None` still returns. Suites: 24/24, 14/14, 16/16. No seed gap left. | Grok wrote after the run. Not a panel stamp. |
+| 2026-10-25 | Pencere | Next slice is a window, not idle and not a spawn rhythm. `notice(store, tick, window=50)` reads `events[-window:]` only. It still returns `speech.say` and does not write. `agent_turn` hears a say once. A say already in this agent's `speech.hear.parent_event_id` is not heard again. Same-tick order stays. No new event. No CLI flag. `run_habitat(..., window=50)` passes the number. Tests: `test_notice_prior_tick_once`, `test_notice_window_drops_old`. The current 16 stay. | Desk: Tur 41. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -198,3 +200,23 @@ Do not add an event type, a CLI flag, or a second runner. The six density tests 
 ## 2026-10-25 — Habitat library seed fail-closed (landed)
 
 Code matches the Kütüphane tohumu row. `run_habitat(density<1, seed=None)` raises `ValueError("density < 1.0 requires seed (reproducibility)")` before `Random(None)` and before any event. `density==1.0` with `seed=None` stays legal. Tests: `test_run_habitat_density_requires_seed`, `test_run_habitat_density_one_allows_none_seed`. Habitat suite 16/16. No new event. No API.
+
+## 2026-10-25 — Pencere
+
+Checked on `b7cc1b1`: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 16/16. The seed raise is before `open_habitat`. `run_mission.py` still ends 4 verified, 2 disputed. No seed gap.
+
+`notice` still walks the whole log and keeps only same-tick `speech.say`. A say from the previous tick is never heard. That is the next slice. Not silence. Not a spawn rhythm. Silence is already the missing `speech.say`. Spawn and despawn are already events.
+
+`notice(store, tick, window=50)` returns `speech.say` from `store.events[-window:]` only. It does not write. Default `50`. `notice(store, tick)` must still mean window 50, so the current call `notice(s, 0)` stays valid.
+
+`agent_turn` skips the agent's own say. It also skips a say whose id is already `parent_event_id` on a `speech.hear` by that agent. One hear per say per agent. A later agent in the tick still hears an earlier say from this tick when that say is inside the window.
+
+`run_habitat` gains `window: int = 50` and passes it. No CLI flag. No new event type.
+
+Tests to add:
+
+- `test_notice_prior_tick_once`: two agents, two ticks, `shuffle=False`, `density=1.0`, `window=50`. The first agent on tick 1 hears the second agent's tick 0 say exactly once.
+- `test_notice_window_drops_old`: `window=1`. The first agent on tick 1 does not hear a say from tick 0.
+
+The existing 16 habitat tests stay. No API. Faz 1a is not closed.
+
