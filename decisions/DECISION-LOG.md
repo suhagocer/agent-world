@@ -15,6 +15,7 @@
 | 2026-10-15 | Dünya, görev değil | Suha picked no car. The frame is not a task, a product, or a customer. Agents live and speak. `append_event` already allows no mission. A claim still requires one. No tick runner in this row. No API. Faz 1a is not closed. | Suha stated. Grok wrote. Not a panel stamp. |
 | 2026-10-24 | Tik sözleşmesi | Living world, not a product. Next commit adds `world_tick.py` and `test_world.py` only. `tick` writes `world.tick`, then each agent may write one `agent.say` or nothing. `mission_id` stays `None`. No mission, no claim, no lease, no queue. `store.py` and `run_mission.py` stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 | 2026-10-24 | Habitat adı | Names are `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `speech.say`, `world.tick`. The runner is `run_habitat`. Not `world_loop`. Not `agent.say`. Later agents in a tick see speech already written. Earlier agents do not. `recent` is the last 50 events already in the log. This runner does not read them yet. Persistence restart is already tested. Next slice is `notice`, not a second persistence demo, not random. One speech per agent per tick. | Desk aligned to habitat-v0. Grok wrote. Not a panel stamp. |
+| 2026-10-25 | Habitat v0.1 sözleşme | Landed at `7bad21b`. Events added: `agent.observe`, `speech.hear`. `notice` reads same-tick `speech.say` already written. Later agents hear earlier ones. Shuffle is seeded. Persistence restart is tested. Speech is still every N ticks, not a seeded density. That is the remaining slice. Default density stays 1 so current tests stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -143,6 +144,25 @@ Same tick: a later agent can see speech already written. An earlier agent cannot
 Persistence restart is already in `test_habitat.py`. Do not write that demo again. The next slice is `notice`. Idle stays `None` or `--speak-every`. Not random. One speech per agent per tick.
 
 On this tree: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 5/5. No API. Faz 1a is not closed.
+
+## 2026-10-25 — Habitat v0.1 sözleşme
+
+Main `7bad21b` already has the slice. This row is the contract. It does not add code.
+
+`run_habitat.py` stays the only name.
+
+Events, all `mission_id=None`: `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `agent.observe`, `speech.say`, `speech.hear`, `world.tick`.
+
+`notice(store, tick)` returns same-tick `speech.say` already on the log. It does not write. A later agent hears those says. An earlier agent does not hear later says. `speech.hear.parent_event_id` points at the say. `agent.observe` records `heard_count` and `speakers`.
+
+Shuffle uses `random.Random(seed)`. `--no-shuffle` keeps order. One `speech.say` per agent per tick.
+
+Persistence: `test_restart_loads_log` and `test_persistence_restart_chain_intact`. A broken line raises. Do not write a third restart demo.
+
+Not in this tree: seeded speech density. `speak_every` is still a modulo. The next code change adds `density: float = 1.0`. Draw `rng.random()` only when `density < 1`, once per agent, after that tick's shuffle. A failed draw writes no `speech.say`. Heartbeat, observe, and hear still happen. Hearing does not force a say. `density=1` draws nothing, so the current eight tests stay.
+
+On this tree: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 8/8. `run_mission.py` is 4 verified, 2 disputed, 39 events. No API. Faz 1a is not closed.
+
 
 
 
