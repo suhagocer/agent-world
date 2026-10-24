@@ -1,4 +1,4 @@
-"""In-memory event log + projections. No LLM. No Postgres."""
+"""Event log + projections. Optional durable JSONL. No LLM. No network."""
 
 from __future__ import annotations
 
@@ -89,6 +89,37 @@ class Model:
     family_verified: bool = False
 
 
+def _event_to_row(ev: Event) -> dict:
+    return {
+        "id": ev.id,
+        "ts": ev.ts.isoformat(),
+        "actor_id": ev.actor_id,
+        "type": ev.type,
+        "payload": ev.payload,
+        "mission_id": ev.mission_id,
+        "parent_event_id": ev.parent_event_id,
+        "prev_hash": ev.prev_hash,
+        "hash": ev.hash,
+    }
+
+
+def _event_from_row(row: dict) -> Event:
+    ts = row["ts"]
+    if isinstance(ts, str):
+        ts = datetime.fromisoformat(ts)
+    return Event(
+        id=row["id"],
+        ts=ts,
+        actor_id=row["actor_id"],
+        type=row["type"],
+        payload=dict(row["payload"]),
+        mission_id=row.get("mission_id"),
+        parent_event_id=row.get("parent_event_id"),
+        prev_hash=row["prev_hash"],
+        hash=row["hash"],
+    )
+
+
 @dataclass
 class Store:
     events: list[Event] = field(default_factory=list)
@@ -96,6 +127,7 @@ class Store:
     missions: dict[str, Mission] = field(default_factory=dict)
     claims: dict[str, Claim] = field(default_factory=dict)
     models: dict[str, Model] = field(default_factory=dict)
+    persist_path: str | None = None
 
     def append_event(
         self,
@@ -131,7 +163,34 @@ class Store:
         )
         self.events.append(ev)
         self._project(ev)
+        self._persist_event(ev)
         return ev
+
+    def _persist_event(self, ev: Event) -> None:
+        if not self.persist_path:
+            return
+        with open(self.persist_path, "a", encoding="utf-8") as f:
+            f.write(_dumps(_event_to_row(ev)) + "\n")
+
+    @classmethod
+    def load(cls, path: str) -> "Store":
+        """Rebuild store from durable JSONL. Fail-closed if chain is broken."""
+        store = cls(persist_path=path)
+        try:
+            with open(path, encoding="utf-8") as f:
+                lines = f.read().splitlines()
+        except FileNotFoundError:
+            return store
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            ev = _event_from_row(json.loads(line))
+            store.events.append(ev)
+            store._project(ev)
+        if not store.verify_chain():
+            raise RuntimeError(f"event log chain broken: {path}")
+        return store
 
     def _project(self, ev: Event) -> None:
         p = ev.payload
@@ -140,6 +199,19 @@ class Store:
             a.capability = p.get("capability", a.capability)
             a.model_id = p.get("model_id", a.model_id)
             a.status = p.get("status", a.status)
+            a.updated_from_event = ev.id
+            self.agents[a.agent_id] = a
+        elif ev.type in ("agent.spawn", "agent.heartbeat", "agent.despawn"):
+            aid = p.get("agent_id") or ev.actor_id
+            a = self.agents.get(aid) or Agent(agent_id=aid)
+            if ev.type == "agent.spawn":
+                a.capability = p.get("capability", a.capability or "presence")
+                a.model_id = p.get("model_id", a.model_id)
+                a.status = p.get("status", "active")
+            elif ev.type == "agent.heartbeat":
+                a.status = "active"
+            else:  # despawn
+                a.status = p.get("status", "idle")
             a.updated_from_event = ev.id
             self.agents[a.agent_id] = a
         elif ev.type == "mission.upsert":
