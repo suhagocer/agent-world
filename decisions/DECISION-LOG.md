@@ -17,6 +17,7 @@
 | 2026-10-24 | Habitat adı | Names are `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `speech.say`, `world.tick`. The runner is `run_habitat`. Not `world_loop`. Not `agent.say`. Later agents in a tick see speech already written. Earlier agents do not. `recent` is the last 50 events already in the log. This runner does not read them yet. Persistence restart is already tested. Next slice is `notice`, not a second persistence demo, not random. One speech per agent per tick. | Desk aligned to habitat-v0. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.1 sözleşme | Landed at `7bad21b`. Events added: `agent.observe`, `speech.hear`. `notice` reads same-tick `speech.say` already written. Later agents hear earlier ones. Shuffle is seeded. Persistence restart is tested. Speech is still every N ticks, not a seeded density. That is the remaining slice. Default density stays 1 so current tests stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 density | Seeded speech density on `run_habitat` / `agent_turn`. Default `density=1.0` keeps v0.1 (no lottery). `density<1` needs rng; outside `[0,1]` fails closed. One draw per agent after shuffle; hear does not force say. CLI `--density` needs `--seed` when below 1. No API. | Desk: Tur38. Grok wrote. Not a panel stamp. |
+| 2026-10-25 | Habitat v0.2 kilit | Verified on `e01b9b2`. Six density tests match the row above. Habitat suite is 14/14. CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. That call is not replayable. No new event. No API. | Grok wrote after the tests. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -163,6 +164,17 @@ Persistence: `test_restart_loads_log` and `test_persistence_restart_chain_intact
 Not in this tree: seeded speech density. `speak_every` is still a modulo. The next code change adds `density: float = 1.0`. Draw `rng.random()` only when `density < 1`, once per agent, after that tick's shuffle. A failed draw writes no `speech.say`. Heartbeat, observe, and hear still happen. Hearing does not force a say. `density=1` draws nothing, so the current eight tests stay.
 
 On this tree: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 8/8. `run_mission.py` is 4 verified, 2 disputed, 39 events. No API. Faz 1a is not closed.
+
+## 2026-10-25 — Habitat v0.2 kilit
+
+The density slice is on main `e01b9b2`. This row checks it. It does not add code. The sentence above that says density is not in the tree is old.
+
+`density=1.0` draws nothing. `density<1` draws once per agent after the shuffle. A failed draw writes no `speech.say`. Heartbeat, observe, and hear still happen. Hearing does not force a say. Outside `[0, 1]` raises `ValueError`. `agent_turn` without `rng` raises when `density<1`.
+
+Checked: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 14/14. The six density tests are `default_unchanged`, `seeded_reproducible`, `zero_speaks_nothing`, `requires_rng_fail_closed`, `does_not_force_hear`, `out_of_range_rejected`. `run_mission.py` still ends 4 verified, 2 disputed.
+
+CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. It uses `Random(None)`. That call is not replayable. The tests do not cover it. No new event type. No API. Faz 1a is not closed.
+
 
 
 
