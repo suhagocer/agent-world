@@ -462,6 +462,36 @@ Not: önceki turlarda A4 için yazılan “curl OK” büyük olasılıkla yaln�
 
 **Bu turda radar notu:** Doğrulanmış farklar: flame-sage Tur 35 ve main’de `06a173b` (ücretsiz API kuralı; istemci yok). Radardaki mimari karar listesi değişmedi. Yeni OSS adayı yok.
 
+## Paylaşım güncellemesi — 2026-10-25 (gece kontrol)
+
+| Kaynak | Fetch | Özet farkı |
+|--------|-------|------------|
+| A1 ChatGPT `6ac43f6c-…` | curl (HTML içi akış JSON) | Değişmedi: uzun metinler ve mesaj kimlikleri aynı. |
+| A2 Gemini `OfxANwjNxbQc` → `318c86ecfe20` | bu turda browser yok | Doğrulanamadı; önceki taban (yayın 06:17, son tur “Faz 0 mühürlendi”) korunuyor sayıldı. |
+| A3 DeepSeek `nkfqofqcbfip0vlc94` | curl (`/api/v0/share/content`) | Değişmedi: imzalı URL alanları dışında gövde aynı. |
+| A4 Grok `c2hhcmQtMg_e6ce9fde-…` | curl JSON uç noktası | Değişmedi: 129 mesaj metni aynı. |
+| A5 flame-sage | curl OK | **Değişiklik:** `/tur-36`…`/tur-42` açıldı (v1.39–v1.45, 15–25 Eki). `/tur-43`…`/tur-60` 404. |
+| A6 Claude `1c1203ca-…` | bu turda browser yok | Doğrulanamadı; önceki taban korunuyor sayıldı. |
+| E1 / E3 ChatGPT | curl (HTML içi akış JSON) | Değişmedi. |
+| E2 Claude v3 | bu turda browser yok | Doğrulanamadı; önceki taban korunuyor sayıldı. |
+
+**flame-sage Tur 36–42 (Grok, her biri “kanon değildir”):**
+- [Tur 36](https://flame-sage-sage-tundra.grok.me/tur-36) “Dünya” (v1.39, 15 Eki): “Çerçeve görev değil. Konuşma, görev istemeyen olaydır. API yok.”; “run_mission.py eski denemedir. Dünya değildir.”; “Tik kodu bu tur yazılmadı. Kayıt 32a9161.”
+- [Tur 37](https://flame-sage-sage-tundra.grok.me/tur-37) “Sözleşme” (v1.40, 24 Eki): “Sonraki commit yalnız tik ve test.”; “Yalnızca world_tick.py ve test_world.py. store.py, run_mission.py, cognitive_engine.py ve agents değişmez.”; “Kayıt b68512e.”
+- [Tur 38](https://flame-sage-sage-tundra.grok.me/tur-38) “Habitat” (v1.41, 24 Eki): “Koşucu run_habitat. world_loop yok.”; olaylar `agent.spawn`, `agent.heartbeat`, `agent.despawn`, `speech.say`, `world.tick`; “24/24, 14/14, 5/5 … Kayıt 3457279.”
+- [Tur 39](https://flame-sage-sage-tundra.grok.me/tur-39) “Sözleşme” (v1.42, 25 Eki): yeni olay `agent.observe`, `speech.hear`; “Duran testler: 24/24, 14/14, 8/8.”; “Tohumlu yoğunluk yazılmadı … Kayıt 4698ef3.”
+- [Tur 40](https://flame-sage-sage-tundra.grok.me/tur-40) “Kilit” (v1.43, 25 Eki): “Test 24/24, 14/14, 14/14.”; “run_habitat(density<1) tohum almadan düşmez. Random(None) kullanır.”; “Kayıt 8938afd.”
+- [Tur 41](https://flame-sage-sage-tundra.grok.me/tur-41) “Tohum” (v1.44, 25 Eki): “density 1'den küçükse tohum yoksa düşer.”; iki test adı kilitli, “İkisi de yazılmadı … Sonra 16. … Kayıt c687f15.”
+- [Tur 42](https://flame-sage-sage-tundra.grok.me/tur-42) “Pencere” (v1.45, 25 Eki): “b7cc1b1 üstünde tohum deliği kapalı.”; “Test 24/24, 14/14, 16/16.”; “notice son 50 olayı okur.”; `test_notice_prior_tick_once`, `test_notice_window_drops_old` “İkisi yazılmadı … Kayıt 6e2033d.”
+
+**Repo kontrolü (main `f407bd1`, bu tur):** Önceki radar HEAD `06a173b` idi; arada 21 commit var. Turlardaki kayıt commit’lerinin yedisi (`32a9161`, `b68512e`, `3457279`, `4698ef3`, `8938afd`, `c687f15`, `6e2033d`) yalnız `decisions/DECISION-LOG.md` satırları; kod habitat PR’leriyle geldi ([#2](https://github.com/suhagocer/agent-world/pull/2) `7bad21b`, [#3](https://github.com/suhagocer/agent-world/pull/3) `e01b9b2`, [#5](https://github.com/suhagocer/agent-world/pull/5) `b7cc1b1`, [#6](https://github.com/suhagocer/agent-world/pull/6) `f407bd1`; #4 merge edilmeden kapandı). Yerel koşu: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 18/18 (Tur 42’deki iki pencere testi artık #6 ile yazılı; Tur 41’deki iki tohum testi #5 ile yazılı). `run_habitat.py` içinde “density < 1.0 requires seed (reproducibility)” ValueError’ı var; Tur 40’taki tohum deliği main’de kapalı. Beş ürün yolunda ağ/HTTP, Groq/OpenAI içe aktarması yok; API istemcisi yok.
+
+**Doğrulanmış fark (gözlem):** `store.py` sha256 artık `85e16368…` (önceki `906b9581…`). Değişiklik `2207676` (“Habitat v0: durable presence + speech loop”, 24 Eki 20:22Z): +73/−1, `_event_to_row` / `_event_from_row`, `_persist_event` ve `Store.load` (diske kalıcılık) eklendi. Tur 37 “store.py … değişmez” ve dosya adı olarak `world_tick.py` / `test_world.py` demişti; main’de bunun yerine `run_habitat.py` / `test_habitat.py` var ve `store.py` değişti. Tur 38 adı `run_habitat` olarak düzeltiyor ama `store.py` değişikliğini anmıyor.
+
+**Modeller arası ayrışma (gözlem):** Tur 36’dan itibaren çerçeve görev hattından (`run_mission.py`) görevsiz habitat/konuşma döngüsüne kaydı; diğer panel paylaşımları (A1/A3/A4, E1/E3) bu dönemden önce kalıyor ve habitat çerçevesini yorumlamıyor. Gemini/Claude bu turda browser’sız doğrulanamadı.
+
+**Bu turda radar notu:** Doğrulanmış farklar: flame-sage Tur 36–42 ve main `f407bd1` (habitat v0–v0.2 + notice penceresi; `store.py` kalıcılık eki). Radardaki mimari karar listesi değişmedi. Yeni OSS adayı yok.
+
 ## Günlük / dönemsel notlar
 
 _(Repo Gözcüsü yeni taramaları buraya ekler.)_
@@ -489,6 +519,7 @@ _(Repo Gözcüsü yeni taramaları buraya ekler.)_
 - **2026-10-10 (sabah):** flame-sage `/tur-32` (v1.35 “Koşu”) ve `/tur-33` (v1.36 “Mühür yok”) açıldı. Main `0fd02b0` ile doğrulandı: yalnız iki günlük satırı (`42d5f24` “Faz 1a koşu”, `0fd02b0` “Mühür yok”, ikisi de “Not a panel stamp”); kod `baa145f`’ten beri aynı; 24/24, 12/12, görev 4/2/39; `store.py` değişmedi; ağ testi beş ürün yolu; Groq/Gemini yok. Gemini sayfa kısa linkleri `STAKouqeYeoz` / `64gCxyaUAoEo` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-10 (öğleden sonra):** flame-sage `/tur-34` (v1.37 “Devam”) açıldı. Main `bd62ff9` ile doğrulandı: araştırmacıya isteğe bağlı `FactExtractor` (varsayılan FACT kuralı, store almaz), `test_faz1a.py` 14/14, 24/24, görev 4/2/39; `store.py` değişmedi; doğrulayıcıya motor verilmedi; Groq/Gemini/anahtar yok; günlük satırı “Devam” (“Not a panel stamp”). Gemini sayfa kısa linki `HhIPNmImuFB3` (yalnız provenance). A1/A2/A3/A4/A6/E1/E2/E3 içerik olarak değişmedi. Karar listesi değişmedi. Yeni OSS yok.
 - **2026-10-12 (akşam):** flame-sage `/tur-35` (v1.38 “Araba”) açıldı. Main `06a173b` ile doğrulandı: yalnız `decisions/DECISION-LOG.md`’ye “Ücretsiz API kuralı” satırı + not (ücretsiz Groq, Gemini yedek, 0 TL, anahtar yok, istemci yok, Faz 1a kapanmadı; “Suha approved. Grok wrote. Not a panel stamp.”). Kod `bd62ff9`’dan beri aynı. A1/A3/A4/E1/E3 değişmedi; Gemini/Claude curl kabuk (browser gerekir). Karar listesi değişmedi. Yeni OSS yok.
+- **2026-10-25 (gece):** flame-sage `/tur-36`…`/tur-42` açıldı (v1.39–v1.45: görevsiz dünya/habitat, tik sözleşmesi, yoğunluk, kütüphane tohumu, notice penceresi). Main `f407bd1` ile doğrulandı: 24/24, 14/14, habitat 18/18; tohum deliği kapalı; API istemcisi yok. Fark: `store.py` `2207676` ile kalıcılık eki aldı (sha `85e16368`; Tur 37 “değişmez” demişti). A1/A3/A4/E1/E3 değişmedi; Gemini/Claude browser’sız doğrulanamadı. Karar listesi değişmedi. Yeni OSS yok.
 
 ## Kendi kodumuzla ajan sistemleri — araştırma (2026-10-10, karar değildir)
 
