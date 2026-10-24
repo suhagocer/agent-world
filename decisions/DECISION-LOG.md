@@ -18,6 +18,7 @@
 | 2026-10-25 | Habitat v0.1 sözleşme | Landed at `7bad21b`. Events added: `agent.observe`, `speech.hear`. `notice` reads same-tick `speech.say` already written. Later agents hear earlier ones. Shuffle is seeded. Persistence restart is tested. Speech is still every N ticks, not a seeded density. That is the remaining slice. Default density stays 1 so current tests stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 density | Seeded speech density on `run_habitat` / `agent_turn`. Default `density=1.0` keeps v0.1 (no lottery). `density<1` needs rng; outside `[0,1]` fails closed. One draw per agent after shuffle; hear does not force say. CLI `--density` needs `--seed` when below 1. No API. | Desk: Tur38. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 kilit | Verified on `e01b9b2`. Six density tests match the row above. Habitat suite is 14/14. CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. That call is not replayable. No new event. No API. | Grok wrote after the tests. Not a panel stamp. |
+| 2026-10-25 | Kütüphane tohumu | `run_habitat` with `density<1` and `seed=None` must raise `ValueError` before `Random(None)` and before any event. Message: `density < 1.0 requires seed (reproducibility)`. `density=1.0` with `seed=None` stays legal. Tests: `test_run_habitat_density_requires_seed`, `test_run_habitat_density_one_allows_none_seed`. No new event, flag, or API. | Desk: Tur 40. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -174,6 +175,20 @@ The density slice is on main `e01b9b2`. This row checks it. It does not add code
 Checked: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 14/14. The six density tests are `default_unchanged`, `seeded_reproducible`, `zero_speaks_nothing`, `requires_rng_fail_closed`, `does_not_force_hear`, `out_of_range_rejected`. `run_mission.py` still ends 4 verified, 2 disputed.
 
 CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. It uses `Random(None)`. That call is not replayable. The tests do not cover it. No new event type. No API. Faz 1a is not closed.
+
+## 2026-10-25 — Kütüphane tohumu
+
+This row is the next slice. It is not the code. Checked on `8938afd`: `run_habitat(ticks=1, density=0.4)` with no seed returns. `density=1.0` with `seed=None` still writes one `speech.say` and the chain holds.
+
+`run_habitat` must raise `ValueError("density < 1.0 requires seed (reproducibility)")` when `density < 1` and `seed is None`. Raise before `random.Random(None)` and before any event is appended. `density == 1.0` with `seed is None` must not raise. Shuffle on that path stays unseeded. That is the old behavior. Do not make it replayable in this slice.
+
+Tests to add, names fixed:
+
+- `test_run_habitat_density_requires_seed`: `density=0.4`, no seed, `ValueError`, the text contains `seed`. No `speech.say` on that path.
+- `test_run_habitat_density_one_allows_none_seed`: `density=1.0`, `seed=None`, `shuffle=False`, one tick, one agent. The call returns. One `speech.say`. `mission_id` is `None`. Chain holds.
+
+Do not add an event type, a CLI flag, or a second runner. The six density tests and the other eight habitat tests stay. After the two, the habitat file is 16 tests. No API. Faz 1a is not closed.
+
 
 
 
