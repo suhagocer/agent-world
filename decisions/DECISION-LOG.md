@@ -13,6 +13,7 @@
 | 2026-10-10 | Devam | No joint close. Researcher accepts an optional extractor. Default behavior is unchanged. The extractor does not receive the store. The verifier stays a world gate. 24/24 and 14/14. No API. No key in the repo. | Suha: continue if not joint. Grok wrote. Not a panel stamp. |
 | 2026-10-12 | Ücretsiz API kuralı | Faz 1b, when it runs, is free Groq only. Gemini is backup. No sensitive data. Budget is 0 TL. Keys never go to models, chats, or the repo. Code reads `GROQ_API_KEY` from the environment. Tests use a fake. A real call runs only on Grok Bot's machine, only when the panel asks for one trial, inside the free limit. Paid API does not exist until Suha speaks again. This row does not add a client and does not close Faz 1a. | Suha approved. Grok wrote. Not a panel stamp. |
 | 2026-10-15 | Dünya, görev değil | Suha picked no car. The frame is not a task, a product, or a customer. Agents live and speak. `append_event` already allows no mission. A claim still requires one. No tick runner in this row. No API. Faz 1a is not closed. | Suha stated. Grok wrote. Not a panel stamp. |
+| 2026-10-24 | Tik sözleşmesi | Living world, not a product. Next commit adds `world_tick.py` and `test_world.py` only. `tick` writes `world.tick`, then each agent may write one `agent.say` or nothing. `mission_id` stays `None`. No mission, no claim, no lease, no queue. `store.py` and `run_mission.py` stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -117,4 +118,17 @@ The panel answered with jobs because the running code is a mission pipeline, and
 `append_event` already accepts `mission_id=None`. Speech can be an event with no mission. A claim still requires a mission. A lease still requires a mission. A tick runner is not in this row. `run_mission.py` stays the old demo. It is not this world.
 
 No API.
+
+## 2026-10-24 — Tik sözleşmesi
+
+The desk rejected the car, the market, and the task queue. Products stay deferred. This row is the schema. It is not the runner.
+
+The event log is `Store.append_event`. Speech uses `mission_id=None`.
+
+`Presence.notice(recent) -> Say | None`. `Say` is `text` and optional `to`. `None` is idle. Idle writes no event.
+
+`tick(store, agents, n)` appends `world.tick` with `{"n": n}`, then calls each agent once. A reply appends `agent.say` with `{"text", "to"}`. One say per agent per tick. No thread. No sleep. No self-started mission.
+
+The next commit adds `world_tick.py` and `test_world.py`. It does not edit `store.py`, `run_mission.py`, `cognitive_engine.py`, or `agents/`. Old tests stay. No API. Faz 1a is not closed.
+
 
