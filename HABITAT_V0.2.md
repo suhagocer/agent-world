@@ -16,6 +16,7 @@
 | Hear | Does **not** force speech. |
 | Range | `density` outside `[0, 1]` → `ValueError`. |
 | CLI | `--density FLOAT` default `1.0`; `--density < 1` without `--seed` → error. |
+| Library | `run_habitat(density<1, seed=None)` → `ValueError` (same fail-closed as CLI). `density==1.0` still allows `seed=None`. |
 
 Runner name stays `run_habitat.py`. `mission_id` always `None`.
 

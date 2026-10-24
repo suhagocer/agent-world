@@ -194,3 +194,7 @@ Do not add an event type, a CLI flag, or a second runner. The six density tests 
 
 
 
+
+## 2026-10-25 — Habitat library seed fail-closed (landed)
+
+Code matches the Kütüphane tohumu row. `run_habitat(density<1, seed=None)` raises `ValueError("density < 1.0 requires seed (reproducibility)")` before `Random(None)` and before any event. `density==1.0` with `seed=None` stays legal. Tests: `test_run_habitat_density_requires_seed`, `test_run_habitat_density_one_allows_none_seed`. Habitat suite 16/16. No new event. No API.

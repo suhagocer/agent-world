@@ -315,6 +315,41 @@ def test_density_out_of_range_rejected() -> None:
                 assert "density" in str(e).lower()
 
 
+def test_run_habitat_density_requires_seed() -> None:
+    """density=0.4, no seed → ValueError containing seed; no speech.say."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "need_seed.jsonl")
+        try:
+            run_habitat(ticks=1, agents=("ada",), log_path=path, density=0.4, seed=None)
+            raise AssertionError("must require seed when density < 1")
+        except ValueError as e:
+            assert "seed" in str(e).lower()
+        if os.path.exists(path):
+            body = Path(path).read_text()
+            assert "speech.say" not in body
+            assert body.strip() == ""
+
+
+def test_run_habitat_density_one_allows_none_seed() -> None:
+    """density=1.0, seed=None, shuffle=False, one tick, one agent → one speech.say."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "ok_none.jsonl")
+        s = run_habitat(
+            ticks=1,
+            agents=("ada",),
+            log_path=path,
+            density=1.0,
+            seed=None,
+            shuffle=False,
+        )
+        says = [ev for ev in s.events if ev.type == "speech.say"]
+        assert len(says) == 1
+        assert all(ev.mission_id is None for ev in s.events)
+        # chain holds on restart
+        s2 = open_habitat(path)
+        assert len([ev for ev in s2.events if ev.type == "speech.say"]) == 1
+        assert all(ev.mission_id is None for ev in s2.events)
+
 
 def main() -> None:
     tests = [
@@ -332,11 +367,13 @@ def main() -> None:
         test_density_requires_rng_fail_closed,
         test_density_does_not_force_hear,
         test_density_out_of_range_rejected,
+        test_run_habitat_density_requires_seed,
+        test_run_habitat_density_one_allows_none_seed,
     ]
     for fn in tests:
         fn()
         print(f"ok  {fn.__name__}")
-    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2. Ağ yok. Görev yok.")
+    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2.1. Ağ yok. Görev yok.")
 
 
 if __name__ == "__main__":

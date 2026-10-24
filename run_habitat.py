@@ -166,6 +166,8 @@ def run_habitat(
 ) -> Store:
     """Run M ticks of coexistence. Always mission_id=None. No lease/claim."""
     _validate_density(density)
+    if density < 1.0 and seed is None:
+        raise ValueError("density < 1.0 requires seed (reproducibility)")
     store = open_habitat(log_path)
     for agent_id in agents:
         spawn_if_needed(store, agent_id)
