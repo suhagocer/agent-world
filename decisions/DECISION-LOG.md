@@ -220,3 +220,7 @@ Tests to add:
 
 The existing 16 habitat tests stay. No API. Faz 1a is not closed.
 
+## 2026-10-25 — Pencere (landed)
+
+Code matches the Pencere row. `notice(store, tick, window=50)` reads `speech.say` from `events[-window:]` only. `agent_turn` skips own say and already-heard (`parent_event_id`). `run_habitat(..., window=50)` passes through. No CLI flag. No new event. Tests: `test_notice_prior_tick_once`, `test_notice_window_drops_old`. Habitat suite 18/18.
+

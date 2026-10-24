@@ -83,13 +83,14 @@ def heartbeat(store: Store, agent_id: str, tick: int) -> Event:
     )
 
 
-def notice(store: Store, tick: int) -> list[Event]:
-    """Same-tick speech already logged. Later agents in the shuffled order can hear earlier ones."""
-    return [
-        ev
-        for ev in store.events
-        if ev.type == "speech.say" and ev.payload.get("tick") == tick
-    ]
+def notice(store: Store, tick: int, window: int = 50) -> list[Event]:
+    """speech.say in the last `window` events. Does not write. Default window=50.
+
+    `tick` is kept so `notice(store, tick)` stays valid; filtering is by window, not same-tick.
+    """
+    _ = tick
+    recent = store.events[-window:] if window > 0 else []
+    return [ev for ev in recent if ev.type == "speech.say"]
 
 
 def observe(store: Store, agent_id: str, tick: int, noticed: list[Event]) -> Event:
@@ -134,17 +135,28 @@ def agent_turn(
     speak_every: int,
     density: float = 1.0,
     rng: random.Random | None = None,
+    window: int = 50,
 ) -> None:
     _validate_density(density)
     if density < 1.0 and rng is None:
         raise ValueError("density < 1.0 requires rng (Random)")
 
     heartbeat(store, agent_id, tick)
-    noticed = notice(store, tick)
-    observe(store, agent_id, tick, noticed)
-    for say_ev in noticed:
-        if say_ev.actor_id == agent_id:
-            continue
+    noticed = notice(store, tick, window=window)
+    already_heard = {
+        ev.parent_event_id
+        for ev in store.events
+        if ev.type == "speech.hear"
+        and ev.actor_id == agent_id
+        and ev.parent_event_id is not None
+    }
+    to_hear = [
+        ev
+        for ev in noticed
+        if ev.actor_id != agent_id and ev.id not in already_heard
+    ]
+    observe(store, agent_id, tick, to_hear)
+    for say_ev in to_hear:
         hear(store, agent_id, say_ev, tick)
     if speak_every > 0 and tick % speak_every == 0:
         # density==1.0: no lottery (v0.1 behavior). density<1: one draw after shuffle.
@@ -163,6 +175,7 @@ def run_habitat(
     seed: int | None = None,
     shuffle: bool = True,
     density: float = 1.0,
+    window: int = 50,
 ) -> Store:
     """Run M ticks of coexistence. Always mission_id=None. No lease/claim."""
     _validate_density(density)
@@ -184,7 +197,9 @@ def run_habitat(
         if shuffle:
             rng.shuffle(order)
         for agent_id in order:
-            agent_turn(store, agent_id, tick, speak_every, density=density, rng=rng)
+            agent_turn(
+                store, agent_id, tick, speak_every, density=density, rng=rng, window=window
+            )
 
     if despawn:
         for agent_id in agents:

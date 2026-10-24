@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Habitat v0.2 tests. No network. No mission. Observe/hear/shuffle/notice/density."""
+"""Habitat v0.2 tests. No network. No mission. Observe/hear/shuffle/notice/density/window."""
 
 from __future__ import annotations
 
@@ -351,6 +351,68 @@ def test_run_habitat_density_one_allows_none_seed() -> None:
         assert all(ev.mission_id is None for ev in s2.events)
 
 
+
+def test_notice_prior_tick_once() -> None:
+    """Two agents, two ticks: first agent on tick 1 hears second agent's tick-0 say exactly once."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "prior.jsonl")
+        s = run_habitat(
+            ticks=2,
+            agents=("ada", "bora"),
+            log_path=path,
+            shuffle=False,
+            density=1.0,
+            window=50,
+            seed=0,
+        )
+        bora_t0 = [
+            ev
+            for ev in s.events
+            if ev.type == "speech.say"
+            and ev.actor_id == "bora"
+            and ev.payload.get("tick") == 0
+        ]
+        assert len(bora_t0) == 1
+        ada_hears = [
+            ev
+            for ev in s.events
+            if ev.type == "speech.hear"
+            and ev.actor_id == "ada"
+            and ev.parent_event_id == bora_t0[0].id
+        ]
+        assert len(ada_hears) == 1
+        assert ada_hears[0].payload.get("tick") == 1
+
+
+def test_notice_window_drops_old() -> None:
+    """window=1: first agent on tick 1 does not hear a say from tick 0."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "drop.jsonl")
+        s = run_habitat(
+            ticks=2,
+            agents=("ada", "bora"),
+            log_path=path,
+            shuffle=False,
+            density=1.0,
+            window=1,
+            seed=0,
+        )
+        t0_say_ids = {
+            ev.id
+            for ev in s.events
+            if ev.type == "speech.say" and ev.payload.get("tick") == 0
+        }
+        ada_t1_hears_t0 = [
+            ev
+            for ev in s.events
+            if ev.type == "speech.hear"
+            and ev.actor_id == "ada"
+            and ev.payload.get("tick") == 1
+            and ev.parent_event_id in t0_say_ids
+        ]
+        assert ada_t1_hears_t0 == []
+
+
 def main() -> None:
     tests = [
         test_speech_without_mission,
@@ -369,11 +431,13 @@ def main() -> None:
         test_density_out_of_range_rejected,
         test_run_habitat_density_requires_seed,
         test_run_habitat_density_one_allows_none_seed,
+        test_notice_prior_tick_once,
+        test_notice_window_drops_old,
     ]
     for fn in tests:
         fn()
         print(f"ok  {fn.__name__}")
-    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2.1. Ağ yok. Görev yok.")
+    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2 window. Ağ yok. Görev yok.")
 
 
 if __name__ == "__main__":
