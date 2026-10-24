@@ -315,6 +315,25 @@ def test_density_out_of_range_rejected() -> None:
                 assert "density" in str(e).lower()
 
 
+def test_run_habitat_density_lt1_requires_seed() -> None:
+    """density < 1.0 with seed=None → ValueError (library matches CLI fail-closed)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "need_seed.jsonl")
+        try:
+            run_habitat(ticks=1, agents=("ada",), log_path=path, density=0.5, seed=None)
+            raise AssertionError("must require seed when density < 1")
+        except ValueError as e:
+            assert "seed" in str(e).lower()
+
+
+def test_run_habitat_density_1_allows_none_seed() -> None:
+    """density=1.0 with seed=None still runs (no lottery; shuffle may use Random(None))."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "ok_none.jsonl")
+        s = run_habitat(ticks=2, agents=("ada", "bora"), log_path=path, density=1.0, seed=None)
+        assert any(ev.type == "world.tick" for ev in s.events)
+        assert all(ev.mission_id is None for ev in s.events)
+
 
 def main() -> None:
     tests = [
@@ -332,11 +351,13 @@ def main() -> None:
         test_density_requires_rng_fail_closed,
         test_density_does_not_force_hear,
         test_density_out_of_range_rejected,
+        test_run_habitat_density_lt1_requires_seed,
+        test_run_habitat_density_1_allows_none_seed,
     ]
     for fn in tests:
         fn()
         print(f"ok  {fn.__name__}")
-    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2. Ağ yok. Görev yok.")
+    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2.1. Ağ yok. Görev yok.")
 
 
 if __name__ == "__main__":

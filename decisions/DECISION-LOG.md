@@ -18,6 +18,7 @@
 | 2026-10-25 | Habitat v0.1 sözleşme | Landed at `7bad21b`. Events added: `agent.observe`, `speech.hear`. `notice` reads same-tick `speech.say` already written. Later agents hear earlier ones. Shuffle is seeded. Persistence restart is tested. Speech is still every N ticks, not a seeded density. That is the remaining slice. Default density stays 1 so current tests stay. No API. | Desk: 24 Oct. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 density | Seeded speech density on `run_habitat` / `agent_turn`. Default `density=1.0` keeps v0.1 (no lottery). `density<1` needs rng; outside `[0,1]` fails closed. One draw per agent after shuffle; hear does not force say. CLI `--density` needs `--seed` when below 1. No API. | Desk: Tur38. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Habitat v0.2 kilit | Verified on `e01b9b2`. Six density tests match the row above. Habitat suite is 14/14. CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without `seed` does not raise. That call is not replayable. No new event. No API. | Grok wrote after the tests. Not a panel stamp. |
+| 2026-10-25 | Habitat library seed fail-closed | `run_habitat(density<1, seed=None)` now raises `ValueError` before `Random(None)`. Matches CLI. `density==1.0` still allows `seed=None`. +2 tests. No API. | Grok wrote. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -179,3 +180,7 @@ CLI `--density` below 1 without `--seed` exits. `run_habitat(density<1)` without
 
 
 
+
+## 2026-10-25 — Habitat library seed fail-closed
+
+`run_habitat(density<1, seed=None)` raised nothing and used `Random(None)`. That call is not replayable. CLI already errored. The library now raises `ValueError` before creating the RNG. `density==1.0` with `seed=None` stays allowed. Two tests cover both sides. No new event. No API.
