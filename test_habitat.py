@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Habitat v0.1 tests. No network. No mission. Observe/hear/shuffle/notice."""
+"""Habitat v0.2 tests. No network. No mission. Observe/hear/shuffle/notice/density."""
 
 from __future__ import annotations
 
@@ -7,12 +7,17 @@ import os
 import tempfile
 from pathlib import Path
 
+import random
+
 from run_habitat import (
     FORBIDDEN_TYPES,
     HABITAT_EVENT_TYPES,
+    agent_turn,
     format_transcript,
     notice,
+    open_habitat,
     run_habitat,
+    spawn_if_needed,
 )
 from store import Store
 
@@ -198,6 +203,119 @@ def test_no_network_imports_in_habitat() -> None:
             assert needle not in src, f"{path} contains network needle: {needle}"
 
 
+def test_density_default_unchanged() -> None:
+    """density=1.0 (default) matches explicit density=1.0; no lottery."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path_a = os.path.join(tmp, "a.jsonl")
+        path_b = os.path.join(tmp, "b.jsonl")
+        sa = run_habitat(ticks=3, agents=("ada", "bora", "cem"), log_path=path_a, seed=11)
+        sb = run_habitat(
+            ticks=3, agents=("ada", "bora", "cem"), log_path=path_b, seed=11, density=1.0
+        )
+        types_a = [ev.type for ev in sa.events]
+        types_b = [ev.type for ev in sb.events]
+        assert types_a == types_b
+        says_a = [ev.payload.get("text") for ev in sa.events if ev.type == "speech.say"]
+        says_b = [ev.payload.get("text") for ev in sb.events if ev.type == "speech.say"]
+        assert says_a == says_b
+        assert len(says_a) == 9  # 3 agents * 3 ticks
+
+
+def test_density_seeded_reproducible() -> None:
+    """Same seed + density < 1 yields identical speech.say pattern."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path_a = os.path.join(tmp, "a.jsonl")
+        path_b = os.path.join(tmp, "b.jsonl")
+        sa = run_habitat(
+            ticks=8, agents=("ada", "bora", "cem"), log_path=path_a, seed=123, density=0.4
+        )
+        sb = run_habitat(
+            ticks=8, agents=("ada", "bora", "cem"), log_path=path_b, seed=123, density=0.4
+        )
+        says_a = [
+            (ev.actor_id, ev.payload.get("tick"), ev.payload.get("text"))
+            for ev in sa.events
+            if ev.type == "speech.say"
+        ]
+        says_b = [
+            (ev.actor_id, ev.payload.get("tick"), ev.payload.get("text"))
+            for ev in sb.events
+            if ev.type == "speech.say"
+        ]
+        assert says_a == says_b
+        assert 0 < len(says_a) < 24  # some speak, not all of 8*3
+
+
+def test_density_zero_speaks_nothing() -> None:
+    """density=0 → no speech.say; heartbeat/observe still written."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "z.jsonl")
+        s = run_habitat(
+            ticks=4, agents=("ada", "bora"), log_path=path, seed=0, density=0.0, shuffle=False
+        )
+        assert not any(ev.type == "speech.say" for ev in s.events)
+        assert not any(ev.type == "speech.hear" for ev in s.events)
+        assert any(ev.type == "agent.heartbeat" for ev in s.events)
+        assert any(ev.type == "agent.observe" for ev in s.events)
+        assert all(ev.mission_id is None for ev in s.events)
+
+
+def test_density_requires_rng_fail_closed() -> None:
+    """density < 1.0 without rng → ValueError."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "r.jsonl")
+        store = open_habitat(path)
+        spawn_if_needed(store, "ada")
+        try:
+            agent_turn(store, "ada", tick=0, speak_every=1, density=0.5, rng=None)
+            raise AssertionError("must require rng when density < 1")
+        except ValueError as e:
+            assert "rng" in str(e).lower()
+
+
+def test_density_does_not_force_hear() -> None:
+    """Hearing earlier speech does not force a speech.say when density draw fails."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "h.jsonl")
+        store = open_habitat(path)
+        spawn_if_needed(store, "ada")
+        spawn_if_needed(store, "bora")
+        store.append_event(
+            actor_id="world",
+            typ="world.tick",
+            payload={"tick": 0},
+            mission_id=None,
+        )
+        agent_turn(store, "ada", tick=0, speak_every=1, density=1.0)
+        assert any(ev.type == "speech.say" and ev.actor_id == "ada" for ev in store.events)
+        rng = random.Random(0)
+        agent_turn(store, "bora", tick=0, speak_every=1, density=0.0, rng=rng)
+        bora_hears = [
+            ev for ev in store.events if ev.type == "speech.hear" and ev.actor_id == "bora"
+        ]
+        bora_says = [
+            ev for ev in store.events if ev.type == "speech.say" and ev.actor_id == "bora"
+        ]
+        assert len(bora_hears) == 1
+        assert bora_hears[0].payload.get("from") == "ada"
+        assert bora_says == []
+        assert any(
+            ev.type == "agent.observe" and ev.actor_id == "bora" for ev in store.events
+        )
+
+
+def test_density_out_of_range_rejected() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "o.jsonl")
+        for bad in (-0.1, 1.1, 2.0, -1.0):
+            try:
+                run_habitat(ticks=1, agents=("ada",), log_path=path, seed=0, density=bad)
+                raise AssertionError(f"density={bad} must raise")
+            except ValueError as e:
+                assert "density" in str(e).lower()
+
+
+
 def main() -> None:
     tests = [
         test_speech_without_mission,
@@ -208,11 +326,17 @@ def main() -> None:
         test_notice_same_tick_later_hears_earlier,
         test_tick_shuffle_changes_order,
         test_no_network_imports_in_habitat,
+        test_density_default_unchanged,
+        test_density_seeded_reproducible,
+        test_density_zero_speaks_nothing,
+        test_density_requires_rng_fail_closed,
+        test_density_does_not_force_hear,
+        test_density_out_of_range_rejected,
     ]
     for fn in tests:
         fn()
         print(f"ok  {fn.__name__}")
-    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.1. Ağ yok. Görev yok.")
+    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2. Ağ yok. Görev yok.")
 
 
 if __name__ == "__main__":
