@@ -1,0 +1,5 @@
+
+# Habitat v0 runtime (local)
+data/*.jsonl
+__pycache__/
+*.pyc
