@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Habitat v0.2 — agents coexist, notice, hear, speak; seeded speech density. No mission. No network."""
+"""Habitat v0.2 — agents coexist, notice, hear, speak; seeded density; tick continuity. No mission. No network."""
 
 from __future__ import annotations
 
@@ -51,6 +51,28 @@ def open_habitat(log_path: str) -> Store:
     if os.path.exists(log_path) and os.path.getsize(log_path) > 0:
         return Store.load(log_path)
     return Store(persist_path=log_path)
+
+def _is_tick_int(value: object) -> bool:
+    """True for real ints only. bool is a subclass of int in Python — reject it."""
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def next_start_tick(store: Store) -> int:
+    """One past the max world.tick payload that is an int (not bool). Empty → 0.
+
+    Uses max, not the last event, so a legacy rewound log (…2, then 1…)
+    still continues from 3 rather than from 2.
+    """
+    best: int | None = None
+    for ev in store.events:
+        if ev.type != "world.tick":
+            continue
+        t = ev.payload.get("tick")
+        if not _is_tick_int(t):
+            continue
+        if best is None or t > best:
+            best = t
+    return 0 if best is None else best + 1
 
 
 def spawn_if_needed(store: Store, agent_id: str) -> None:
@@ -186,7 +208,8 @@ def run_habitat(
         spawn_if_needed(store, agent_id)
 
     rng = random.Random(seed)
-    for tick in range(ticks):
+    start = next_start_tick(store)
+    for tick in range(start, start + ticks):
         store.append_event(
             actor_id="world",
             typ="world.tick",

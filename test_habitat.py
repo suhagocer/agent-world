@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Habitat v0.2 tests. No network. No mission. Observe/hear/shuffle/notice/density/window."""
+"""Habitat v0.2 tests. No network. No mission. Observe/hear/shuffle/notice/density/window/tick continuity."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ from run_habitat import (
     HABITAT_EVENT_TYPES,
     agent_turn,
     format_transcript,
+    next_start_tick,
     notice,
     open_habitat,
     run_habitat,
@@ -413,6 +414,103 @@ def test_notice_window_drops_old() -> None:
         assert ada_t1_hears_t0 == []
 
 
+def _world_ticks(store: Store) -> list[int]:
+    out: list[int] = []
+    for ev in store.events:
+        if ev.type != "world.tick":
+            continue
+        t = ev.payload.get("tick")
+        if isinstance(t, int) and not isinstance(t, bool):
+            out.append(t)
+    return out
+
+
+def test_empty_log_starts_at_zero() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "empty.jsonl")
+        s = run_habitat(ticks=2, agents=("ada",), log_path=path, seed=1, shuffle=False)
+        assert _world_ticks(s) == [0, 1]
+        assert next_start_tick(s) == 2
+
+
+def test_restart_continues_tick() -> None:
+    """3 ticks, then 2 on the same log → world.tick payloads [0, 1, 2, 3, 4]."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "cont.jsonl")
+        run_habitat(ticks=3, agents=("ada", "bora"), log_path=path, seed=3, shuffle=False)
+        s = run_habitat(ticks=2, agents=("ada", "bora"), log_path=path, seed=3, shuffle=False)
+        assert _world_ticks(s) == [0, 1, 2, 3, 4]
+
+
+def test_restart_ticks_strictly_increasing() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "inc.jsonl")
+        run_habitat(ticks=2, agents=("ada",), log_path=path, seed=1)
+        run_habitat(ticks=2, agents=("ada",), log_path=path, seed=2)
+        s = run_habitat(ticks=2, agents=("ada",), log_path=path, seed=3)
+        ticks = _world_ticks(s)
+        assert ticks == [0, 1, 2, 3, 4, 5]
+        assert ticks == sorted(ticks)
+        assert len(ticks) == len(set(ticks))
+
+
+def test_restart_no_duplicate_hear() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "hear.jsonl")
+        run_habitat(
+            ticks=2,
+            agents=("ada", "bora"),
+            log_path=path,
+            seed=11,
+            shuffle=False,
+            density=1.0,
+            window=50,
+        )
+        s = run_habitat(
+            ticks=2,
+            agents=("ada", "bora"),
+            log_path=path,
+            seed=11,
+            shuffle=False,
+            density=1.0,
+            window=50,
+        )
+        pairs: list[tuple[str, str]] = []
+        for ev in s.events:
+            if ev.type != "speech.hear" or ev.parent_event_id is None:
+                continue
+            pairs.append((ev.actor_id, ev.parent_event_id))
+        assert len(pairs) == len(set(pairs))
+
+
+def test_restart_legacy_rewound_log_uses_max() -> None:
+    """Rewound log (max != last): continue from max+1, not last+1."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "rewound.jsonl")
+        s = Store(persist_path=path)
+        for t in (0, 1, 2, 1):  # last is 1, max is 2
+            s.append_event(
+                actor_id="world",
+                typ="world.tick",
+                payload={"tick": t},
+                mission_id=None,
+            )
+        assert next_start_tick(s) == 3
+        s2 = run_habitat(ticks=1, agents=("ada",), log_path=path, seed=1, shuffle=False)
+        assert _world_ticks(s2) == [0, 1, 2, 1, 3]
+
+
+def test_resume_uses_max_world_tick() -> None:
+    """ChatGPT resume case, named for max+1 (not last-only)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "resume.jsonl")
+        run_habitat(ticks=4, agents=("ada",), log_path=path, seed=9)
+        s = open_habitat(path)
+        assert next_start_tick(s) == 4
+        s2 = run_habitat(ticks=1, agents=("ada",), log_path=path, seed=9)
+        assert _world_ticks(s2)[-1] == 4
+
+
 def main() -> None:
     tests = [
         test_speech_without_mission,
@@ -433,11 +531,17 @@ def main() -> None:
         test_run_habitat_density_one_allows_none_seed,
         test_notice_prior_tick_once,
         test_notice_window_drops_old,
+        test_empty_log_starts_at_zero,
+        test_restart_continues_tick,
+        test_restart_ticks_strictly_increasing,
+        test_restart_no_duplicate_hear,
+        test_restart_legacy_rewound_log_uses_max,
+        test_resume_uses_max_world_tick,
     ]
     for fn in tests:
         fn()
         print(f"ok  {fn.__name__}")
-    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2 window. Ağ yok. Görev yok.")
+    print(f"{len(tests)}/{len(tests)} geçti. Habitat v0.2 tick continuity. Ağ yok. Görev yok.")
 
 
 if __name__ == "__main__":

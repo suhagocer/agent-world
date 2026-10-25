@@ -22,7 +22,7 @@
 | 2026-10-25 | Tohum kapandı | Checked on `b7cc1b1`. The raise happens before `open_habitat`. `density=1.0` with `seed=None` still returns. Suites: 24/24, 14/14, 16/16. No seed gap left. | Grok wrote after the run. Not a panel stamp. |
 | 2026-10-25 | Pencere | Next slice is a window, not idle and not a spawn rhythm. `notice(store, tick, window=50)` reads `events[-window:]` only. It still returns `speech.say` and does not write. `agent_turn` hears a say once. A say already in this agent's `speech.hear.parent_event_id` is not heard again. Same-tick order stays. No new event. No CLI flag. `run_habitat(..., window=50)` passes the number. Tests: `test_notice_prior_tick_once`, `test_notice_window_drops_old`. The current 16 stay. | Desk: Tur 41. Grok wrote. Not a panel stamp. |
 | 2026-10-25 | Pencere kilit | Checked on `f407bd1` (tip `6fca5a1` is a provenance note). Suites: 24/24, 14/14, 18/18. Window matches the row above. `observe` records only the says about to be heard, not every say still in the window. No window gap. | Grok wrote after the run. Not a panel stamp. |
-| 2026-10-25 | Tik sürekliliği | Next slice. A second `run_habitat` on the same log must not restart `world.tick` at 0. Start is one past the last `world.tick` payload that is an int. No such event means 0. `ticks` is still how many this call writes. No new event, flag, or signature change. Tests: `test_restart_continues_tick`, `test_restart_ticks_strictly_increasing`, `test_restart_no_duplicate_hear`. The current 18 stay. | Desk: Tur 42. Grok wrote. Not a panel stamp. |
+| 2026-10-25 | Tik sürekliliği | Landed. A second `run_habitat` on the same log must not restart `world.tick` at 0. Start is one past the **max** `world.tick` payload that is an int (not bool). No such event means 0. Uses max (not last) for legacy rewind logs. `ticks` is still how many this call writes. No new event, flag, or signature change. Habitat suite 24/24. | Desk: Tur 42. Grok Bot. Not a panel stamp. |
 
 Decisions should record the conclusion, rationale, alternatives considered, unresolved objections and implementation status.
 
@@ -226,20 +226,21 @@ The existing 16 habitat tests stay. No API. Faz 1a is not closed.
 
 Code matches the Pencere row. `notice(store, tick, window=50)` reads `speech.say` from `events[-window:]` only. `agent_turn` skips own say and already-heard (`parent_event_id`). `run_habitat(..., window=50)` passes through. No CLI flag. No new event. Tests: `test_notice_prior_tick_once`, `test_notice_window_drops_old`. Habitat suite 18/18.
 
-## 2026-10-25 — Tik sürekliliği
+## 2026-10-25 — Tik sürekliliği (landed)
 
-Checked on `f407bd1`: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 18/18. `run_mission.py` still ends 4 verified, 2 disputed. The window code matches the Pencere row. `observe` is given only the says that will be heard now.
+Checked on `f407bd1` before the slice: `test_faz0.py` 24/24, `test_faz1a.py` 14/14, `test_habitat.py` 18/18. Gap: two calls of 5 ticks on one log wrote `world.tick` payloads `[0, 1, 2, 3, 4, 0, 1, 2, 3, 4]`.
 
-The open gap is the tick counter. Two calls of 5 ticks on one log wrote `world.tick` payloads `[0, 1, 2, 3, 4, 0, 1, 2, 3, 4]`. The chain held. Duplicate `speech.hear` for the same agent and parent was 0. Not idle. Not a spawn rhythm.
+`next_start_tick(store)` returns one past the **max** `world.tick` payload that is an int and not a bool. Empty → 0. Loop is `range(start, start + ticks)`. Max (not last) covers legacy rewind logs. No new event. No CLI flag. Signature unchanged. RNG persistence is not this slice.
 
-`run_habitat` reads the log it just opened. The start tick is one past the last `world.tick` whose payload `tick` is an int and not a bool. If there is none, the start is 0. The loop is `range(start, start + ticks)`. `ticks` is still the count for this call. A fresh log still starts at 0. Phrase choice and `speak_every` follow that same index. No new event. No CLI flag. The function signature stays.
+Tests added (habitat 24/24):
 
-Tests to add:
+- `test_empty_log_starts_at_zero`
+- `test_restart_continues_tick` — 3 then 2 → `[0, 1, 2, 3, 4]`
+- `test_restart_ticks_strictly_increasing`
+- `test_restart_no_duplicate_hear`
+- `test_restart_legacy_rewound_log_uses_max` — log `[0,1,2,1]` continues at 3
+- `test_resume_uses_max_world_tick`
 
-- `test_restart_continues_tick`: 3 ticks, then 2 on the same log. `world.tick` payloads are `[0, 1, 2, 3, 4]`.
-- `test_restart_ticks_strictly_increasing`: two restarts. Every `world.tick` value is unique and increasing.
-- `test_restart_no_duplicate_hear`: after a restart, each pair of agent and `parent_event_id` has one `speech.hear`.
-
-The existing 18 stay. After these three the habitat file is 21 tests. No API. Faz 1a is not closed.
+No API. Faz 1a is not closed.
 
 
